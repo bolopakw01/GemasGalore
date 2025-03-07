@@ -1,7 +1,7 @@
 
 <h1>Deskripsi Bisnis Gemas Galore</h1>
 
-<p>*Gemas Galore* adalah bisnis yang menghadirkan berbagai merchandise dan souvenir dengan desain unik, estetik, dan berkualitas. Berfokus pada produk-produk yang fungsional dan menarik, *Gemas Galore* menawarkan dua kategori utama:  
+<p><strong>Gemas Galore</strong> adalah bisnis yang menghadirkan berbagai merchandise dan souvenir dengan desain unik, estetik, dan berkualitas. Berfokus pada produk-produk yang fungsional dan menarik, *Gemas Galore* menawarkan dua kategori utama:  
 
 1. *Merchandise* – terdiri dari *gantungan tas* dengan berbagai desain menarik serta *jilbab paris* yang nyaman, ringan, dan mudah dibentuk untuk tampilan sehari-hari.  
 2. *Souvenir* – mencakup *card holder* minimalis untuk menyimpan kartu penting dan *dompet*  yang praktis untuk kebutuhan sehari-hari.  
