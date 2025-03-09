@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 *{
     font-family: sans-serif;
     margin: 0;
@@ -50,3 +51,32 @@ nav a:hover::after {
 /* Produk end */
 
 
+=======
+*{
+    font-family: sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+/*Header start*/
+
+.bggg1{
+    background-image: url('../img/banner1.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+/*Header end*/
+
+
+/* Produk start */
+
+.card:hover {
+    transform: scale(1.05);
+    }
+
+/* Produk end */
+
+
+>>>>>>> e81e7c710cb61c71906ab5905925e2b0b44d7158
