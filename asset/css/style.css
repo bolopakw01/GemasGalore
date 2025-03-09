@@ -13,6 +13,31 @@
     background-repeat: no-repeat;
 }
 
+nav a {
+    position: relative;
+    display: inline-block;
+    text-decoration: none;
+}
+
+nav a::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 2px;
+    display: block;
+    margin-top: 5px;
+    right: 0;
+    background: rgb(219, 0, 183); /* Change to your desired color */
+    transition: width 0.4s ease;
+    -webkit-transition: width 0.4s ease;
+}
+
+nav a:hover::after {
+    width: 100%;
+    left: 0;
+    background: rgb(73, 25, 55); /* Change to your desired color */
+}
+
 /*Header end*/
 
 
