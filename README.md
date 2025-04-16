@@ -7,3 +7,7 @@
 
 Dengan konsep yang mengedepankan keunikan dan kenyamanan, *Gemas Galore* berkomitmen untuk menyediakan produk yang tidak hanya fungsional tetapi juga memiliki nilai estetika tinggi. Melalui platform digital, pelanggan dapat dengan mudah menemukan dan membeli produk favorit mereka dengan pengalaman belanja yang menyenangkan dan praktis.
 </p>
+
+
+========================================================================================================================
+<p>Dibuat Untuk Memenuhi Tugas E-Business Design</p>
