@@ -9,5 +9,5 @@ Dengan konsep yang mengedepankan keunikan dan kenyamanan, *Gemas Galore* berkomi
 </p>
 
 
-========================================================================================================================
+===========================================================================
 <p>Dibuat Untuk Memenuhi Tugas E-Business Design</p>
