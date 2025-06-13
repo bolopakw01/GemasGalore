@@ -12,3 +12,4 @@ Dengan konsep yang mengedepankan keunikan dan kenyamanan, *Gemas Galore* berkomi
 ===========================================================================
 <p>Dibuat Untuk Memenuhi Tugas E-Business Design</p>
 https://bolopakw01.github.io/GemasGalore/
+https://gemasgalore012.wordpress.com/
