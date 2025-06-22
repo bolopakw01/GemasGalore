@@ -1,947 +1,960 @@
-<html lang="en">
+<html lang="id">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GemasGalore</title>
+    <title>Gemas Galore</title>
+    <link rel="icon" type="image/png" href="asset/img/logo1.png">
 
-    <!-- css -->
-    <link rel="icon" href="asset/img/logo1.png" type="image/x-icon">
     <link rel="stylesheet" href="asset/css/style.css">
+    <link rel="stylesheet" href="asset/css/splash.css">
+    <link rel="stylesheet" href="asset/css/popup.css">
 
-    <!-- Bootstrap CSS cdn -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
 
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Water+Brush&family=Yeseva+One&display=swap" rel="stylesheet">
 
-    <!-- AOS -->
-    <!-- <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet"> -->
-
+    <!-- AOS CSS -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
 </head>
 
 <body>
 
+    <!-- Splash Screen -->
+    <div class="splash-screen">
+        <div class="splash-content">
+            <div class="logo-container">
+                <img src="asset/img/logo1.png" alt="Gemas Galore Logo" class="splash-logo">
+                <div class="logo-circle"></div>
+            </div>
+            <h1 class="splash-title">Selamat Datang</h1>
+            <div class="loading-container">
+                <div class="loading-circle"></div>
+                <div class="loading-text">Memuat...</div>
+            </div>
+        </div>
+    </div>
 
-
-
-    <header class="bg-white py-2 shadow p-3 mb-1 bg-body rounded sticky-top">
-        <nav class="container navbar navbar-expand-lg navbar-light">
-                <img src="asset/img/logo1.png" alt="Gemas Galore Logo" class="img-fluid" style="max-height: 50px;">
-
-            <p class="d-none d-lg-block h1 mb-0 position-absolute top-50 start-50 translate-middle"
-                style="font-family: 'Yeseva One', serif; color: rgb(73, 25, 55); font-weight: bolder; font-size: 2rem;">
-                Gemas Galore
-            </p>
-
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark sticky-top py-3">
+        <div class="container">
+            <a class="navbar-brand d-flex align-items-center" href="#">
+                <img src="asset/img/logo1.png" alt="Gemas Galore Logo" style="height:40px; width:auto;">
+                <span class="fw-bold ps-2" style="font-family: 'Yeseva One', cursive;">Gemas Galore</span>
+            </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
             </button>
-
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
-                    <li class="nav-item"><a class="nav-link text-dark font-weight-bold" href="#bggg1">Beranda</a>
+                    <li class="nav-item"><a class="nav-link active" href="#home"><i class="bi bi-house-door me-1"></i>
+                            Beranda</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#about"><i class="bi bi-building me-1"></i>
+                            Tentang</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#products"><i class="bi bi-bag me-1"></i> Produk</a>
                     </li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link text-dark font-weight-bold" href="#" id="navbarDropdown" role="button"
-                            data-bs-toggle="dropdown" aria-expanded="false">
-                            Produk
-                        </a>
-                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <li><a class="dropdown-item" href="#hijab">Hijab</a></li>
-                            <li><a class="dropdown-item" href="#gtas">Gantungan Tas</a></li>
-                            <li><a class="dropdown-item" href="#cardh">Dompet</a></li>
-                        </ul>
-                    </li>
-                    <li class="nav-item"><a class="nav-link text-dark font-weight-bold" href="#tentang">Tentang</a></li>
-                    <li class="nav-item"><a class="nav-link text-dark font-weight-bold" href="#kontak">Kontak</a>
-                    </li>
+                    <li class="nav-item"><a class="nav-link" href="#team"><i class="bi bi-people me-1"></i> Tim</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#contact"><i class="bi bi-envelope me-1"></i>
+                            Kontak</a></li>
                 </ul>
             </div>
-        </nav>
-    </header>
+        </div>
+    </nav>
 
-    <main>
+    <!--1. Hero Section -->
+    <section id="home" class="hero-section">
+        <div class="hero-overlay"></div>
+        <div class="container">
+            <div class="hero-content" data-aos="fade-up" data-aos-duration="1000">
+                <h1 class="hero-title">Gemas Galore</h1>
+                <p class="hero-subtitle">Elegance in Every Detail</p>
+                <div class="hero-buttons">
+                    <a href="#about" class="btn btn-primary btn-hero me-3" data-aos="fade-right" data-aos-delay="300">
+                        <i class="bi bi-arrow-down-circle me-2"></i>Explore Koleksi
+                    </a>
+                    <a href="https://wa.me/6289656759653" class="btn btn-outline-light btn-hero" data-aos="fade-left" data-aos-delay="300" target="_blank" rel="noopener">
+                        <i class="bi bi-whatsapp me-2 text-white"></i>Chat Sekarang
+                    </a>
+                </div>
+            </div>
+            <a href="#about" class="hero-scroll-down" data-aos="fade-up" data-aos-delay="500">
+                <i class="bi bi-chevron-down"></i>
+            </a>
+        </div>
+    </section>
 
-        <!-- Tampilan Awal -->
-        <div id="bggg1" class="bggg1 container-fluid mb-5 p-0 ">
-            <div class="container py-5">
-                <div class="row mt-5 mb-5">
-                    <div class="col-lg-12 text-start">
-                        <p class="h2 display-4 font-weight-bold"
-                            style="font-family: 'Water Brush', cursive ; color: rgb(73, 25, 55);">Gemas % Elegan <br>
-                            dalam Setiap Gaya!</p>
-                    </div>
-                    <div class="col-lg-12 text-end">
-                        <p class="h2" style="font-family: 'Water Brush', cursive ; color: rgb(73, 25, 55);">Gemas Galore
+    <!--2. About Section -->
+    <section id="about" class="py-6 py-lg-7 position-relative overflow-hidden">
+        <!-- Background Pattern -->
+        <div class="position-absolute top-0 start-0 w-100 h-100 bg-pattern"></div>
+        <div class="container position-relative z-index-1">
+            <div class="row justify-content-center mb-5">
+                <div class="col-lg-9 text-center">
+                    <div class="tentang rounded-4 shadow-sm p-4" data-aos="fade-up">
+                        <h2 class="display-5 fw-bold mb-3" style="color: #e0e0e0;">Tentang Gemas Galore</h2>
+                        <p class="lead">
+                            Gemas Galore berdiri pada tahun 2025 sebagai usaha modest fashion yang menghadirkan kerudung
+                            Paris eksklusif dengan sentuhan personal melalui logo akrilik. Kami berkomitmen untuk
+                            memberikan pengalaman
+                            berhijab yang elegan dan berkualitas tinggi melalui desain unik dan packaging premium.
                         </p>
                     </div>
                 </div>
             </div>
-        </div>
 
-        <!--- Deskripsi --->
-        <div id="tentang" class="container-fluid mt-5" data-aos="fade-up" data-aos-duration="3000">
-            <hr>
-            <div class="container text-center justify-content-center">
+            <div class="row g-5 align-items-center">
+                <div class="col-lg-6">
+                    <div class="position-relative" data-aos="fade-right">
+                        <img src="asset/img/GGcollactions.svg" alt="About Us" class="img-fluid rounded-4 shadow-lg">
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="ps-lg-5">
+                        <!-- Vision Card -->
+                        <div class="card border-0 shadow-sm mb-4 hover-lift" data-aos="fade-up" data-aos-delay="100">
+                            <div class="card-body p-4 bgcard">
+                                <div class="d-flex align-items-start">
+                                    <div class="p-3 rounded-circle me-4"
+                                        style="background-color: rgba(73, 25, 55, 0.1);">
+                                        <i class="bi bi-eye-fill fs-3" style="color: #491937;"></i>
+                                    </div>
+                                    <div>
+                                        <h3 class="h4 mb-3" style="color: #491937;">Visi Kami</h3>
+                                        <p class="mb-0">Menjadi brand modest fashion lokal yang menghadirkan kerudung
+                                            berkualitas tinggi dengan desain unik dan elegan.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
 
-                <img src="asset/img/logo1.png" alt="Logo" class="img-fluid mb-5" style="width: 150px;">
-                <p>Selamat Datang di Gemas Galore!
-                    Temukan koleksi merchandise dan souvenir unik yang estetik, fungsional, dan pastinya bikin gemas!
+                        <!-- Mission Card -->
+                        <div class="card border-0 shadow-sm mb-4 hover-lift" data-aos="fade-up" data-aos-delay="200">
+                            <div class="card-body p-4 bgcard">
+                                <div class="d-flex align-items-start">
+                                    <div class="p-3 rounded-circle me-4"
+                                        style="background-color: rgba(73, 25, 55, 0.1);">
+                                        <i class="bi bi-bullseye fs-3" style="color: #491937;"></i>
+                                    </div>
+                                    <div>
+                                        <h3 class="h4 mb-3" style="color: #491937;">Misi Kami</h3>
+                                        <ul class="list-unstyled mb-0">
+                                            <li class="d-flex mb-2">
+                                                <i class="bi bi-check-circle-fill mt-1 me-2"
+                                                    style="color: #491937;"></i>
+                                                <span>Menghadirkan kerudung dengan desain yang memadukan estetika modern
+                                                    dan kenyamanan</span>
+                                            </li>
+                                            <li class="d-flex mb-2">
+                                                <i class="bi bi-check-circle-fill mt-1 me-2"
+                                                    style="color: #491937;"></i>
+                                                <span>Menyediakan packaging eksklusif yang meningkatkan nilai
+                                                    produk</span>
+                                            </li>
+                                            <li class="d-flex">
+                                                <i class="bi bi-check-circle-fill mt-1 me-2"
+                                                    style="color: #491937;"></i>
+                                                <span>Memberdayakan perempuan muda melalui bisnis kreatif dan
+                                                    kolaboratif</span>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
 
-                    Apa yang Kami Tawarkan?
-                    Merchandise: Gantungan tas lucu & jilbab Galore nyaman.
-                    Souvenir: Card holder minimalis & dompet mungil praktis.
-
-                    Dengan desain yang menarik dan kualitas terbaik, Gemas Galore siap melengkapi gaya dan kebutuhanmu
-                    sehari-hari. Yuk, jelajahi koleksi kami dan temukan favoritmu sekarang! <br><br> #Gemas&Elegan</p>
+                        <!-- Values Card -->
+                        <div class="card border-0 shadow-sm hover-lift" data-aos="fade-up" data-aos-delay="300">
+                            <div class="card-body p-4 bgcard">
+                                <div class="d-flex align-items-start">
+                                    <div class="p-3 rounded-circle me-4"
+                                        style="background-color: rgba(73, 25, 55, 0.1);">
+                                        <i class="bi bi-stars fs-3" style="color: #491937;"></i>
+                                    </div>
+                                    <div>
+                                        <h3 class="h4 mb-3" style="color: #491937;">Nilai Kami</h3>
+                                        <div class="d-flex flex-wrap gap-2">
+                                            <span class="rounded-pill py-2 px-3 d-flex align-items-center"
+                                                style="background-color: rgba(73, 25, 55, 0.1); color: #491937;">
+                                                <i class="bi bi-lightbulb-fill me-1" style="color: #491937;"></i>
+                                                Kreativitas
+                                            </span>
+                                            <span class="rounded-pill py-2 px-3 d-flex align-items-center"
+                                                style="background-color: rgba(73, 25, 55, 0.1); color: #491937;">
+                                                <i class="bi bi-check-circle-fill me-1" style="color: #491937;"></i>
+                                                Kualitas
+                                            </span>
+                                            <span class="rounded-pill py-2 px-3 d-flex align-items-center"
+                                                style="background-color: rgba(73, 25, 55, 0.1); color: #491937;">
+                                                <i class="bi bi-emoji-heart-eyes-fill me-1" style="color: #491937;"></i>
+                                                Kepuasan Pelanggan
+                                            </span>
+                                            <span class="rounded-pill py-2 px-3 d-flex align-items-center"
+                                                style="background-color: rgba(73, 25, 55, 0.1); color: #491937;">
+                                                <i class="bi bi-people-fill me-1" style="color: #491937;"></i>
+                                                Kolaborasi
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
+    </section>
 
-        <!--- Banner Hijab --->
-        <div id="hijab" class="text-center mt-5 mb-5 m-0 p-0" data-aos="fade-up" data-aos-anchor-placement="top-center">
-            <img src="asset/img/bjilbab.png" alt="Banner Hijab" class="img-fluid w-100 shadow">
+    <!--3. History Section -->
+    <section id="history" class="py-5 bg-light">
+        <div class="container py-5">
+            <div class="row justify-content-center mb-5">
+                <div class="col-lg-8 text-center" data-aos="fade-up">
+                    <h2 class="section-title">Sejarah Kami</h2>
+                    <p class="lead text-muted">Perjalanan Gemas Galore dari awal berdiri hingga sekarang</p>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-lg-10 mx-auto">
+                    <div class="timeline">
+                        <!-- Timeline Item 1 -->
+                        <div class="timeline-item" data-aos="fade-right">
+                            <div class="timeline-badge"></div>
+                            <div class="card border-0 shadow-sm timeline-card">
+                                <div class="card-body p-4">
+                                    <div
+                                        class="d-flex flex-column flex-md-row justify-content-between align-items-start mb-3">
+                                        <h5 class="card-title" style="color: #491937;">
+                                            <i class="bi bi-rocket-takeoff-fill me-2"></i>2025 - Pendirian
+                                        </h5>
+                                        <span class="badge py-2 px-3"
+                                            style="background-color: rgba(73, 25, 55, 0.1); color: #491937; min-width: 90px; text-align: center;">Awal
+                                            Mula</span>
+                                    </div>
+                                    <p class="card-text mb-0">Gemas Galore didirikan sebagai usaha kecil berbasis
+                                        komunitas dengan ide membuat kerudung Paris yang nyaman dengan sentuhan personal
+                                        dan elegan.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Timeline Item 2 -->
+                        <div class="timeline-item" data-aos="fade-left">
+                            <div class="timeline-badge"></div>
+                            <div class="card border-0 shadow-sm timeline-card">
+                                <div class="card-body p-4">
+                                    <div
+                                        class="d-flex flex-column flex-md-row justify-content-between align-items-start mb-3">
+                                        <h5 class="card-title" style="color: #491937;">
+                                            <i class="bi bi-box-seam-fill me-2"></i>2025 - Peluncuran Produk
+                                        </h5>
+                                        <span class="badge py-2 px-3"
+                                            style="background-color: rgba(73, 25, 55, 0.1); color: #491937; min-width: 90px; text-align: center;">Pertumbuhan</span>
+                                    </div>
+                                    <p class="card-text mb-0">Meluncurkan produk pertama berupa kerudung Paris eksklusif
+                                        dengan logo akrilik dan mulai menjual melalui media sosial.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Timeline Item 3 -->
+                        <div class="timeline-item" data-aos="fade-right">
+                            <div class="timeline-badge"></div>
+                            <div class="card border-0 shadow-sm timeline-card">
+                                <div class="card-body p-4">
+                                    <div
+                                        class="d-flex flex-column flex-md-row justify-content-between align-items-start mb-3">
+                                        <h5 class="card-title" style="color: #491937;">
+                                            <i class="bi bi-trophy-fill me-2"></i>2025 - Pencapaian
+                                        </h5>
+                                        <span class="badge py-2 px-3"
+                                            style="background-color: rgba(73, 25, 55, 0.1); color: #491937; min-width: 90px; text-align: center;">Kesuksesan</span>
+                                    </div>
+                                    <p class="card-text mb-0">Menjadi Top 10 Finalist "Young Local Brand 2025" oleh
+                                        Komunitas UMKM Kreatif Kampus dan mendapatkan Sertifikat UMKM Kreatif
+                                        Universitas Amikom Yogyakarta.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!--5. Products Section -->
+    <section id="products" class=" bg-white py-5 position-relative">
+        <!-- Decorative Elements -->
+        <div class="position-absolute top-0 end-0">
+            <img src="asset/img/pattern.svg" alt="Decorative Pattern" class="img-fluid"
+                style="opacity: 0.05; width: 300px;">
         </div>
 
-        <!-- Model produk1 -->
-        <div class="container-fluid">
-            <div class="container my-5"></div>
-            <h2 class="text-center"
-                style="font-family: 'Water Brush', cursive; color: rgb(73, 25, 55); font-size: 50px;">Jilbab</h2>
-            <div class="row align-items-center mt-4">
-                <div class="col-md-6 text-center">
-                    <img src="asset/img/model1.jpg" alt="Model Jilbab" class="img-fluid rounded shadow"
-                        data-aos="fade-right" data-aos-offset="300" data-aos-easing="ease-in-sine">
+        <div class="container py-5 position-relative">
+            <div class="row justify-content-center mb-5">
+                <div class="col-lg-8 text-center" data-aos="fade-up">
+                    <h2 class="section-title">Produk Kami</h2>
+                    <p class="lead">Koleksi produk unggulan Gemas Galore</p>
                 </div>
-                <div class="col-md-6">
-                    <h3 style="font-family: 'Yeseva One', serif; color: rgb(73, 25, 55); font-size: 30px;">Galore
-                        Jilbab Segi Empat </h3>
-                    <p style="font-family: sans-serif; font-size: 16px; color: rgb(73, 25, 55);">
-                        Temukan kenyamanan dan keanggunan dalam satu jilbab dengan Galore Jilbab Segi Empat. Terbuat
-                        dari bahan premium yang lembut dan adem, jilbab ini dirancang untuk memberikan kenyamanan
-                        maksimal sepanjang hari. Desain yang elegan membuatnya mudah dipadukan dengan berbagai
-                        outfit, baik untuk acara formal maupun santai. Dengan banyak pilihan warna yang memukau, Anda
-                        bisa
-                        mengekspresikan gaya Anda dengan lebih bebas. Jangan lewatkan kesempatan untuk menambah koleksi
-                        fashion Anda dengan jilbab yang stylish dan fungsional ini. Dapatkan sekarang dan tampil
-                        mempesona setiap saat!
+            </div>
+
+            <div class="row g-4">
+                <!-- Product 1 -->
+                <div class="col-md-4" data-aos="fade-up" data-aos-delay="100">
+                    <div class="card product-card h-100 border-0 shadow-sm">
+                        <div class="position-relative overflow-hidden">
+                            <img src="asset/img/produk/produk1.jpg" class="card-img-top w-100"
+                                alt="Kerudung Paris Eksklusif"
+                                style="height: 300px; object-fit: cover; transition: transform 0.5s ease;">
+                            <span class="position-absolute top-0 end-0 px-3 py-1 m-2 rounded"
+                                style="background-color: #491937; color: white;">Bestseller</span>
+                            <div class="position-absolute bottom-0 start-0 end-0 p-3 text-center"
+                                style="background: linear-gradient(to top, rgba(73,25,55,0.8) 0%, transparent 100%);">
+                                <h5 class="text-white mb-0">Kerudung Paris</h5>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between align-items-start mb-2">
+                                <h5 class="card-title mb-0" style="color: #491937;">Kerudung Paris Eksklusif</h5>
+                                <span class="badge"
+                                    style="background-color: rgba(73,25,55,0.1); color: #491937;">New</span>
+                            </div>
+                            <p class="card-text text-muted small">Kerudung dengan desain unik dan logo akrilik
+                                eksklusif, nyaman dipakai sehari-hari.</p>
+                            <div class="d-flex justify-content-between align-items-center mt-4">
+                                <span class="fw-bold" style="color: #491937;">Rp 150.000</span>
+                                <a href="#" class="btn btn-sm" style="background-color: #491937; color: white;">Detail
+                                    <i class="bi bi-arrow-right"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Product 2 -->
+                <div class="col-md-4" data-aos="fade-up" data-aos-delay="200">
+                    <div class="card product-card h-100 border-0 shadow-sm">
+                        <div class="position-relative overflow-hidden">
+                            <img src="asset/img/produk/produk2.jpg" class="card-img-top w-100" alt="Premium Packaging"
+                                style="height: 300px; object-fit: cover; transition: transform 0.5s ease;">
+                            <span class="position-absolute top-0 end-0 px-3 py-1 m-2 rounded"
+                                style="background-color: #491937; color: white;">New</span>
+                            <div class="position-absolute bottom-0 start-0 end-0 p-3 text-center"
+                                style="background: linear-gradient(to top, rgba(73,25,55,0.8) 0%, transparent 100%);">
+                                <h5 class="text-white mb-0">Premium Packaging</h5>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <h5 class="card-title mb-2" style="color: #491937;">Premium Packaging</h5>
+                            <p class="card-text text-muted small">Box custom dan kartu ucapan eksklusif untuk pengalaman
+                                hadiah yang sempurna.</p>
+                            <div class="d-flex justify-content-between align-items-center mt-4">
+                                <span class="fw-bold" style="color: #491937;">Termasuk Gratis</span>
+                                <a href="#" class="btn btn-sm" style="background-color: #491937; color: white;">Detail
+                                    <i class="bi bi-arrow-right"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Product 3 -->
+                <div class="col-md-4" data-aos="fade-up" data-aos-delay="300">
+                    <div class="card product-card h-100 border-0 shadow-sm">
+                        <div class="position-relative overflow-hidden">
+                            <img src="asset/img/produk/produk3.jpg" class="card-img-top w-100" alt="Reseller Kit"
+                                style="height: 300px; object-fit: cover; transition: transform 0.5s ease;">
+                            <span class="position-absolute top-0 end-0 px-3 py-1 m-2 rounded"
+                                style="background-color: #491937; color: white;">Promo</span>
+                            <div class="position-absolute bottom-0 start-0 end-0 p-3 text-center"
+                                style="background: linear-gradient(to top, rgba(73,25,55,0.8) 0%, transparent 100%);">
+                                <h5 class="text-white mb-0">Reseller Kit</h5>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <h5 class="card-title mb-2" style="color: #491937;">Reseller Kit</h5>
+                            <p class="card-text text-muted small">Paket lengkap untuk memulai bisnis sebagai reseller
+                                Gemas Galore.</p>
+                            <div class="d-flex justify-content-between align-items-center mt-4">
+                                <span class="fw-bold" style="color: #491937;">Rp 500.000</span>
+                                <a href="#" class="btn btn-sm" style="background-color: #491937; color: white;">Detail
+                                    <i class="bi bi-arrow-right"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="text-center mt-5" data-aos="fade-up">
+                <button class="btn px-4 py-2 fw-bold view-products-btn"
+                    style="background-color: #491937; color: white;">
+                    <i class="bi bi-grid me-2 text-white"></i>Lihat Semua Produk
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Popup Toko Online -->
+    <div class="store-popup" id="storePopup">
+        <div class="popup-content">
+            <button class="close-popup">&times;</button>
+            <h4>Kunjungi Toko Online Kami</h4>
+            <div class="store-buttons">
+                <a href="https://shopee.co.id/gemasgalore" target="_blank" class="store-btn shopee">
+                    <i class="bi bi-shop text-white"></i> Shopee
+                </a>
+                <a href="https://tokopedia.com/gemasgalore" target="_blank" class="store-btn tokopedia">
+                    <i class="bi bi-basket text-white"></i> Tokopedia
+                </a>
+                <a href="https://tiktok.com/@gemasgalore" target="_blank" class="store-btn tiktok">
+                    <i class="bi bi-tiktok text-white"></i> TikTok Shop
+                </a>
+                <a href="https://instagram.com/gemasgalore" target="_blank" class="store-btn instagram">
+                    <i class="bi bi-instagram text-white"></i> Instagram
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Team Section -->
+    <section id="team" class="py-5 bg-light">
+        <div class="container py-5">
+            <div class="row justify-content-center mb-5">
+                <div class="col-lg-8 text-center" data-aos="fade-up">
+                    <h2 class="section-title" style="color: #491937;">Tim Kami</h2>
+                    <p class="lead">Tim profesional yang membangun Gemas Galore</p>
+                </div>
+            </div>
+
+            <!-- Top Row - 3 Team Members -->
+            <div class="row g-4 justify-content-center mb-4">
+                <!-- Team Member 1 -->
+                <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="100">
+                    <div class="card border-0 shadow-sm h-100 text-center py-4">
+                        <div class="team-card">
+                            <div class="position-relative d-inline-block">
+                                <img src="https://placehold.co/150x150/f8f1e9/491937?text=Lore"
+                                    class="rounded-circle mb-3" alt="CEO">
+                                <div class="position-absolute bottom-0 end-0 bg-primary rounded-circle p-2 border border-3 border-white"
+                                    style="width: 40px; height: 40px; background-color: #491937;">
+                                    <i class="bi bi-star-fill text-white"></i>
+                                </div>
+                            </div>
+                            <h5 class="mb-1" style="color: #491937;">Lore's Squad</h5>
+                            <p class="text-muted mb-3">Chief Executive Officer</p>
+                            <div class="d-flex justify-content-center gap-2">
+                                <a href="#"
+                                    class="btn btn-sm rounded-circle d-flex align-items-center justify-content-center"
+                                    style="width: 36px; height: 36px; border: 1px solid #491937; color: #491937;">
+                                    <i class="bi bi-linkedin"></i>
+                                </a>
+                                <a href="#"
+                                    class="btn btn-sm rounded-circle d-flex align-items-center justify-content-center"
+                                    style="width: 36px; height: 36px; border: 1px solid #491937; color: #491937;">
+                                    <i class="bi bi-instagram"></i>
+                                </a>
+                                <a href="#"
+                                    class="btn btn-sm rounded-circle d-flex align-items-center justify-content-center"
+                                    style="width: 36px; height: 36px; border: 1px solid #491937; color: #491937;">
+                                    <i class="bi bi-envelope"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Team Member 2 -->
+                <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="200">
+                    <div class="card border-0 shadow-sm h-100 text-center py-4">
+                        <div class="team-card">
+                            <img src="asset/img/team/2.svg" class="rounded-circle mb-3" alt="CFO">
+                            <h5 class="mb-1" style="color: #491937;">Devi Setyo Wihastuti</h5>
+                            <p class="text-muted mb-3">Chief Financial Officer</p>
+                            <div class="d-flex justify-content-center gap-2">
+                                <a href="#"
+                                    class="btn btn-sm rounded-circle d-flex align-items-center justify-content-center"
+                                    style="width: 36px; height: 36px; border: 1px solid #491937; color: #491937;">
+                                    <i class="bi bi-linkedin"></i>
+                                </a>
+                                <a href="#"
+                                    class="btn btn-sm rounded-circle d-flex align-items-center justify-content-center"
+                                    style="width: 36px; height: 36px; border: 1px solid #491937; color: #491937;">
+                                    <i class="bi bi-instagram"></i>
+                                </a>
+                                <a href="#"
+                                    class="btn btn-sm rounded-circle d-flex align-items-center justify-content-center"
+                                    style="width: 36px; height: 36px; border: 1px solid #491937; color: #491937;">
+                                    <i class="bi bi-envelope"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Team Member 3 -->
+                <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="300">
+                    <div class="card border-0 shadow-sm h-100 text-center py-4">
+                        <div class="team-card">
+                            <img src="asset/img/team/1.svg" class="rounded-circle mb-3" alt="CMO">
+                            <h5 class="mb-1" style="color: #491937;">Dwi Khanasya</h5>
+                            <p class="text-muted mb-3">Chief Marketing Officer</p>
+                            <div class="d-flex justify-content-center gap-2">
+                                <a href="#"
+                                    class="btn btn-sm rounded-circle d-flex align-items-center justify-content-center"
+                                    style="width: 36px; height: 36px; border: 1px solid #491937; color: #491937;">
+                                    <i class="bi bi-linkedin"></i>
+                                </a>
+                                <a href="#"
+                                    class="btn btn-sm rounded-circle d-flex align-items-center justify-content-center"
+                                    style="width: 36px; height: 36px; border: 1px solid #491937; color: #491937;">
+                                    <i class="bi bi-instagram"></i>
+                                </a>
+                                <a href="#"
+                                    class="btn btn-sm rounded-circle d-flex align-items-center justify-content-center"
+                                    style="width: 36px; height: 36px; border: 1px solid #491937; color: #491937;">
+                                    <i class="bi bi-envelope"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Bottom Row - 2 Team Members (Centered) -->
+            <div class="row g-4 justify-content-center">
+                <!-- Team Member 4 -->
+                <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="100">
+                    <div class="card border-0 shadow-sm h-100 text-center py-4">
+                        <div class="team-card">
+                            <img src="asset/img/team/4.svg" class="rounded-circle mb-3" alt="CTO">
+                            <h5 class="mb-1" style="color: #491937;">Bolopa K.W.</h5>
+                            <p class="text-muted mb-3">Chief Technology Officer</p>
+                            <div class="d-flex justify-content-center gap-2">
+                                <a href="https://www.linkedin.com/in/bolopakw01/" target="_blank"
+                                    class="btn btn-sm rounded-circle d-flex align-items-center justify-content-center"
+                                    style="width: 36px; height: 36px; border: 1px solid #491937; color: #491937;">
+                                    <i class="bi bi-linkedin"></i>
+                                </a>
+                                <a href="https://www.instagram.com/bolopa_k.w/" target="_blank"
+                                    class="btn btn-sm rounded-circle d-flex align-items-center justify-content-center"
+                                    style="width: 36px; height: 36px; border: 1px solid #491937; color: #491937;">
+                                    <i class="bi bi-instagram"></i>
+                                </a>
+                                <a href="mailto:bolopakw01@gmail.com" target="_blank"
+                                    class="btn btn-sm rounded-circle d-flex align-items-center justify-content-center"
+                                    style="width: 36px; height: 36px; border: 1px solid #491937; color: #491937;">
+                                    <i class="bi bi-envelope"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Team Member 5 -->
+                <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="200">
+                    <div class="card border-0 shadow-sm h-100 text-center py-4">
+                        <div class="team-card">
+                            <img src="asset/img/team/3.svg" class="rounded-circle mb-3" alt="COO">
+                            <h5 class="mb-1" style="color: #491937;">Siska Anwar</h5>
+                            <p class="text-muted mb-3">Chief Operating Officer</p>
+                            <div class="d-flex justify-content-center gap-2">
+                                <a href="#"
+                                    class="btn btn-sm rounded-circle d-flex align-items-center justify-content-center"
+                                    style="width: 36px; height: 36px; border: 1px solid #491937; color: #491937;">
+                                    <i class="bi bi-linkedin"></i>
+                                </a>
+                                <a href="#"
+                                    class="btn btn-sm rounded-circle d-flex align-items-center justify-content-center"
+                                    style="width: 36px; height: 36px; border: 1px solid #491937; color: #491937;">
+                                    <i class="bi bi-instagram"></i>
+                                </a>
+                                <a href="#"
+                                    class="btn btn-sm rounded-circle d-flex align-items-center justify-content-center"
+                                    style="width: 36px; height: 36px; border: 1px solid #491937; color: #491937;">
+                                    <i class="bi bi-envelope"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Awards Section -->
+    <section class="py-5 bgaward">
+        <div class="container py-5">
+            <div class="row justify-content-center mb-5">
+                <div class="col-lg-8 text-center" data-aos="fade-up">
+                    <h2 class="section-title" style="color: rgb(255, 255, 255);">Penghargaan & Sertifikasi</h2>
+                    <p class="lead">Pengakuan yang telah kami dapatkan</p>
+                </div>
+            </div>
+
+            <div class="row g-4 justify-content-center">
+                <!-- Award 1 -->
+                <div class="col-6 col-md-4 col-lg-3 text-center" data-aos="fade-up" data-aos-delay="100">
+                    <div class="p-4 border rounded-3 h-100 award-card"
+                        style="border-color: rgba(73, 25, 55, 0.2) !important;">
+                        <div class="award-icon">
+                            <i class="bi bi-trophy-fill" style="font-size: 2.5rem; color: #491937;"></i>
+                        </div>
+                        <h5 class="mt-3 mb-0" style="color: #491937;">Top 10 Finalist</h5>
+                        <small class="text-muted">Young Local Brand 2025</small>
+                    </div>
+                </div>
+
+                <!-- Award 2 -->
+                <div class="col-6 col-md-4 col-lg-3 text-center" data-aos="fade-up" data-aos-delay="200">
+                    <div class="p-4 border rounded-3 h-100 award-card"
+                        style="border-color: rgba(73, 25, 55, 0.2) !important;">
+                        <div class="award-icon">
+                            <i class="bi bi-award-fill" style="font-size: 2.5rem; color: #491937;"></i>
+                        </div>
+                        <h5 class="mt-3 mb-0" style="color: #491937;">UMKM Kreatif</h5>
+                        <small class="text-muted">Universitas Amikom</small>
+                    </div>
+                </div>
+
+                <!-- Award 3 -->
+                <div class="col-6 col-md-4 col-lg-3 text-center" data-aos="fade-up" data-aos-delay="300">
+                    <div class="p-4 border rounded-3 h-100 award-card"
+                        style="border-color: rgba(73, 25, 55, 0.2) !important;">
+                        <div class="award-icon">
+                            <i class="bi bi-patch-check-fill" style="font-size: 2.5rem; color: #491937;"></i>
+                        </div>
+                        <h5 class="mt-3 mb-0" style="color: #491937;">Kolaborasi Kreatif</h5>
+                        <small class="text-muted">Handmade Local</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!--11. Testimonials Section -->
+    <section class="py-5 bg-light">
+        <div class="container py-5">
+            <div class="row justify-content-center mb-5">
+                <div class="col-lg-8 text-center" data-aos="fade-up">
+                    <h2 class="section-title">Testimoni Pelanggan</h2>
+                    <p class="lead">Apa kata mereka tentang Gemas Galore</p>
+                </div>
+            </div>
+
+            <div class="row g-4">
+                <!-- Testimonial 1 -->
+                <div class="col-md-4" data-aos="fade-up" data-aos-delay="100">
+                    <div class="card h-100 border-0 shadow-sm">
+                        <div class="card-body p-4">
+                            <div class="d-flex mb-3">
+                                <img src="https://placehold.co/60x60/f8f1e9/491937?text=S" class="rounded-circle me-3"
+                                    alt="Sarah">
+                                <div>
+                                    <h6 class="mb-0">Sarah</h6>
+                                    <small class="text-muted">Mahasiswa</small>
+                                    <div class="text-warning">
+                                        <i class="bi bi-star-fill"></i>
+                                        <i class="bi bi-star-fill"></i>
+                                        <i class="bi bi-star-fill"></i>
+                                        <i class="bi bi-star-fill"></i>
+                                        <i class="bi bi-star-fill"></i>
+                                    </div>
+                                </div>
+                            </div>
+                            <p class="card-text testimonial-card ps-3">"Jilbab dari Gemas Galore sangat nyaman dipakai
+                                seharian, bahannya adem dan tidak mudah luntur. Packagingnya juga sangat rapi!"</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Testimonial 2 -->
+                <div class="col-md-4" data-aos="fade-up" data-aos-delay="200">
+                    <div class="card h-100 border-0 shadow-sm">
+                        <div class="card-body p-4">
+                            <div class="d-flex mb-3">
+                                <img src="https://placehold.co/60x60/f8f1e9/491937?text=R" class="rounded-circle me-3"
+                                    alt="Rina">
+                                <div>
+                                    <h6 class="mb-0">Rina</h6>
+                                    <small class="text-muted">Karyawan</small>
+                                    <div class="text-warning">
+                                        <i class="bi bi-star-fill"></i>
+                                        <i class="bi bi-star-fill"></i>
+                                        <i class="bi bi-star-fill"></i>
+                                        <i class="bi bi-star-fill"></i>
+                                        <i class="bi bi-star-half"></i>
+                                    </div>
+                                </div>
+                            </div>
+                            <p class="card-text testimonial-card ps-3">"Gantungan tasnya unik banget, sering dapat
+                                pujian dari teman-teman! Harganya juga terjangkau untuk kualitas yang diberikan."</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Testimonial 3 -->
+                <div class="col-md-4" data-aos="fade-up" data-aos-delay="300">
+                    <div class="card h-100 border-0 shadow-sm">
+                        <div class="card-body p-4">
+                            <div class="d-flex mb-3">
+                                <img src="https://placehold.co/60x60/f8f1e9/491937?text=D" class="rounded-circle me-3"
+                                    alt="Dian">
+                                <div>
+                                    <h6 class="mb-0">Dian</h6>
+                                    <small class="text-muted">Ibu Rumah Tangga</small>
+                                    <div class="text-warning">
+                                        <i class="bi bi-star-fill"></i>
+                                        <i class="bi bi-star-fill"></i>
+                                        <i class="bi bi-star-fill"></i>
+                                        <i class="bi bi-star-fill"></i>
+                                        <i class="bi bi-star-fill"></i>
+                                    </div>
+                                </div>
+                            </div>
+                            <p class="card-text testimonial-card ps-3">"Pelayanannya cepat, packing rapi, dan produk
+                                sesuai gambar. Sudah beberapa kali belanja di Gemas Galore dan selalu puas."</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Reseller Program Section -->
+    <section class="py-5 bg-white">
+        <div class="container py-5">
+            <div class="row align-items-center">
+                <div class="col-lg-6 mb-4 mb-lg-0" data-aos="fade-right">
+                    <img src="https://placehold.co/500x350/f8f1e9/491937?text=Reseller+Program" alt="Reseller Program"
+                        class="img-fluid rounded-4 shadow">
+                </div>
+                <div class="col-lg-6" data-aos="fade-left">
+                    <h2 class="mb-4" style="color: #491937;">Program Reseller Gemas Galore</h2>
+                    <p class="lead mb-4">Bergabunglah dengan komunitas reseller kami dan dapatkan keuntungan menarik!
                     </p>
-                    <ul class="list-unstyled">
-                        <li><strong>Material:</strong> Katun</li>
-                        <li><strong>Size:</strong> 115 x 115 cm</li>
-                        <li><strong>Weight:</strong> 0.1 kg</li>
+                    <ul class="list-unstyled mb-4">
+                        <li class="mb-2"><i class="bi bi-check-circle-fill"
+                                style="color: #491937; margin-right: 0.5rem;"></i> Diskon khusus untuk
+                            reseller</li>
+                        <li class="mb-2"><i class="bi bi-check-circle-fill"
+                                style="color: #491937; margin-right: 0.5rem;"></i> Materi promosi siap
+                            pakai</li>
+                        <li class="mb-2"><i class="bi bi-check-circle-fill"
+                                style="color: #491937; margin-right: 0.5rem;"></i> Pelatihan personal
+                            branding & soft selling</li>
+                        <li class="mb-2"><i class="bi bi-check-circle-fill"
+                                style="color: #491937; margin-right: 0.5rem;"></i> Support penuh dari
+                            tim marketing</li>
                     </ul>
-                    <a href="#" class="btn btn-primary mt-3"
-                        style="background-color: rgb(82, 1, 55); border: none; font-family: 'Yeseva One', serif; font-size: 18px;">Pesan
-                        Sekarang</a>
+                    <a href="#contact" class="btn px-4 py-2" style="background-color: #491937; color: #fff;">
+                        <i class="bi bi-person-plus me-2 text-white"></i>Daftar Sekarang
+                    </a>
                 </div>
             </div>
         </div>
-        </div>
+    </section>
 
-        <!--- Produk Hijab --->
-        <div class="container-fluid">
-            <div class="container my-5">
-                <h2 class="text-center"
-                    style="font-family: 'Yeseva One', serif; color: rgb(73, 25, 55); font-size: 30px;">Produk</h2>
-                <div id="carouselProduk" class="carousel slide" data-bs-ride="carousel">
-                    <div class="carousel-inner">
-                        <div class="carousel-item active">
-                            <div class="row justify-content-center mt-5">
-                                <div class="col-md-3" data-aos="fade-up">
-                                    <div class="card border-0 shadow-sm rounded h-100"
-                                        style="transition: transform 0.3s;">
-                                        <img src="asset/img/produk/jb (1).jpg" class="card-img-top rounded"
-                                            alt="Produk 1">
-                                        <div class="card-body bg-light text-center d-flex flex-column">
-                                            <h5 class="card-title"
-                                                style="font-family: 'Yeseva One', serif; color: rgb(73, 25, 55);">Galore
-                                                Paris Voal Premium</h5>
-                                            <p class="card-text flex-grow-1"
-                                                style="font-family: sans-serif; color: rgb(73, 25, 55);">Galore Paris
-                                                voal premium dengan bahan lembut, ringan, dan tidak licin. Nyaman
-                                                dipakai seharian dan mudah dibentuk.</p>
-                                            <p
-                                                style="font-family: sans-serif; color: rgb(73, 25, 55); font-weight: bold;">
-                                                Rp 40.000</p>
-                                            <p class="text-muted" style="font-size: 0.875rem;">Tersedia dalam 13 warna
-                                            </p>
-                                            <a href="#" class="btn btn-primary btn-hover mt-auto"
-                                                style="background-color: rgb(82, 1, 55); border: none; font-family: 'Yeseva One', serif;">Lihat
-                                                Detail</a>
-                                        </div>
-                                    </div>
+    <!-- Contact Section -->
+    <section id="contact" class="py-5" style="background-color: #f8f1e9;">
+        <div class="container">
+            <h2 class="text-center section-title" style="color: #491937;" data-aos="fade-up">Hubungi Kami</h2>
+
+            <div class="row">
+                <div class="col-lg-6 mb-5 mb-lg-0" data-aos="fade-right">
+                    <div class="card border-0 shadow-sm h-100" style="background-color: white;">
+                        <div class="card-body p-4">
+                            <!-- Google Maps -->
+                            <h4 class="mb-3" style="color: #491937;">
+                                <i class="bi bi-geo-alt-fill me-2"></i> Lokasi Kami
+                                <div class="mt-2"
+                                    style="font-size: 0.95rem; color: #6c757d; word-break: break-word; white-space: normal;">
+                                    <a href="https://maps.google.com/?q=Gang+Ipal+2,+Palgading,+Sinduharjo,+Ngaglik,+Sleman,+Yogyakarta"
+                                        target="_blank" style="color: #6c757d; text-decoration: none;">
+                                        Gang Ipal 2, Palgading, Sinduharjo, Ngaglik, Sleman, Yogyakarta
+                                    </a>
                                 </div>
-                                <div class="col-md-3" data-aos="fade-up">
-                                    <div class="card border-0 shadow-sm rounded h-100"
-                                        style="transition: transform 0.3s;">
-                                        <img src="asset/img/produk/jb (2).jpg" class="card-img-top rounded"
-                                            alt="Produk 2">
-                                        <div class="card-body bg-light text-center d-flex flex-column">
-                                            <h5 class="card-title"
-                                                style="font-family: 'Yeseva One', serif; color: rgb(73, 25, 55);">Galore
-                                                Paris Katun Elegan</h5>
-                                            <p class="card-text flex-grow-1"
-                                                style="font-family: sans-serif; color: rgb(73, 25, 55);">Galore Paris
-                                                berbahan katun yang adem dan nyaman, dengan tekstur halus dan tidak
-                                                mudah kusut.</p>
-                                            <p
-                                                style="font-family: sans-serif; color: rgb(73, 25, 55); font-weight: bold;">
-                                                Rp 50.000</p>
-                                            <p class="text-muted" style="font-size: 0.875rem;">Tersedia dalam 10 warna
-                                            </p>
-                                            <a href="#" class="btn btn-primary btn-hover mt-auto"
-                                                style="background-color: rgb(82, 1, 55); border: none; font-family: 'Yeseva One', serif;">Lihat
-                                                Detail</a>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-3" data-aos="fade-up">
-                                    <div class="card border-0 shadow-sm rounded h-100"
-                                        style="transition: transform 0.3s;">
-                                        <img src="asset/img/produk/jb (3).jpg" class="card-img-top rounded"
-                                            alt="Produk 3">
-                                        <div class="card-body bg-light text-center d-flex flex-column">
-                                            <h5 class="card-title"
-                                                style="font-family: 'Yeseva One', serif; color: rgb(73, 25, 55);">Galore
-                                                Paris Ombre</h5>
-                                            <p class="card-text flex-grow-1"
-                                                style="font-family: sans-serif; color: rgb(73, 25, 55);">Galore Paris
-                                                dengan gradasi warna yang cantik, cocok untuk tampilan elegan dan modern
-                                                yang membuat Anda terlihat lebih anggun.</p>
-                                            <p
-                                                style="font-family: sans-serif; color: rgb(73, 25, 55); font-weight: bold;">
-                                                Rp 55.000</p>
-                                            <p class="text-muted" style="font-size: 0.875rem;">5 Kombinasi warna ombre
-                                            </p>
-                                            <a href="#" class="btn btn-primary btn-hover mt-auto"
-                                                style="background-color: rgb(82, 1, 55); border: none; font-family: 'Yeseva One', serif;">Lihat
-                                                Detail</a>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-3" data-aos="fade-up">
-                                    <div class="card border-0 shadow-sm rounded h-100"
-                                        style="transition: transform 0.3s;">
-                                        <img src="asset/img/produk/jb (4).jpg" class="card-img-top rounded"
-                                            alt="Produk 4">
-                                        <div class="card-body bg-light text-center d-flex flex-column">
-                                            <h5 class="card-title"
-                                                style="font-family: 'Yeseva One', serif; color: rgb(73, 25, 55);">Galore
-                                                Paris Chiffon Premium</h5>
-                                            <p class="card-text flex-grow-1"
-                                                style="font-family: sans-serif; color: rgb(73, 25, 55);">Galore Paris
-                                                berbahan chiffon yang ringan, flowy, dan tampak mewah. Cocok untuk acara
-                                                formal maupun kasual.</p>
-                                            <p
-                                                style="font-family: sans-serif; color: rgb(219, 0, 183); font-weight: bold;">
-                                                Rp 75.000 <span
-                                                    style="text-decoration: line-through; color:rgb(73, 25, 55);">Rp
-                                                    100.000</span></p>
-                                            <p class="text-muted" style="font-size: 0.875rem;">Tersedia dalam 13 warna
-                                            </p>
-                                            <a href="#" class="btn btn-primary btn-hover mt-auto"
-                                                style="background-color: rgb(82, 1, 55); border: none; font-family: 'Yeseva One', serif;">Lihat
-                                                Detail</a>
-                                        </div>
-                                    </div>
-                                </div>
+                            </h4>
+                            <div class="mb-4 rounded-3 overflow-hidden">
+                                <iframe
+                                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3953.26928214392!2d110.40677431477433!3d-7.762555794404051!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zN8KwNDUnNDUuMiJTIDExMMKwMjQnMzMuOSJF!5e0!3m2!1sen!2sid!4v1621234567890!5m2!1sen!2sid"
+                                    width="100%" height="250" style="border:0;" allowfullscreen=""
+                                    loading="lazy"></iframe>
                             </div>
-                        </div>
-                        <div class="carousel-item">
-                            <div class="row justify-content-center mt-5">
-                                <div class="col-md-3" data-aos="fade-up">
-                                    <div class="card border-0 shadow-sm rounded h-100"
-                                        style="transition: transform 0.3s;">
-                                        <img src="asset/img/produk/jb (1).jpg" class="card-img-top rounded"
-                                            alt="Produk 5">
-                                        <div class="card-body bg-light text-center d-flex flex-column">
-                                            <h5 class="card-title"
-                                                style="font-family: 'Yeseva One', serif; color: rgb(73, 25, 55);">Galore
-                                                Paris Polos Everyday</h5>
-                                            <p class="card-text flex-grow-1"
-                                                style="font-family: sans-serif; color: rgb(73, 25, 55);">Galore Paris
-                                                polos dengan bahan ringan dan breathable. Cocok untuk penggunaan
-                                                sehari-hari dengan warna soft dan mudah dipadukan.</p>
-                                            <p
-                                                style="font-family: sans-serif; color: rgb(73, 25, 55); font-weight: bold;">
-                                                Rp 69.000</p>
-                                            <p class="text-muted" style="font-size: 0.875rem;">Tersedia dalam 7 warna
-                                            </p>
-                                            <a href="#" class="btn btn-primary btn-hover mt-auto"
-                                                style="background-color: rgb(82, 1, 55); border: none; font-family: 'Yeseva One', serif;">Lihat
-                                                Detail</a>
-                                        </div>
+
+                            <!-- Contact Info -->
+                            <div class="contact-info">
+                                <div class="d-flex align-items-center mb-3">
+                                    <div class="icon-circle me-3" style="background-color: #491937;">
+                                        <i class="bi bi-envelope-fill text-white"></i>
+                                    </div>
+                                    <div>
+                                        <h6 class="mb-0" style="color: #491937;">Email</h6>
+                                        <a href="mailto:hiigemasgalore@gmail.com" class="text-decoration-none"
+                                            style="color: #6c757d;">
+                                            hiigemasgalore@gmail.com
+                                        </a>
                                     </div>
                                 </div>
-                                <div class="col-md-3" data-aos="fade-up">
-                                    <div class="card border-0 shadow-sm rounded h-100"
-                                        style="transition: transform 0.3s;">
-                                        <img src="asset/img/produk/jb (2).jpg" class="card-img-top rounded"
-                                            alt="Produk 6">
-                                        <div class="card-body bg-light text-center d-flex flex-column">
-                                            <h5 class="card-title"
-                                                style="font-family: 'Yeseva One', serif; color: rgb(73, 25, 55);">Galore
-                                                Paris Ultrafine Soft</h5>
-                                            <p class="card-text flex-grow-1"
-                                                style="font-family: sans-serif; color: rgb(73, 25, 55);">Galore berbahan
-                                                paris ultrafine yang lebih lembut, tidak menerawang, dan nyaman di
-                                                kulit. Sangat cocok untuk tampilan simpel dan elegan.</p>
-                                            <p
-                                                style="font-family: sans-serif; color: rgb(73, 25, 55); font-weight: bold;">
-                                                Rp 88.000</p>
-                                            <p class="text-muted" style="font-size: 0.875rem;">Tersedia dalam 5 warna
-                                            </p>
-                                            <a href="#" class="btn btn-primary btn-hover mt-auto"
-                                                style="background-color: rgb(82, 1, 55); border: none; font-family: 'Yeseva One', serif;">Lihat
-                                                Detail</a>
-                                        </div>
+
+                                <div class="d-flex align-items-center mb-3">
+                                    <div class="icon-circle me-3" style="background-color: #491937;">
+                                        <i class="bi bi-tiktok text-white"></i>
+                                    </div>
+                                    <div>
+                                        <h6 class="mb-0" style="color: #491937;">TikTok</h6>
+                                        <a href="https://www.tiktok.com/@gemasgalore2" target="_blank"
+                                            class="text-decoration-none" style="color: #6c757d;">
+                                            @gemasgalore2
+                                        </a>
                                     </div>
                                 </div>
-                                <div class="col-md-3" data-aos="fade-up">
-                                    <div class="card border-0 shadow-sm rounded h-100"
-                                        style="transition: transform 0.3s;">
-                                        <img src="asset/img/produk/jb (3).jpg" class="card-img-top rounded"
-                                            alt="Produk 7">
-                                        <div class="card-body bg-light text-center d-flex flex-column">
-                                            <h5 class="card-title"
-                                                style="font-family: 'Yeseva One', serif; color: rgb(73, 25, 55);">Galore
-                                                Paris Square Exclusive</h5>
-                                            <p class="card-text flex-grow-1"
-                                                style="font-family: sans-serif; color: rgb(73, 25, 55);">Galore Paris
-                                                model square dengan material premium yang jatuh dan tidak mudah kusut.
-                                                Bisa digunakan dalam berbagai gaya.</p>
-                                            <p
-                                                style="font-family: sans-serif; color: rgb(73, 25, 55); font-weight: bold;">
-                                                Rp 90.000</p>
-                                            <p class="text-muted" style="font-size: 0.875rem;">13 colors available</p>
-                                            <a href="#" class="btn btn-primary btn-hover mt-auto"
-                                                style="background-color: rgb(82, 1, 55); border: none; font-family: 'Yeseva One', serif;">Lihat
-                                                Detail</a>
-                                        </div>
+
+                                <div class="d-flex align-items-center mb-3">
+                                    <div class="icon-circle me-3" style="background-color: #491937;">
+                                        <i class="bi bi-shop text-white"></i>
+                                    </div>
+                                    <div>
+                                        <h6 class="mb-0" style="color: #491937;">Shopee</h6>
+                                        <a href="https://id.shp.ee/FdqYZK8" target="_blank" class="text-decoration-none"
+                                            style="color: #6c757d;">
+                                            Gemas Galore Official
+                                        </a>
                                     </div>
                                 </div>
-                                <div class="col-md-3" data-aos="fade-up">
-                                    <div class="card border-0 shadow-sm rounded h-100"
-                                        style="transition: transform 0.3s;">
-                                        <img src="asset/img/produk/jb (4).jpg" class="card-img-top rounded"
-                                            alt="Produk 8">
-                                        <div class="card-body bg-light text-center d-flex flex-column">
-                                            <h5 class="card-title"
-                                                style="font-family: 'Yeseva One', serif; color: rgb(73, 25, 55);">Galore
-                                                Paris Glitter Luxe</h5>
-                                            <p class="card-text flex-grow-1"
-                                                style="font-family: sans-serif; color: rgb(73, 25, 55);">Galore Paris
-                                                dengan detail glitter halus yang memberikan kesan glamor tanpa
-                                                berlebihan. Cocok untuk acara formal ataupun non-formal.</p>
-                                            <p
-                                                style="font-family: sans-serif; color: rgb(73, 25, 55); font-weight: bold;">
-                                                Rp 99.000</p>
-                                            <p class="text-muted" style="font-size: 0.875rem;">13 colors available</p>
-                                            <a href="#" class="btn btn-primary btn-hover mt-auto"
-                                                style="background-color: rgb(82, 1, 55); border: none; font-family: 'Yeseva One', serif;">Lihat
-                                                Detail</a>
-                                        </div>
+
+                                <div class="d-flex align-items-center">
+                                    <div class="icon-circle me-3" style="background-color: #491937;">
+                                        <i class="bi bi-whatsapp text-white"></i>
+                                    </div>
+                                    <div>
+                                        <h6 class="mb-0" style="color: #491937;">WhatsApp</h6>
+                                        <a href="https://wa.me/6289656759653" target="_blank"
+                                            class="text-decoration-none" style="color: #6c757d;">
+                                            +62 896-5675-9653
+                                        </a>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <button class="carousel-control-prev" type="button" data-bs-target="#carouselProduk"
-                        data-bs-slide="prev"
-                        style="position: absolute; top: 50%; transform: translateY(-50%); left: -30px;">
-                        <span class="carousel-control-prev-icon" aria-hidden="true" style="filter: invert(50%);"></span>
-                        <span class="visually-hidden">Previous</span>
-                    </button>
-                    <button class="carousel-control-next" type="button" data-bs-target="#carouselProduk"
-                        data-bs-slide="next"
-                        style="position: absolute; top: 50%; transform: translateY(-50%); right: -30px;">
-                        <span class="carousel-control-next-icon" aria-hidden="true" style="filter: invert(50%);"></span>
-                        <span class="visually-hidden">Next</span>
-                    </button>
                 </div>
-            </div>
-        </div>
 
-
-
-        <!-- Banner Gantungan Tas -->
-        <div id="gtas" class="text-center mt-5 mb-5 m-0 p-0">
-            <img src="asset/img/bgantungantas.png" alt="Banner Hijab" class="img-fluid w-100 shadow">
-        </div>
-
-        <!-- Model produk2 -->
-        <div class="container-fluid">
-            <div class="container text-center">
-                <h2 class="text-center"
-                    style="font-family: 'Water Brush', cursive; color: rgb(73, 25, 55); font-size: 50px;">
-                    Gantungan Tas</h2>
-                <p class="mt-5" style="color: rgb(73, 25, 55);">Tambahkan sentuhan gaya pada tas Anda dengan koleksi
-                    Gantungan Tas kami yang unik dan menarik. <br>
-                    Dibuat dari bahan berkualitas tinggi, gantungan tas ini tidak hanya berfungsi sebagai aksesori,
-                    tetapi juga sebagai pernyataan gaya. <br>
-                    Desainnya yang kreatif dan beragam memungkinkan Anda untuk mengekspresikan kepribadian Anda dengan
-                    cara yang menyenangkan dan elegan. <br>
-                    Cocok untuk segala jenis tas, dari tas tangan hingga ransel, gantungan tas ini adalah cara sempurna
-                    untuk mempercantik tampilan Anda sehari-hari.
-                </p>
-            </div>
-        </div>
-
-        <!--- Produk Gantungan Tas --->
-        <div class="container-fluid">
-            <div class="container my-5">
-                <h2 class="text-center"
-                    style="font-family: 'Yeseva One', serif; color: rgb(73, 25, 55); font-size: 30px;">Produk</h2>
-                <div id="carouselGantunganTas" class="carousel slide" data-bs-ride="carousel">
-                    <div class="carousel-inner">
-                        <div class="carousel-item active">
-                            <div class="row justify-content-center mt-4">
-                                <div class="col-md-3 mb-4" data-aos="fade-up">
-                                    <div class="card h-100 border-0 shadow-sm rounded"
-                                        style="transition: transform 0.3s;">
-                                        <img src="asset/img/produk/gt (1).jpg" class="card-img-top rounded"
-                                            alt="Produk 1" style="height: 200px; object-fit: cover;">
-                                        <div class="card-body bg-light text-center d-flex flex-column">
-                                            <h5 class="card-title"
-                                                style="font-family: 'Yeseva One', serif; color: rgb(73, 25, 55);">Galore
-                                                Blossom</h5>
-                                            <p class="card-text flex-grow-1"
-                                                style="font-family: sans-serif; color: rgb(73, 25, 55);">Percantik tasmu
-                                                dengan gantungan manik-manik handmade yang penuh warna! Bisa custom nama
-                                                atau motif favorit untuk tampilan lebih personal.</p>
-                                            <p
-                                                style="font-family: sans-serif; color: rgb(73, 25, 55); font-weight: bold;">
-                                                Rp 20.000</p>
-                                            <a href="#" class="btn btn-primary btn-hover mt-auto"
-                                                style="background-color: rgb(82, 1, 55); border: none; font-family: 'Yeseva One', serif;">Lihat
-                                                Detail</a>
-                                        </div>
-                                    </div>
+                <div class="col-lg-6" data-aos="fade-left">
+                    <div class="card border-0 shadow-sm h-100" style="background-color: white;">
+                        <div class="card-body p-4">
+                            <h4 class="mb-4" style="color: #491937;">
+                                <i class="bi bi-send-fill me-2"></i> Kirim Pesan
+                            </h4>
+                            <form>
+                                <div class="mb-3">
+                                    <label for="name" class="form-label" style="color: #491937;">Nama Lengkap</label>
+                                    <input type="text" class="form-control" id="name" required
+                                        style="border-color: #ced4da;">
                                 </div>
-                                <div class="col-md-3 mb-4" data-aos="fade-up">
-                                    <div class="card h-100 border-0 shadow-sm rounded"
-                                        style="transition: transform 0.3s;">
-                                        <img src="asset/img/produk/gt (2).jpg" class="card-img-top rounded"
-                                            alt="Produk 2" style="height: 200px; object-fit: cover;">
-                                        <div class="card-body bg-light text-center d-flex flex-column">
-                                            <h5 class="card-title"
-                                                style="font-family: 'Yeseva One', serif; color: rgb(73, 25, 55);">Galore
-                                                Twists</h5>
-                                            <p class="card-text flex-grow-1"
-                                                style="font-family: sans-serif; color: rgb(73, 25, 55);">Inovasi baru!
-                                                Gantungan tas dari kawat bulu yang bisa dibentuk sesuka hati. Lucu,
-                                                playful, dan bikin tasmu makin standout.</p>
-                                            <p
-                                                style="font-family: sans-serif; color: rgb(219, 0, 183); font-weight: bold;">
-                                                Rp 25.000 <span
-                                                    style="text-decoration: line-through; color:rgb(73, 25, 55);">Rp
-                                                    150.000</span></p>
-                                            <a href="#" class="btn btn-primary btn-hover mt-auto"
-                                                style="background-color: rgb(82, 1, 55); border: none; font-family: 'Yeseva One', serif;">Lihat
-                                                Detail</a>
-                                        </div>
-                                    </div>
+                                <div class="mb-3">
+                                    <label for="email" class="form-label" style="color: #491937;">Email</label>
+                                    <input type="email" class="form-control" id="email" required
+                                        style="border-color: #ced4da;">
                                 </div>
-                                <div class="col-md-3 mb-4" data-aos="fade-up">
-                                    <div class="card h-100 border-0 shadow-sm rounded"
-                                        style="transition: transform 0.3s;">
-                                        <img src="asset/img/produk/gt (3).jpg" class="card-img-top rounded"
-                                            alt="Produk 3" style="height: 200px; object-fit: cover;">
-                                        <div class="card-body bg-light text-center d-flex flex-column">
-                                            <h5 class="card-title"
-                                                style="font-family: 'Yeseva One', serif; color: rgb(73, 25, 55);">Galore
-                                                NameTag</h5>
-                                            <p class="card-text flex-grow-1"
-                                                style="font-family: sans-serif; color: rgb(73, 25, 55);">Tambahkan
-                                                sentuhan spesial pada tasmu dengan gantungan nama berbahan akrilik.
-                                                Hadiah yang unik dan bermakna untuk diri sendiri atau orang tersayang
-                                            </p>
-                                            <p
-                                                style="font-family: sans-serif; color: rgb(73, 25, 55); font-weight: bold;">
-                                                Rp 20.000</p>
-                                            <a href="#" class="btn btn-primary btn-hover mt-auto"
-                                                style="background-color: rgb(82, 1, 55); border: none; font-family: 'Yeseva One', serif;">Lihat
-                                                Detail</a>
-                                        </div>
-                                    </div>
+                                <div class="mb-3">
+                                    <label for="phone" class="form-label" style="color: #491937;">Nomor Telepon</label>
+                                    <input type="tel" class="form-control" id="phone" style="border-color: #ced4da;">
                                 </div>
-                                <div class="col-md-3 mb-4" data-aos="fade-up">
-                                    <div class="card h-100 border-0 shadow-sm rounded"
-                                        style="transition: transform 0.3s;">
-                                        <img src="asset/img/produk/gt (4).jpg" class="card-img-top rounded"
-                                            alt="Produk 4" style="height: 200px; object-fit: cover;">
-                                        <div class="card-body bg-light text-center d-flex flex-column">
-                                            <h5 class="card-title"
-                                                style="font-family: 'Yeseva One', serif; color: rgb(73, 25, 55);">Galore
-                                                Cuties</h5>
-                                            <p class="card-text flex-grow-1"
-                                                style="font-family: sans-serif; color: rgb(73, 25, 55);">Gantungan tas
-                                                handmade berbentuk karakter lucu dari mix manik-manik dan akrilik. Cocok
-                                                buat kamu yang suka tampilan playful</p>
-                                            <p
-                                                style="font-family: sans-serif; color: rgb(73, 25, 55); font-weight: bold;">
-                                                Rp 30.000</p>
-                                            <a href="#" class="btn btn-primary btn-hover mt-auto"
-                                                style="background-color: rgb(82, 1, 55); border: none; font-family: 'Yeseva One', serif;">Lihat
-                                                Detail</a>
-                                        </div>
-                                    </div>
+                                <div class="mb-3">
+                                    <label for="message" class="form-label" style="color: #491937;">Pesan</label>
+                                    <textarea class="form-control" id="message" rows="4" required
+                                        style="border-color: #ced4da;"></textarea>
                                 </div>
-                            </div>
-                        </div>
-                        <div class="carousel-item">
-                            <div class="row justify-content-center mt-4">
-                                <div class="col-md-3 mb-4" data-aos="fade-up">
-                                    <div class="card h-100 border-0 shadow-sm rounded"
-                                        style="transition: transform 0.3s;">
-                                        <img src="asset/img/produk/gt (1).jpg" class="card-img-top rounded"
-                                            alt="Produk 5" style="height: 200px; object-fit: cover;">
-                                        <div class="card-body bg-light text-center d-flex flex-column">
-                                            <h5 class="card-title"
-                                                style="font-family: 'Yeseva One', serif; color: rgb(73, 25, 55);">Galore
-                                                Glows</h5>
-                                            <p class="card-text flex-grow-1"
-                                                style="font-family: sans-serif; color: rgb(73, 25, 55);">Gantungan tas
-                                                keren yang bisa bersinar dalam gelap! Cocok untuk kamu yang suka tampil
-                                                beda dan unik, terutama di malam hari.</p>
-                                            <p
-                                                style="font-family: sans-serif; color: rgb(73, 25, 55); font-weight: bold;">
-                                                Rp 40.000</p>
-                                            <a href="#" class="btn btn-primary btn-hover mt-auto"
-                                                style="background-color: rgb(82, 1, 55); border: none; font-family: 'Yeseva One', serif;">Lihat
-                                                Detail</a>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-3 mb-4" data-aos="fade-up">
-                                    <div class="card h-100 border-0 shadow-sm rounded"
-                                        style="transition: transform 0.3s;">
-                                        <img src="asset/img/produk/gt (2).jpg" class="card-img-top rounded"
-                                            alt="Produk 6" style="height: 200px; object-fit: cover;">
-                                        <div class="card-body bg-light text-center d-flex flex-column">
-                                            <h5 class="card-title"
-                                                style="font-family: 'Yeseva One', serif; color: rgb(73, 25, 55);">Galore
-                                                Tassel</h5>
-                                            <p class="card-text flex-grow-1"
-                                                style="font-family: sans-serif; color: rgb(73, 25, 55);">Gantungan tas
-                                                dengan tambahan jumbai manik-manik yang memberi kesan chic dan stylish.
-                                                Pilih warna favoritmu dan buat tasmu makin kece</p>
-                                            <p
-                                                style="font-family: sans-serif; color: rgb(73, 25, 55); font-weight: bold;">
-                                                Rp 30.000</p>
-                                            <a href="#" class="btn btn-primary btn-hover mt-auto"
-                                                style="background-color: rgb(82, 1, 55); border: none; font-family: 'Yeseva One', serif;">Lihat
-                                                Detail</a>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-3 mb-4" data-aos="fade-up">
-                                    <div class="card h-100 border-0 shadow-sm rounded"
-                                        style="transition: transform 0.3s;">
-                                        <img src="asset/img/produk/gt (3).jpg" class="card-img-top rounded"
-                                            alt="Produk 7" style="height: 200px; object-fit: cover;">
-                                        <div class="card-body bg-light text-center d-flex flex-column">
-                                            <h5 class="card-title"
-                                                style="font-family: 'Yeseva One', serif; color: rgb(73, 25, 55);">Galore
-                                                Initials</h5>
-                                            <p class="card-text flex-grow-1"
-                                                style="font-family: sans-serif; color: rgb(73, 25, 55);">Buat tasmu
-                                                lebih istimewa dengan gantungan huruf inisial dari akrilik. Cocok untuk
-                                                hadiah atau jadi aksesoris andalan sehari-hari!</p>
-                                            <p
-                                                style="font-family: sans-serif; color: rgb(219, 0, 183); font-weight: bold;">
-                                                Rp 30.000 <span
-                                                    style="text-decoration: line-through; color:rgb(73, 25, 55);">Rp
-                                                    50.000</span></p>
-                                            <a href="#" class="btn btn-primary btn-hover mt-auto"
-                                                style="background-color: rgb(82, 1, 55); border: none; font-family: 'Yeseva One', serif;">Lihat
-                                                Detail</a>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-3 mb-4" data-aos="fade-up">
-                                    <div class="card h-100 border-0 shadow-sm rounded"
-                                        style="transition: transform 0.3s;">
-                                        <img src="asset/img/produk/gt (4).jpg" class="card-img-top rounded"
-                                            alt="Produk 8" style="height: 200px; object-fit: cover;">
-                                        <div class="card-body bg-light text-center d-flex flex-column">
-                                            <h5 class="card-title"
-                                                style="font-family: 'Yeseva One', serif; color: rgb(73, 25, 55);">Galore
-                                                MixBeads</h5>
-                                            <p class="card-text flex-grow-1"
-                                                style="font-family: sans-serif; color: rgb(73, 25, 55);">Perpaduan
-                                                manik-manik dan bunga plastik dalam satu gantungan tas yang unik. Bikin
-                                                tampilan tasmu lebih eye-catching</p>
-                                            <p
-                                                style="font-family: sans-serif; color: rgb(219, 0, 183); font-weight: bold;">
-                                                Rp 25.000 <span
-                                                    style="text-decoration: line-through; color:rgb(73, 25, 55);">Rp
-                                                    150.000</span></p>
-                                            <a href="#" class="btn btn-primary btn-hover mt-auto"
-                                                style="background-color: rgb(82, 1, 55); border: none; font-family: 'Yeseva One', serif;">Lihat
-                                                Detail</a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                                <button type="submit" class="btn w-100 py-2"
+                                    style="background-color: #491937; color: white;">
+                                    <i class="bi bi-send me-2"></i>Kirim Pesan
+                                </button>
+                            </form>
                         </div>
                     </div>
-                    <button class="carousel-control-prev" type="button" data-bs-target="#carouselGantunganTas"
-                        data-bs-slide="prev"
-                        style="position: absolute; top: 50%; transform: translateY(-50%); left: -30px;">
-                        <span class="carousel-control-prev-icon" aria-hidden="true" style="filter: invert(50%);"></span>
-                        <span class="visually-hidden">Previous</span>
-                    </button>
-                    <button class="carousel-control-next" type="button" data-bs-target="#carouselGantunganTas"
-                        data-bs-slide="next"
-                        style="position: absolute; top: 50%; transform: translateY(-50%); right: -30px;">
-                        <span class="carousel-control-next-icon" aria-hidden="true" style="filter: invert(50%);"></span>
-                        <span class="visually-hidden">Next</span>
-                    </button>
                 </div>
             </div>
         </div>
+    </section>
 
-        <!-- Banner Card Holders -->
-        <div id="cardh" class="text-center mt-5 mb-5 m-0 p-0">
-            <img src="asset/img/bcardholder.png" alt="Banner Hijab" class="img-fluid w-100 shadow">
-        </div>
-
-        <!-- Model produk3 -->
-        <div class="container-fluid">
-            <div class="container text-center">
-                <h2 class="text-center"
-                    style="font-family: 'Water Brush', cursive; color: rgb(73, 25, 55); font-size: 50px;">
-                    Card Holder</h2>
-                <p class="mt-5" style="color: rgb(73, 25, 55);">Jaga kartu-kartu penting Anda tetap rapi dan mudah
-                    diakses dengan koleksi Card Holder kami yang elegan dan praktis. <br>
-                    Dibuat dari bahan berkualitas tinggi, card holder ini dirancang untuk memberikan perlindungan
-                    maksimal bagi kartu-kartu Anda. <br>
-                    Desainnya yang ramping dan stylish membuatnya mudah dibawa kemana saja, baik di dalam tas maupun
-                    saku. <br>
-                    Dengan berbagai pilihan warna dan motif, Anda bisa memilih card holder yang sesuai dengan gaya dan
-                    kebutuhan Anda. <br>
-                    Card holder ini adalah solusi sempurna untuk menjaga kartu-kartu Anda tetap terorganisir dan aman
-                    setiap saat.
-                </p>
-            </div>
-        </div>
-
-        <!--- Produk Card Holder --->
-        <div class="container-fluid">
-            <div class="container my-5">
-                <h2 class="text-center"
-                    style="font-family: 'Yeseva One', serif; color: rgb(73, 25, 55); font-size: 30px;">Produk</h2>
-                <div id="carouselExample" class="carousel slide" data-bs-ride="carousel" data-bs-interval="5000">
-                    <div class="carousel-inner">
-                        <div class="carousel-item active">
-                            <div class="row justify-content-center mt-4">
-                                <div class="col-md-3" data-aos="fade-up">
-                                    <div class="card border-0 shadow-sm rounded h-100"
-                                        style="transition: transform 0.3s;">
-                                        <img src="asset/img/produk/ch (1).jpg" class="card-img-top rounded"
-                                            alt="Produk 1" style="height: 200px; object-fit: cover;">
-                                        <div class="card-body bg-light text-center d-flex flex-column">
-                                            <h5 class="card-title"
-                                                style="font-family: 'Yeseva One', serif; color: rgb(73, 25, 55);">Galore
-                                                Card Holder Basic</h5>
-                                            <p class="card-text flex-grow-1"
-                                                style="font-family: sans-serif; color: rgb(73, 25, 55);">Desain simpel
-                                                dengan ukuran ringkas, dilengkapi resleting untuk menyimpan kartu dengan
-                                                aman dan praktis.</p>
-                                            <p
-                                                style="font-family: sans-serif; color: rgb(73, 25, 55); font-weight: bold;">
-                                                Rp 55.000</p>
-                                            <p class="text-muted" style="font-size: 0.875rem;">Tersedia dalam 5 warna
-                                            </p>
-                                            <a href="#" class="btn btn-primary btn-hover mt-auto"
-                                                style="background-color: rgb(82, 1, 55); border: none; font-family: 'Yeseva One', serif;">Lihat
-                                                Detail</a>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-3" data-aos="fade-up">
-                                    <div class="card border-0 shadow-sm rounded h-100"
-                                        style="transition: transform 0.3s;">
-                                        <img src="asset/img/produk/ch (2).jpg" class="card-img-top rounded"
-                                            alt="Produk 2" style="height: 200px; object-fit: cover;">
-                                        <div class="card-body bg-light text-center d-flex flex-column">
-                                            <h5 class="card-title"
-                                                style="font-family: 'Yeseva One', serif; color: rgb(73, 25, 55);">
-                                                Galore Card Holder Charm</h5>
-                                            <p class="card-text flex-grow-1"
-                                                style="font-family: sans-serif; color: rgb(73, 25, 55);">Card holder
-                                                feminin dengan aksen charm unik dan ritsleting yang memastikan kartu
-                                                serta uang kecil tetap aman.</p>
-                                            <p
-                                                style="font-family: sans-serif; color: rgb(73, 25, 55); font-weight: bold;">
-                                                Rp 60.000</p>
-                                            <p class="text-muted" style="font-size: 0.875rem;">Tersedia dalam 10 warna
-                                            </p>
-                                            <a href="#" class="btn btn-primary btn-hover mt-auto"
-                                                style="background-color: rgb(82, 1, 55); border: none; font-family: 'Yeseva One', serif;">Lihat
-                                                Detail</a>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-3" data-aos="fade-up">
-                                    <div class="card border-0 shadow-sm rounded h-100"
-                                        style="transition: transform 0.3s;">
-                                        <img src="asset/img/produk/ch (3).jpg" class="card-img-top rounded"
-                                            alt="Produk 3" style="height: 200px; object-fit: cover;">
-                                        <div class="card-body bg-light text-center d-flex flex-column">
-                                            <h5 class="card-title"
-                                                style="font-family: 'Yeseva One', serif; color: rgb(73, 25, 55);">Galore
-                                                Card Holder Classic</h5>
-                                            <p class="card-text flex-grow-1"
-                                                style="font-family: sans-serif; color: rgb(73, 25, 55);">Model klasik
-                                                dengan tampilan elegan, memiliki beberapa slot kartu dan kompartemen
-                                                tambahan untuk penyimpanan.</p>
-                                            <p
-                                                style="font-family: sans-serif; color: rgb(73, 25, 55); font-weight: bold;">
-                                                Rp 58.000</p>
-                                            <p class="text-muted" style="font-size: 0.875rem;">Tersedia dalam 5 warna
-                                            </p>
-                                            <a href="#" class="btn btn-primary btn-hover mt-auto"
-                                                style="background-color: rgb(82, 1, 55); border: none; font-family: 'Yeseva One', serif;">Lihat
-                                                Detail</a>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-3" data-aos="fade-up">
-                                    <div class="card border-0 shadow-sm rounded h-100"
-                                        style="transition: transform 0.3s;">
-                                        <img src="asset/img/produk/ch (4).jpg" class="card-img-top rounded"
-                                            alt="Produk 4" style="height: 200px; object-fit: cover;">
-                                        <div class="card-body bg-light text-center d-flex flex-column">
-                                            <h5 class="card-title"
-                                                style="font-family: 'Yeseva One', serif; color: rgb(73, 25, 55);">Galore
-                                                Card Holder Pastel</h5>
-                                            <p class="card-text flex-grow-1"
-                                                style="font-family: sans-serif; color: rgb(73, 25, 55);">Warna pastel
-                                                lembut yang manis dengan desain minimalis, cocok untuk gaya kasual
-                                                maupun formal.</p>
-                                            <p
-                                                style="font-family: sans-serif; color: rgb(73, 25, 55); font-weight: bold;">
-                                                Rp 62.000</p>
-                                            <p class="text-muted" style="font-size: 0.875rem;">Tersedia dalam 15 warna
-                                            </p>
-                                            <a href="#" class="btn btn-primary btn-hover mt-auto"
-                                                style="background-color: rgb(82, 1, 55); border: none; font-family: 'Yeseva One', serif;">Lihat
-                                                Detail</a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="carousel-item">
-                            <div class="row justify-content-center mt-4">
-                                <div class="col-md-3" data-aos="fade-up">
-                                    <div class="card border-0 shadow-sm rounded h-100"
-                                        style="transition: transform 0.3s;">
-                                        <img src="asset/img/produk/ch (1).jpg" class="card-img-top rounded"
-                                            alt="Produk 5" style="height: 200px; object-fit: cover;">
-                                        <div class="card-body bg-light text-center d-flex flex-column">
-                                            <h5 class="card-title"
-                                                style="font-family: 'Yeseva One', serif; color: rgb(73, 25, 55);">Galore
-                                                Card Holder Premium</h5>
-                                            <p class="card-text flex-grow-1"
-                                                style="font-family: sans-serif; color: rgb(73, 25, 55);">Terbuat dari
-                                                bahan berkualitas tinggi dengan detail finishing rapi, memberikan kesan
-                                                eksklusif dan tahan lama.</p>
-                                            <p
-                                                style="font-family: sans-serif; color: rgb(73, 25, 55); font-weight: bold;">
-                                                Rp 70.000</p>
-                                            <p class="text-muted" style="font-size: 0.875rem;">Tersedia dalam 3 warna
-                                            </p>
-                                            <a href="#" class="btn btn-primary btn-hover mt-auto"
-                                                style="background-color: rgb(82, 1, 55); border: none; font-family: 'Yeseva One', serif;">Lihat
-                                                Detail</a>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-3" data-aos="fade-up">
-                                    <div class="card border-0 shadow-sm rounded h-100"
-                                        style="transition: transform 0.3s;">
-                                        <img src="asset/img/produk/ch (2).jpg" class="card-img-top rounded"
-                                            alt="Produk 6" style="height: 200px; object-fit: cover;">
-                                        <div class="card-body bg-light text-center d-flex flex-column">
-                                            <h5 class="card-title"
-                                                style="font-family: 'Yeseva One', serif; color: rgb(73, 25, 55);">Galore
-                                                Card Holder Mini</h5>
-                                            <p class="card-text flex-grow-1"
-                                                style="font-family: sans-serif; color: rgb(73, 25, 55);">Ukuran kecil
-                                                namun fungsional, mudah dibawa dalam tas atau saku dengan keamanan
-                                                ritsleting yang kuat.</p>
-                                            <p
-                                                style="font-family: sans-serif; color: rgb(73, 25, 55); font-weight: bold;">
-                                                Rp 57.000</p>
-                                            <p class="text-muted" style="font-size: 0.875rem;">Tersedia dalam 7 warna
-                                            </p>
-                                            <a href="#" class="btn btn-primary btn-hover mt-auto"
-                                                style="background-color: rgb(82, 1, 55); border: none; font-family: 'Yeseva One', serif;">Lihat
-                                                Detail</a>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-3" data-aos="fade-up">
-                                    <div class="card border-0 shadow-sm rounded h-100"
-                                        style="transition: transform 0.3s;">
-                                        <img src="asset/img/produk/ch (3).jpg" class="card-img-top rounded"
-                                            alt="Produk 7" style="height: 200px; object-fit: cover;">
-                                        <div class="card-body bg-light text-center d-flex flex-column">
-                                            <h5 class="card-title"
-                                                style="font-family: 'Yeseva One', serif; color: rgb(73, 25, 55);">Galore
-                                                Card Holder Modern</h5>
-                                            <p class="card-text flex-grow-1"
-                                                style="font-family: sans-serif; color: rgb(73, 25, 55);">Desain trendi
-                                                dengan tampilan clean dan minimalis, cocok untuk Anda yang menyukai gaya
-                                                simpel namun tetap stylish.</p>
-                                            <p
-                                                style="font-family: sans-serif; color: rgb(73, 25, 55); font-weight: bold;">
-                                                Rp 65.000</p>
-                                            <p class="text-muted" style="font-size: 0.875rem;">Tersedia dalam 5 warna
-                                            </p>
-                                            <a href="#" class="btn btn-primary btn-hover mt-auto"
-                                                style="background-color: rgb(82, 1, 55); border: none; font-family: 'Yeseva One', serif;">Lihat
-                                                Detail</a>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-3" data-aos="fade-up">
-                                    <div class="card border-0 shadow-sm rounded h-100"
-                                        style="transition: transform 0.3s;">
-                                        <img src="asset/img/produk/ch (4).jpg" class="card-img-top rounded"
-                                            alt="Produk 8" style="height: 200px; object-fit: cover;">
-                                        <div class="card-body bg-light text-center d-flex flex-column">
-                                            <h5 class="card-title"
-                                                style="font-family: 'Yeseva One', serif; color: rgb(73, 25, 55);">Galore
-                                                Card Holder Elegant</h5>
-                                            <p class="card-text flex-grow-1"
-                                                style="font-family: sans-serif; color: rgb(73, 25, 55);">Perpaduan warna
-                                                netral yang elegan dengan resleting halus, memberikan tampilan yang
-                                                mewah dan berkelas.</p>
-                                            <p
-                                                style="font-family: sans-serif; color: rgb(73, 25, 55); font-weight: bold;">
-                                                Rp 75.000</p>
-                                            <p class="text-muted" style="font-size: 0.875rem;">Tersedia dalam 2 warna
-                                            </p>
-                                            <a href="#" class="btn btn-primary btn-hover mt-auto"
-                                                style="background-color: rgb(82, 1, 55); border: none; font-family: 'Yeseva One', serif;">Lihat
-                                                Detail</a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="carousel-item">
-                            <div class="row justify-content-center mt-4">
-                                <div class="col-md-3" data-aos="fade-up">
-                                    <div class="card border-0 shadow-sm rounded h-100"
-                                        style="transition: transform 0.3s;">
-                                        <img src="asset/img/produk/ch (1).jpg" class="card-img-top rounded"
-                                            alt="Produk 9" style="height: 200px; object-fit: cover;">
-                                        <div class="card-body bg-light text-center d-flex flex-column">
-                                            <h5 class="card-title"
-                                                style="font-family: 'Yeseva One', serif; color: rgb(73, 25, 55);">Galore
-                                                Card Holder Functional</h5>
-                                            <p class="card-text flex-grow-1"
-                                                style="font-family: sans-serif; color: rgb(73, 25, 55);">Dilengkapi
-                                                banyak slot kartu dan kompartemen tambahan, cocok bagi yang membutuhkan
-                                                penyimpanan lebih luas.</p>
-                                            <p
-                                                style="font-family: sans-serif; color: rgb(73, 25, 55); font-weight: bold;">
-                                                Rp 68.000</p>
-                                            <p class="text-muted" style="font-size: 0.875rem;">Tersedia dalam 5 warna
-                                            </p>
-                                            <a href="#" class="btn btn-primary btn-hover mt-auto"
-                                                style="background-color: rgb(82, 1, 55); border: none; font-family: 'Yeseva One', serif;">Lihat
-                                                Detail</a>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-3" data-aos="fade-up">
-                                    <div class="card border-0 shadow-sm rounded h-100"
-                                        style="transition: transform 0.3s;">
-                                        <img src="asset/img/produk/ch (2).jpg" class="card-img-top rounded"
-                                            alt="Produk 10" style="height: 200px; object-fit: cover;">
-                                        <div class="card-body bg-light text-center d-flex flex-column">
-                                            <h5 class="card-title"
-                                                style="font-family: 'Yeseva One', serif; color: rgb(73, 25, 55);">Galore
-                                                Card Holder Soft Charm</h5>
-                                            <p class="card-text flex-grow-1"
-                                                style="font-family: sans-serif; color: rgb(73, 25, 55);">Warna lembut
-                                                dengan aksen charm menarik, menambah kesan feminin dan elegan dalam satu
-                                                desain.</p>
-                                            <p
-                                                style="font-family: sans-serif; color: rgb(73, 25, 55); font-weight: bold;">
-                                                Rp 72.000</p>
-                                            <p class="text-muted" style="font-size: 0.875rem;">Tersedia dalam 3 warna
-                                            </p>
-                                            <a href="#" class="btn btn-primary btn-hover mt-auto"
-                                                style="background-color: rgb(82, 1, 55); border: none; font-family: 'Yeseva One', serif;">Lihat
-                                                Detail</a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample"
-                        data-bs-slide="prev"
-                        style="position: absolute; top: 50%; transform: translateY(-50%); left: -30px;">
-                        <span class="carousel-control-prev-icon" aria-hidden="true" style="filter: invert(50%);"></span>
-                        <span class="visually-hidden">Previous</span>
-                    </button>
-                    <button class="carousel-control-next" type="button" data-bs-target="#carouselExample"
-                        data-bs-slide="next"
-                        style="position: absolute; top: 50%; transform: translateY(-50%); right: -30px;">
-                        <span class="carousel-control-next-icon" aria-hidden="true" style="filter: invert(50%);"></span>
-                        <span class="visually-hidden">Next</span>
-                    </button>
+    <!-- Footer -->
+    <footer class="py-4 bg-dark text-white">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-md-6 text-center text-md-start">
+                    <p class="mb-0">&copy; 2024 Gemas Galore. All rights reserved.</p>
                 </div>
-            </div>
-        </div>
-
-    </main>
-
-    <footer>
-        <div id="kontak" style="background-color: rgb(73, 25, 55); color: white; padding: 40px 0; text-align: center;">
-            <div style="margin-bottom: 20px;">
-                <img src="asset/img/logo1.png" alt="Gemas Galore Logo" style="width: 100px;">
-            </div>
-            <p style="margin: 0; font-family: Yeseva One, serif; font-size: 20px;">&copy; 2023 Gemas Galore. All Rights
-                Reserved.</p>
-            <div style="margin-top: 20px; font-family: sans-serif; font-size: 14px;">
-                <a href="#" style="color: white; text-decoration: none; margin: 0 15px;">Privacy Policy</a>
-                <a href="#" style="color: white; text-decoration: none; margin: 0 15px;">Terms of Service</a>
-                <a href="#" style="color: white; text-decoration: none; margin: 0 15px;">Contact Us</a>
-            </div>
-            <div style="margin-top: 20px; font-family: sans-serif; font-size: 14px;">
-                <p>Contact Information:</p>
-                <p>Email: <a href="mailto:info@gemasgalore.com"
-                        style="color: white; text-decoration: none;">info@gemasgalore.com</a></p>
-                <p>Phone: <a href="tel:+1234567890" style="color: white; text-decoration: none;">+123 456 7890</a></p>
-                <p>Address: 123 Gemas Street, Yogyakarta, Indonesia</p>
+                <div class="col-md-6 text-center text-md-end">
+                    <a href="#" class="text-white me-3">Kebijakan Privasi</a>
+                    <a href="#" class="text-white me-3">Syarat & Ketentuan</a>
+                    <a href="#" class="text-white">FAQ</a>
+                </div>
             </div>
         </div>
     </footer>
 
+    <!-- Back to Top Button -->
+    <a href="#" class="position-fixed bottom-0 end-0 m-4" id="back-to-top" style="display: none; z-index: 999;">
+        <div class="back-to-top-container">
+            <div class="back-to-top-inner">
+                <i class="bi bi-arrow-up text-white"></i>
+            </div>
+            <div class="back-to-top-wave"></div>
+        </div>
+    </a>
+
     <!-- Bootstrap JS -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
-        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script src="asset/js/main.js"></script>
+    <script src="asset/js/splash.js"></script>
+    <script src="asset/js/popup.js"></script>
 
     <!-- AOS JS -->
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script>
-        AOS.init();
+        AOS.init({
+            duration: 800,
+            easing: 'ease-in-out',
+            once: true,
+            mirror: false
+        });
     </script>
+    <!-- <script>
+        // Disable right click
+        document.addEventListener('contextmenu', function (e) {
+            e.preventDefault();
+        });
 
+        // Disable text selection
+        document.addEventListener('selectstart', function (e) {
+            e.preventDefault();
+        });
+
+        // Disable copy
+        document.addEventListener('copy', function (e) {
+            e.preventDefault();
+        });
+
+        // Disable cut
+        document.addEventListener('cut', function (e) {
+            e.preventDefault();
+        });
+
+        // Disable paste
+        document.addEventListener('paste', function (e) {
+            e.preventDefault();
+        });
+
+        // Disable drag and drop
+        document.addEventListener('dragstart', function (e) {
+            e.preventDefault();
+        });
+    </script> -->
 </body>
 
 </html>
