@@ -78,7 +78,8 @@
                     <a href="#about" class="btn btn-primary btn-hero me-3" data-aos="fade-right" data-aos-delay="300">
                         <i class="bi bi-arrow-down-circle me-2"></i>Explore Koleksi
                     </a>
-                    <a href="https://wa.me/6289656759653" class="btn btn-outline-light btn-hero" data-aos="fade-left" data-aos-delay="300" target="_blank" rel="noopener">
+                    <a href="https://wa.me/6289656759653" class="btn btn-outline-light btn-hero" data-aos="fade-left"
+                        data-aos-delay="300" target="_blank" rel="noopener">
                         <i class="bi bi-whatsapp me-2 text-white"></i>Chat Sekarang
                     </a>
                 </div>
@@ -924,7 +925,53 @@
             mirror: false
         });
     </script>
-    <!-- <script>
+    <script>
+        // Deteksi mobile dan nonaktifkan AOS
+        function disableAnimationsOnMobile() {
+            const isMobile = window.matchMedia("(max-width: 768px)").matches;
+            if (isMobile) {
+                // Nonaktifkan AOS
+                if (typeof AOS !== 'undefined') {
+                    AOS.init({
+                        disable: true
+                    });
+                }
+
+                // Nonaktifkan CSS animations
+                const style = document.createElement('style');
+                style.innerHTML = `
+        * {
+          animation: none !important;
+          transition: none !important;
+        }
+      `;
+                document.head.appendChild(style);
+            }
+        }
+
+        // Jalankan saat load dan resize
+        window.addEventListener('load', disableAnimationsOnMobile);
+        window.addEventListener('resize', disableAnimationsOnMobile);
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const isMobile = window.innerWidth <= 768;
+
+            if (isMobile) {
+                // Hapus atribut data-aos
+                document.querySelectorAll('[data-aos]').forEach(el => {
+                    el.removeAttribute('data-aos');
+                });
+
+                // Matikan animasi splash screen
+                const splashLogo = document.querySelector('.splash-logo');
+                if (splashLogo) {
+                    splashLogo.style.animation = 'none';
+                }
+            }
+        });
+    </script>
+    <script>
         // Disable right click
         document.addEventListener('contextmenu', function (e) {
             e.preventDefault();
@@ -954,7 +1001,7 @@
         document.addEventListener('dragstart', function (e) {
             e.preventDefault();
         });
-    </script> -->
+    </script>
 </body>
 
 </html>

@@ -841,3 +841,52 @@ h6 {
         font-size: 0.85rem;
     }
 }
+
+/* Matikan semua animasi di mobile */
+@media screen and (max-width: 768px) {
+  [data-aos] {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+  
+  .splash-screen,
+  .splash-logo,
+  .loading-circle,
+  .hero-section {
+    animation: none !important;
+    transition: none !important;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .splash-screen {
+    animation: none !important;
+  }
+  
+  .splash-logo {
+    animation: none !important;
+    transform: scale(1) !important;
+  }
+  
+  .loading-circle {
+    animation: none !important;
+    opacity: 1 !important;
+  }
+}
+
+/* Nonaktifkan animasi jika prefer-reduced-motion aktif */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation: none !important;
+    transition: none !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Optimasi GPU rendering */
+@media screen and (max-width: 768px) {
+  [data-aos] {
+    will-change: auto !important;
+  }
+}
