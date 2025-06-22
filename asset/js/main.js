@@ -127,17 +127,4 @@ if (typeof AOS !== 'undefined') {
   });
 }
 
-// ===== Hide Scrollbar but Allow Scrolling =====
-document.documentElement.style.scrollbarWidth = 'none'; // For Firefox
-document.documentElement.style.overflow = 'auto';
-document.body.style.overflow = 'auto';
-document.body.style.msOverflowStyle = 'none'; // For IE and Edge
 
-// For Webkit browsers (Chrome, Safari, Opera)
-const style = document.createElement('style');
-style.innerHTML = `
-  ::-webkit-scrollbar {
-    display: none;
-  }
-`;
-document.head.appendChild(style);
