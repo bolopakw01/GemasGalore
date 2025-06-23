@@ -1,5 +1,6 @@
 /* ===== Base Styles ===== */
 :root {
+    background-color: #212529 !important;
     --primary: #491937;
     --secondary: #f8f1e9;
     --accent: #ffab40;
