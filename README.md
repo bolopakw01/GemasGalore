@@ -14,3 +14,4 @@ Dengan konsep yang mengedepankan keunikan dan kenyamanan, *Gemas Galore* berkomi
 https://bolopakw01.github.io/GemasGalore/ <br>
 https://gemasgalore.vercel.app/ <br>
 https://gemasgalore012.wordpress.com/
+ewq
