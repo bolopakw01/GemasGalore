@@ -22,17 +22,6 @@ document.addEventListener('DOMContentLoaded', async function () {
     }
   }
 
-  // Update floating WA button
-  const floatingWa = document.querySelector('.floating-wa-btn');
-  if (floatingWa) {
-    floatingWa.href = `https://wa.me/${currentSettings.whatsapp_number}?text=Halo%20Gemas%20Galore,%20saya%20ingin%20tanya-tanya%20produk%20dan%20layanan`;
-    floatingWa.addEventListener('click', function () {
-      if (typeof trackClick === 'function') {
-        trackClick('marketplace_click', 'WhatsApp Floating', 'floating_wa');
-      }
-    });
-  }
-
   // Track Hero CTA clicks
   const heroWa = document.querySelector('#home .btn-outline-light');
   if (heroWa) {

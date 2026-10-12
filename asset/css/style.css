@@ -941,74 +941,16 @@ h6 {
   display: none !important;
 }
 
-/* ===== Floating WhatsApp CTA Widget ===== */
-.floating-wa-btn {
-  position: fixed;
-  bottom: 25px;
-  right: 25px;
-  background-color: #25d366;
-  color: #ffffff;
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  padding: 0.75rem 1.25rem;
-  border-radius: 50rem;
-  box-shadow: 0 4px 16px rgba(37, 211, 102, 0.4);
-  z-index: 998;
-  text-decoration: none !important;
-  font-weight: 600;
-  font-size: 0.95rem;
-  transition: all 0.3s ease;
-  animation: wa-pulse 2.5s infinite;
-}
-
-.floating-wa-btn i {
-  font-size: 1.4rem;
-  color: #ffffff !important;
-}
-
-.floating-wa-btn span {
-  color: #ffffff;
-}
-
-.floating-wa-btn:hover {
-  background-color: #1ebe5d;
-  color: #ffffff;
-  transform: translateY(-3px) scale(1.03);
-  box-shadow: 0 6px 20px rgba(37, 211, 102, 0.5);
-}
-
-@keyframes wa-pulse {
-  0% {
-    box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.5);
-  }
-  70% {
-    box-shadow: 0 0 0 14px rgba(37, 211, 102, 0);
-  }
-  100% {
-    box-shadow: 0 0 0 0 rgba(37, 211, 102, 0);
-  }
-}
-
-/* Reposition back-to-top slightly above floating WA */
+/* Back to top position */
 #back-to-top {
-  bottom: 85px !important;
+  bottom: 25px !important;
   right: 25px !important;
   z-index: 997;
 }
 
 @media (max-width: 576px) {
-  .floating-wa-btn {
-    bottom: 20px;
-    right: 20px;
-    padding: 0.65rem 1rem;
-    font-size: 0.85rem;
-  }
-  .floating-wa-btn i {
-    font-size: 1.2rem;
-  }
   #back-to-top {
-    bottom: 75px !important;
+    bottom: 20px !important;
     right: 20px !important;
   }
 }
@@ -1380,15 +1322,6 @@ h6 {
     min-height: 180px;
     max-height: 230px;
     margin-bottom: 1rem;
-  }
-
-  /* ── Floating WA: icon only ── */
-  .floating-wa-btn span {
-    display: none;
-  }
-  .floating-wa-btn {
-    padding: 0.7rem;
-    border-radius: 50%;
   }
 }
 
