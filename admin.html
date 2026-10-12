@@ -23,13 +23,15 @@
     <style>
         :root {
             --primary: #491937;
-            --primary-dark: #190514;
+            --primary-dark: #330052;
             --primary-hover: #5d2046;
             --primary-light: rgba(73, 25, 55, 0.08);
             --secondary: #f8f1e9;
             --accent: #ffab40;
             --accent-hover: #f59e0b;
-            --dark: #212529;
+            --brand-cream: rgb(253, 234, 213);
+            --brand-bg: #faf6f0;
+            --dark: #1a1a1a;
             --sidebar-closed-width: 78px;
             --sidebar-open-width: 260px;
         }
@@ -42,7 +44,7 @@
         }
 
         body {
-            background-color: #f4f6fa;
+            background-color: var(--brand-bg);
             color: var(--dark);
             min-height: 100vh;
             overflow-x: hidden;
@@ -53,7 +55,7 @@
         }
 
         /* ========================================================
-           1. SIDEBAR (PERSIS DENGAN MODEL [LOPA PARTS] SIDEBAR)
+           1. SIDEBAR (HARMONISASI DENGAN PALET GEMAS GALORE)
            ======================================================== */
         .sidebar {
             position: fixed;
@@ -61,12 +63,12 @@
             top: 0;
             height: 100%;
             width: var(--sidebar-closed-width);
-            background: #190514;
+            background: linear-gradient(180deg, #38102a 0%, #290a1f 100%);
             padding: 6px 14px;
             z-index: 1040;
             transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
             overflow-x: hidden;
-            box-shadow: 4px 0 20px rgba(0, 0, 0, 0.15);
+            box-shadow: 4px 0 24px rgba(73, 25, 55, 0.15);
         }
 
         .sidebar.open {
@@ -88,11 +90,11 @@
             right: 0;
             bottom: -6px;
             height: 2px;
-            background: linear-gradient(90deg, rgba(255, 171, 64, 0.03) 0%, rgba(255, 171, 64, 0.45) 45%, rgba(255, 171, 64, 0.03) 80%);
+            background: linear-gradient(90deg, rgba(255, 171, 64, 0.05) 0%, rgba(255, 171, 64, 0.6) 45%, rgba(255, 171, 64, 0.05) 80%);
             background-size: 400% 100%;
             background-position: 100% 0%;
             pointer-events: none;
-            box-shadow: 0 0 10px rgba(255, 171, 64, 0.2);
+            box-shadow: 0 0 10px rgba(255, 171, 64, 0.25);
             animation: glowLine 6s linear infinite;
         }
 
@@ -120,6 +122,7 @@
             white-space: nowrap;
             transition: opacity 0.3s ease;
             font-family: 'Yeseva One', cursive;
+            letter-spacing: 0.5px;
         }
 
         .sidebar.open .logo-details .logo_name,
@@ -166,7 +169,7 @@
             width: 4px;
         }
         .sidebar .nav-list::-webkit-scrollbar-thumb {
-            background: rgba(255, 255, 255, 0.1);
+            background: rgba(255, 171, 64, 0.2);
             border-radius: 4px;
         }
 
@@ -183,11 +186,12 @@
             left: calc(100% + 15px);
             z-index: 1050;
             background: #ffffff;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.25);
+            box-shadow: 0 5px 18px rgba(73, 25, 55, 0.18);
+            border: 1px solid rgba(73, 25, 55, 0.1);
             padding: 6px 14px;
             border-radius: 6px;
             font-size: 13px;
-            font-weight: 500;
+            font-weight: 600;
             color: var(--primary);
             opacity: 0;
             white-space: nowrap;
@@ -221,7 +225,7 @@
         }
 
         .sidebar li a.menu-link i {
-            color: #d1b8c8;
+            color: #ecd5e5;
             height: 50px;
             min-width: 50px;
             width: 50px;
@@ -233,7 +237,7 @@
         }
 
         .sidebar li a.menu-link .links_name {
-            color: #d1b8c8;
+            color: #ecd5e5;
             font-size: 14px;
             font-weight: 500;
             white-space: nowrap;
@@ -250,7 +254,7 @@
 
         /* Hover & Active States */
         .sidebar li a.menu-link:hover {
-            background: rgba(255, 255, 255, 0.08);
+            background: rgba(253, 234, 213, 0.12);
         }
 
         .sidebar li a.menu-link:hover i,
@@ -260,12 +264,12 @@
 
         .sidebar li a.menu-link.active {
             background: linear-gradient(135deg, #ffab40 0%, #f59e0b 100%) !important;
-            box-shadow: 0 4px 15px rgba(255, 171, 64, 0.35);
+            box-shadow: 0 4px 15px rgba(255, 171, 64, 0.4);
         }
 
         .sidebar li a.menu-link.active i,
         .sidebar li a.menu-link.active .links_name {
-            color: #190514 !important;
+            color: #491937 !important;
             font-weight: 700 !important;
         }
 
@@ -283,10 +287,10 @@
         }
 
         .sidebar li.section-label .section-text {
-            color: rgba(255, 255, 255, 0.45);
+            color: rgba(253, 234, 213, 0.55);
             font-size: 11px;
             text-transform: uppercase;
-            letter-spacing: 0.6px;
+            letter-spacing: 0.8px;
             font-weight: 600;
             white-space: nowrap;
         }
@@ -294,7 +298,7 @@
         .sidebar li.section-label .section-line {
             flex: 1;
             height: 1px;
-            background: rgba(255, 255, 255, 0.1);
+            background: rgba(255, 171, 64, 0.2);
             border-radius: 1px;
         }
 
@@ -320,12 +324,12 @@
             left: 0;
             bottom: 0;
             padding: 10px 14px;
-            background: #11030d;
+            background: #23081a;
             transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
             overflow: hidden;
             display: flex;
             align-items: center;
-            border-top: 1px solid rgba(255, 255, 255, 0.08);
+            border-top: 1px solid rgba(255, 171, 64, 0.15);
             z-index: 1045;
         }
 
@@ -354,7 +358,7 @@
             font-weight: 700;
             margin-right: 10px;
             font-size: 16px;
-            border: 2px solid rgba(255, 255, 255, 0.15);
+            border: 2px solid #ffab40;
         }
 
         .sidebar li.profile .name_job {
@@ -378,7 +382,7 @@
 
         .sidebar li.profile .job {
             font-size: 11px;
-            color: rgba(255, 255, 255, 0.5);
+            color: rgba(253, 234, 213, 0.6);
         }
 
         .sidebar .profile #log_out {
@@ -386,7 +390,7 @@
             top: 50%;
             right: 0;
             transform: translateY(-50%);
-            background: #11030d;
+            background: #23081a;
             width: 100%;
             height: 64px;
             display: flex;
@@ -411,7 +415,7 @@
         }
 
         .sidebar .profile #log_out:hover .logout-icon {
-            filter: invert(36%) sepia(85%) saturate(2500%) hue-rotate(340deg) brightness(102%) contrast(102%);
+            filter: invert(72%) sepia(55%) saturate(1200%) hue-rotate(350deg) brightness(102%) contrast(102%);
         }
 
         .sidebar.open .profile #log_out {
@@ -424,7 +428,7 @@
            ======================================================== */
         .home-section {
             position: relative;
-            background: #f4f6fa;
+            background: var(--brand-bg);
             min-height: 100vh;
             top: 0;
             left: var(--sidebar-closed-width);
@@ -440,19 +444,34 @@
             width: calc(100% - var(--sidebar-open-width));
         }
 
-        /* Header / Topbar di dalam Home Section (Tidak Pernah Menutupi Sidebar) */
+        /* Header / Topbar di dalam Home Section (Meniru Gaya Scrolled Navbar Gemas Galore) */
         .admin-topbar {
-            background: linear-gradient(90deg, #1f0618 0%, #360f29 50%, #1f0618 100%);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            background: linear-gradient(90deg, #491937 0%, #5d1d46 50%, #491937 100%);
+            border-bottom: 2px solid rgba(255, 171, 64, 0.35);
             height: 70px;
             position: sticky;
             top: 0;
             z-index: 1020;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.12);
+            box-shadow: 0 4px 20px rgba(73, 25, 55, 0.15);
             display: flex;
             align-items: center;
             justify-content: space-between;
             padding: 0 1.75rem;
+        }
+
+        .btn-store-link {
+            background-color: var(--brand-cream) !important;
+            border: 1px solid var(--accent) !important;
+            color: var(--primary) !important;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .btn-store-link:hover {
+            background-color: #ffffff !important;
+            color: var(--primary) !important;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(255, 171, 64, 0.4);
         }
 
         .admin-main {
@@ -498,7 +517,7 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background: rgba(0, 0, 0, 0.5);
+            background: rgba(73, 25, 55, 0.5);
             z-index: 1030;
             backdrop-filter: blur(2px);
         }
@@ -508,18 +527,24 @@
            ======================================================== */
         .card-stat {
             background: #ffffff;
-            border: 1px solid rgba(226, 232, 240, 0.85);
+            border: 1px solid rgba(73, 25, 55, 0.08);
             border-radius: 1.1rem;
             padding: 1.5rem;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.02);
+            box-shadow: 0 4px 18px rgba(73, 25, 55, 0.03);
             transition: all 0.25s ease;
             height: 100%;
         }
 
         .card-stat:hover {
             transform: translateY(-3px);
-            box-shadow: 0 8px 24px rgba(73, 25, 55, 0.08);
-            border-color: rgba(73, 25, 55, 0.2);
+            box-shadow: 0 8px 24px rgba(73, 25, 55, 0.09);
+            border-color: rgba(255, 171, 64, 0.45);
+        }
+
+        .card-stat h2 {
+            font-family: 'Yeseva One', cursive;
+            color: var(--primary);
+            font-size: 2.1rem;
         }
 
         .stat-icon-wrapper {
@@ -535,36 +560,56 @@
         .btn-brand-primary {
             background: linear-gradient(135deg, #491937 0%, #68234f 100%);
             color: #ffffff;
-            border: none;
+            border: 1px solid transparent;
             font-weight: 600;
             border-radius: 0.65rem;
             padding: 0.65rem 1.4rem;
-            box-shadow: 0 4px 12px rgba(73, 25, 55, 0.2);
+            box-shadow: 0 4px 14px rgba(73, 25, 55, 0.22);
             transition: all 0.25s ease;
         }
 
         .btn-brand-primary:hover {
             background: linear-gradient(135deg, #5d2046 0%, #7d2a5f 100%);
             color: #ffffff;
+            border-color: #ffab40;
             transform: translateY(-1px);
-            box-shadow: 0 6px 16px rgba(73, 25, 55, 0.3);
+            box-shadow: 0 6px 18px rgba(73, 25, 55, 0.3);
         }
 
         .content-card {
             background: #ffffff;
-            border: 1px solid rgba(226, 232, 240, 0.85);
+            border: 1px solid rgba(73, 25, 55, 0.08);
             border-radius: 1.25rem;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.02);
+            box-shadow: 0 4px 20px rgba(73, 25, 55, 0.03);
             padding: 1.75rem;
             margin-bottom: 2rem;
         }
 
+        .content-card h4, .content-card h5, .content-card h6 {
+            font-family: 'Yeseva One', cursive;
+        }
+
+        .table thead th {
+            background-color: var(--secondary) !important;
+            color: var(--primary) !important;
+            font-weight: 700;
+            border-bottom: 2px solid rgba(73, 25, 55, 0.12) !important;
+            letter-spacing: 0.5px;
+            padding-top: 0.85rem;
+            padding-bottom: 0.85rem;
+        }
+
+        .table-hover tbody tr:hover {
+            background-color: rgba(248, 241, 233, 0.5) !important;
+        }
+
         .badge-category {
-            background-color: var(--primary-light);
+            background-color: var(--secondary);
             color: var(--primary);
             font-weight: 600;
             border-radius: 0.5rem;
             padding: 0.4rem 0.75rem;
+            border: 1px solid rgba(73, 25, 55, 0.1);
         }
 
         .product-thumbnail {
@@ -572,7 +617,7 @@
             height: 54px;
             object-fit: cover;
             border-radius: 0.65rem;
-            border: 1px solid #e9ecef;
+            border: 1px solid rgba(73, 25, 55, 0.1);
         }
 
         .rank-badge {
@@ -602,6 +647,39 @@
             height: 100%;
             border-radius: 4px;
             background: linear-gradient(90deg, #491937 0%, #ffab40 100%);
+        }
+
+        .filter-prod-cat {
+            background-color: #ffffff;
+            color: var(--primary);
+            border: 1px solid rgba(73, 25, 55, 0.2);
+            transition: all 0.2s ease;
+        }
+
+        .filter-prod-cat:hover {
+            background-color: var(--secondary);
+            color: var(--primary);
+            border-color: var(--primary);
+        }
+
+        .filter-prod-cat.active {
+            background-color: var(--primary) !important;
+            color: #ffffff !important;
+            border-color: var(--primary) !important;
+            box-shadow: 0 2px 8px rgba(73, 25, 55, 0.25);
+        }
+
+        .modal-content {
+            border: 1px solid rgba(73, 25, 55, 0.12) !important;
+        }
+
+        .modal-header {
+            background-color: var(--secondary);
+            border-bottom: 1px solid rgba(73, 25, 55, 0.1);
+        }
+
+        .modal-title {
+            font-family: 'Yeseva One', cursive;
         }
     </style>
 </head>
@@ -765,7 +843,7 @@
                     </span>
 
                     <!-- Tautan Lihat Website -->
-                    <a href="index.html" target="_blank" class="btn btn-sm btn-light rounded-pill px-3 fw-semibold">
+                    <a href="index.html" target="_blank" class="btn btn-sm btn-store-link rounded-pill px-3 fw-semibold shadow-sm">
                         <i class="bi bi-box-arrow-up-right me-1"></i>Buka Website
                     </a>
 
@@ -793,7 +871,7 @@
                                 </div>
                             </div>
                             <h2 class="fw-bold mb-1" id="statProductClicks">0</h2>
-                            <span class="text-success small fw-semibold"><i class="bi bi-eye me-1"></i>Minat Produk Terkini</span>
+                            <span class="small fw-semibold" style="color: var(--primary);"><i class="bi bi-eye me-1"></i>Minat Produk Terkini</span>
                         </div>
                     </div>
 
@@ -801,12 +879,12 @@
                         <div class="card-stat">
                             <div class="d-flex align-items-center justify-content-between mb-2">
                                 <span class="text-muted small fw-semibold">Klik Marketplace</span>
-                                <div class="stat-icon-wrapper" style="background-color: rgba(255, 171, 64, 0.15); color: #d97706;">
+                                <div class="stat-icon-wrapper" style="background-color: rgba(255, 171, 64, 0.2); color: #b45309;">
                                     <i class="bi bi-bag-check-fill"></i>
                                 </div>
                             </div>
                             <h2 class="fw-bold mb-1" id="statMarketplaceClicks">0</h2>
-                            <span class="text-warning small fw-semibold"><i class="bi bi-graph-up-arrow me-1"></i>Shopee, Tokped, TikTok</span>
+                            <span class="small fw-semibold" style="color: #b45309;"><i class="bi bi-graph-up-arrow me-1"></i>Shopee, Tokped, TikTok</span>
                         </div>
                     </div>
 
@@ -814,12 +892,12 @@
                         <div class="card-stat">
                             <div class="d-flex align-items-center justify-content-between mb-2">
                                 <span class="text-muted small fw-semibold">Koleksi Produk Aktif</span>
-                                <div class="stat-icon-wrapper" style="background-color: rgba(13, 110, 253, 0.1); color: #0d6efd;">
+                                <div class="stat-icon-wrapper" style="background-color: var(--brand-cream); color: var(--primary);">
                                     <i class="bi bi-grid-3x3-gap-fill"></i>
                                 </div>
                             </div>
                             <h2 class="fw-bold mb-1" id="statTotalProducts">0</h2>
-                            <span class="text-primary small fw-semibold"><i class="bi bi-check-circle me-1"></i>Tersedia di Katalog</span>
+                            <span class="small fw-semibold" style="color: var(--primary);"><i class="bi bi-check-circle me-1"></i>Tersedia di Katalog</span>
                         </div>
                     </div>
 
@@ -827,7 +905,7 @@
                         <div class="card-stat">
                             <div class="d-flex align-items-center justify-content-between mb-2">
                                 <span class="text-muted small fw-semibold">Pesan Masuk (Kontak)</span>
-                                <div class="stat-icon-wrapper" style="background-color: rgba(25, 135, 84, 0.1); color: #198754;">
+                                <div class="stat-icon-wrapper" style="background-color: rgba(37, 211, 102, 0.15); color: #15803d;">
                                     <i class="bi bi-chat-quote-fill"></i>
                                 </div>
                             </div>
@@ -1490,7 +1568,7 @@
                         y: {
                             beginAtZero: true,
                             ticks: { precision: 0, font: { family: 'Poppins' } },
-                            grid: { color: '#f1f5f9' }
+                            grid: { color: 'rgba(73, 25, 55, 0.06)' }
                         },
                         x: {
                             ticks: {
@@ -1507,7 +1585,7 @@
             });
 
             const mpPlatforms = ['Shopee', 'Tokopedia', 'TikTok Shop', 'Instagram', 'WhatsApp'];
-            const mpColors = ['#ee4d2d', '#00aa5b', '#000000', '#e1306c', '#25d366'];
+            const mpColors = ['#ee4d2d', '#00aa5b', '#1a1a1a', '#e1306c', '#25d366'];
             const mpCounts = mpPlatforms.map(platform => {
                 let count = 0;
                 Object.keys(marketplaceClicks).forEach(k => {
@@ -1611,7 +1689,7 @@
                             </div>
                         </td>
                         <td class="text-center">
-                            <span class="badge bg-dark rounded-pill px-3 py-2 fs-6">${p.clicks} <i class="bi bi-cursor-fill ms-1 small text-warning"></i></span>
+                            <span class="badge rounded-pill px-3 py-2 fs-6" style="background-color: var(--primary); color: #ffffff;">${p.clicks} <i class="bi bi-cursor-fill ms-1 small" style="color: var(--accent);"></i></span>
                         </td>
                         <td class="text-end">
                             <a href="index.html#products" target="_blank" class="btn btn-sm btn-outline-secondary rounded-pill px-2" title="Lihat di Halaman Utama">
@@ -1679,7 +1757,7 @@
                             </div>
                         </td>
                         <td class="text-center">
-                            <span class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill px-3 py-2 fw-bold fs-6">
+                            <span class="badge rounded-pill px-3 py-2 fw-bold fs-6" style="background-color: var(--secondary); color: var(--primary); border: 1px solid rgba(73, 25, 55, 0.15);">
                                 ${clicks} klik
                             </span>
                         </td>
