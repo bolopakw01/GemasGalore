@@ -23,7 +23,7 @@
     <style>
         :root {
             --primary: #491937;
-            --primary-dark: #2a0a1f;
+            --primary-dark: #240a1b;
             --primary-hover: #5d2046;
             --primary-light: rgba(73, 25, 55, 0.08);
             --secondary: #f8f1e9;
@@ -32,6 +32,7 @@
             --dark: #212529;
             --sidebar-width: 260px;
             --sidebar-collapsed-width: 72px;
+            --topbar-height: 70px;
         }
 
         body {
@@ -46,35 +47,47 @@
             font-family: 'Yeseva One', cursive;
         }
 
-        /* 1. TOPBAR - DARK LUXURY PLUM */
-        .admin-topbar {
-            background: linear-gradient(90deg, #240a1b 0%, #3d122d 50%, #240a1b 100%);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-            height: 70px;
-            position: sticky;
-            top: 0;
-            z-index: 1020;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
-        }
-
-        /* 2. SIDEBAR - DARK WINE / PLUM THEME */
+        /* 1. SIDEBAR (TINGGI PENUH 100VH, TIDAK TERTUTUP HEADER) */
         .admin-sidebar {
             width: var(--sidebar-width);
             background: #240a1b;
             border-right: 1px solid rgba(255, 255, 255, 0.08);
-            min-height: calc(100vh - 70px);
+            height: 100vh;
             position: fixed;
-            top: 70px;
+            top: 0;
             left: 0;
             bottom: 0;
-            z-index: 1010;
+            z-index: 1040;
             overflow-y: auto;
             overflow-x: hidden;
-            transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1), margin-left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex;
+            flex-direction: column;
+            transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1), transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* Header di dalam Sidebar (Brand Logo & Toggle) */
+        .sidebar-header {
+            height: var(--topbar-height);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 1.25rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            background: #1c0615;
+            flex-shrink: 0;
+        }
+
+        .sidebar-brand-wrapper {
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+            color: #ffffff;
+            overflow: hidden;
         }
 
         .sidebar-menu {
             padding: 1.25rem 0.75rem;
+            flex-grow: 1;
         }
 
         .sidebar-menu-heading {
@@ -139,23 +152,59 @@
             padding: 1rem;
             text-align: center;
             color: #ffffff;
+            margin: 0 0.5rem 1rem 0.5rem;
         }
 
-        /* 3. MAIN CONTENT CONTAINER */
-        .admin-main {
+        /* 2. CONTENT WRAPPER & TOPBAR (FLEKSIBEL MENGIKUTI SIDEBAR) */
+        .admin-content-wrapper {
             margin-left: var(--sidebar-width);
-            padding: 2rem;
-            min-height: calc(100vh - 70px);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
             transition: margin-left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
-        /* 4. COLLAPSED / MINI SIDEBAR STATE (DESKTOP) */
+        .admin-topbar {
+            background: linear-gradient(90deg, #2a0b20 0%, #3d122d 50%, #2a0b20 100%);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            height: var(--topbar-height);
+            position: sticky;
+            top: 0;
+            z-index: 1020;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.12);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 1.75rem;
+        }
+
+        .admin-main {
+            padding: 2rem;
+            flex-grow: 1;
+        }
+
+        /* 3. MODE SIDEBAR KECIL / COLLAPSED (DESKTOP) */
         body.sidebar-collapsed .admin-sidebar {
             width: var(--sidebar-collapsed-width);
         }
 
-        body.sidebar-collapsed .admin-main {
+        body.sidebar-collapsed .admin-content-wrapper {
             margin-left: var(--sidebar-collapsed-width);
+        }
+
+        body.sidebar-collapsed .sidebar-header {
+            padding: 0;
+            justify-content: center;
+        }
+
+        body.sidebar-collapsed .sidebar-brand-text,
+        body.sidebar-collapsed .sidebar-collapse-btn,
+        body.sidebar-collapsed .link-label,
+        body.sidebar-collapsed .sidebar-menu-heading,
+        body.sidebar-collapsed .sidebar-help-box,
+        body.sidebar-collapsed .sidebar-divider,
+        body.sidebar-collapsed .badge-sidebar {
+            display: none !important;
         }
 
         body.sidebar-collapsed .sidebar-link {
@@ -169,30 +218,41 @@
             font-size: 1.35rem;
         }
 
-        body.sidebar-collapsed .link-label,
-        body.sidebar-collapsed .sidebar-menu-heading,
-        body.sidebar-collapsed .sidebar-help-box,
-        body.sidebar-collapsed .sidebar-divider,
-        body.sidebar-collapsed .badge-sidebar {
-            display: none !important;
-        }
-
-        /* 5. MOBILE OFF-CANVAS RESPONSIVE */
+        /* 4. RESPONSIVE MOBILE (< 992px) */
         @media (max-width: 991.98px) {
             .admin-sidebar {
                 width: var(--sidebar-width) !important;
-                margin-left: calc(-1 * var(--sidebar-width));
+                transform: translateX(-100%);
                 box-shadow: 4px 0 25px rgba(0, 0, 0, 0.4);
             }
 
             .admin-sidebar.show-mobile {
+                transform: translateX(0);
+            }
+
+            .admin-content-wrapper {
                 margin-left: 0 !important;
             }
 
+            .admin-topbar {
+                padding: 0 1rem;
+            }
+
             .admin-main {
-                margin-left: 0 !important;
                 padding: 1.25rem;
             }
+        }
+
+        /* Backdrop overlay mobile */
+        .sidebar-backdrop {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1030;
+            backdrop-filter: blur(2px);
         }
 
         /* Card Stats */
@@ -299,49 +359,10 @@
 
 <body>
 
-    <!-- 1. TOPBAR (HEADER WARNA GELAP / LUXURY PLUM) -->
-    <header class="admin-topbar d-flex align-items-center px-3 px-lg-4 justify-content-between text-white">
-        <div class="d-flex align-items-center">
-            <!-- Tombol Toggle Sidebar (Show / Hide / Mini) -->
-            <button id="sidebarToggleBtn" class="btn btn-outline-light btn-sm rounded-circle p-2 me-3" onclick="toggleSidebarCollapse()" title="Kecilkan/Perluas Menu Sidebar">
-                <i class="bi bi-layout-sidebar-inset fs-5"></i>
-            </button>
+    <!-- BACKDROP MOBILE -->
+    <div id="sidebarBackdrop" class="sidebar-backdrop d-none" onclick="toggleSidebarCollapse()"></div>
 
-            <!-- Brand Logo & Title -->
-            <div class="d-flex align-items-center">
-                <img src="asset/img/logo1.png" alt="Gemas Galore" style="height: 38px;" class="me-2">
-                <div>
-                    <h5 class="brand-font mb-0 text-white" style="letter-spacing: 0.5px;">Gemas Galore</h5>
-                    <span class="badge bg-warning text-dark" style="font-size: 0.65rem; font-weight: 800;">ADMIN DASHBOARD</span>
-                </div>
-            </div>
-        </div>
-
-        <div class="d-flex align-items-center gap-2 gap-md-3">
-            <!-- Status Database -->
-            <span id="dbStatusBadge" class="badge rounded-pill bg-success-subtle text-success border border-success-subtle px-3 py-2 d-none d-md-inline-flex align-items-center">
-                <i class="bi bi-database-check me-1 fs-6"></i> Supabase Terhubung
-            </span>
-
-            <!-- Tautan Lihat Website -->
-            <a href="index.html" target="_blank" class="btn btn-sm btn-light rounded-pill px-3 fw-semibold">
-                <i class="bi bi-box-arrow-up-right me-1"></i>Lihat Website
-            </a>
-
-            <!-- User Profile & Logout -->
-            <div id="userProfileNav" class="d-none align-items-center gap-2">
-                <div class="bg-white bg-opacity-10 text-white rounded-pill px-3 py-1 border border-white border-opacity-25 d-flex align-items-center gap-2">
-                    <i class="bi bi-person-circle fs-5 text-warning"></i>
-                    <span id="userEmailNav" class="small fw-semibold text-truncate" style="max-width: 140px;">admin@gemasgalore.com</span>
-                </div>
-                <button type="button" class="btn btn-sm btn-outline-light rounded-circle p-2" onclick="handleLogout()" title="Keluar">
-                    <i class="bi bi-box-arrow-right"></i>
-                </button>
-            </div>
-        </div>
-    </header>
-
-    <!-- 2. LOGIN VIEW -->
+    <!-- 1. VIEW LOGIN (JIKA BELUM LOGIN) -->
     <div id="loginView" class="container py-5">
         <div class="row justify-content-center pt-4">
             <div class="col-md-6 col-lg-4">
@@ -382,11 +403,26 @@
         </div>
     </div>
 
-    <!-- 3. DASHBOARD MAIN VIEW -->
+    <!-- 2. DASHBOARD MAIN VIEW -->
     <div id="dashboardView" class="d-none">
 
-        <!-- SIDEBAR (WARNA LUXURY DARK PLUM) -->
+        <!-- SIDEBAR (FULL HEIGHT 100VH - TIDAK TERTUTUP HEADER) -->
         <aside class="admin-sidebar" id="adminSidebar">
+            <!-- Header Sidebar (Logo & Brand) -->
+            <div class="sidebar-header">
+                <a href="admin.html" class="sidebar-brand-wrapper">
+                    <img src="asset/img/logo1.png" alt="Gemas Galore" style="height: 38px;" class="me-2 flex-shrink-0">
+                    <div class="sidebar-brand-text">
+                        <h6 class="brand-font mb-0 text-white" style="letter-spacing: 0.5px;">Gemas Galore</h6>
+                        <span class="badge bg-warning text-dark" style="font-size: 0.62rem; font-weight: 800;">ADMIN</span>
+                    </div>
+                </a>
+                <button class="btn btn-sm btn-link text-white-50 p-0 sidebar-collapse-btn d-none d-lg-inline-block" onclick="toggleSidebarCollapse()" title="Kecilkan Sidebar">
+                    <i class="bi bi-layout-sidebar-inset fs-5"></i>
+                </button>
+            </div>
+
+            <!-- Menu Sidebar -->
             <div class="sidebar-menu">
                 <div class="sidebar-menu-heading">Menu Utama</div>
 
@@ -429,7 +465,7 @@
 
                 <hr class="my-4 text-white opacity-10 sidebar-divider">
 
-                <div class="px-2 sidebar-help-box">
+                <div class="sidebar-help-box">
                     <i class="bi bi-cloud-check-fill fs-3 text-warning"></i>
                     <div class="fw-bold small mt-1 text-white">Sistem Aktif</div>
                     <div class="text-white-50" style="font-size: 0.72rem;">Vercel & Supabase Cloud</div>
@@ -437,127 +473,167 @@
             </div>
         </aside>
 
-        <!-- MAIN CONTENT AREA -->
-        <main class="admin-main" id="adminMain">
+        <!-- CONTENT WRAPPER (MEMUAT HEADER DAN ISI KONTEN - SEJAJAR & FLEKSIBEL DENGAN SIDEBAR) -->
+        <div class="admin-content-wrapper" id="adminContentWrapper">
 
-            <!-- STATS COUNTER BAR -->
-            <div class="row g-3 mb-4">
-                <div class="col-sm-6 col-xl-3">
-                    <div class="card-stat">
-                        <div class="d-flex align-items-center justify-content-between mb-2">
-                            <span class="text-muted small fw-semibold">Total Klik Produk</span>
-                            <div class="stat-icon-wrapper" style="background-color: rgba(73, 25, 55, 0.1); color: var(--primary);">
-                                <i class="bi bi-cursor-fill"></i>
-                            </div>
-                        </div>
-                        <h2 class="fw-bold mb-1" id="statProductClicks">0</h2>
-                        <span class="text-success small fw-semibold"><i class="bi bi-eye me-1"></i>Minat Produk Terkini</span>
-                    </div>
-                </div>
-
-                <div class="col-sm-6 col-xl-3">
-                    <div class="card-stat">
-                        <div class="d-flex align-items-center justify-content-between mb-2">
-                            <span class="text-muted small fw-semibold">Klik Marketplace</span>
-                            <div class="stat-icon-wrapper" style="background-color: rgba(255, 171, 64, 0.15); color: #d97706;">
-                                <i class="bi bi-bag-check-fill"></i>
-                            </div>
-                        </div>
-                        <h2 class="fw-bold mb-1" id="statMarketplaceClicks">0</h2>
-                        <span class="text-warning small fw-semibold"><i class="bi bi-graph-up-arrow me-1"></i>Shopee, Tokped, TikTok</span>
-                    </div>
-                </div>
-
-                <div class="col-sm-6 col-xl-3">
-                    <div class="card-stat">
-                        <div class="d-flex align-items-center justify-content-between mb-2">
-                            <span class="text-muted small fw-semibold">Koleksi Produk Aktif</span>
-                            <div class="stat-icon-wrapper" style="background-color: rgba(13, 110, 253, 0.1); color: #0d6efd;">
-                                <i class="bi bi-grid-3x3-gap-fill"></i>
-                            </div>
-                        </div>
-                        <h2 class="fw-bold mb-1" id="statTotalProducts">0</h2>
-                        <span class="text-primary small fw-semibold"><i class="bi bi-check-circle me-1"></i>Tersedia di Katalog</span>
-                    </div>
-                </div>
-
-                <div class="col-sm-6 col-xl-3">
-                    <div class="card-stat">
-                        <div class="d-flex align-items-center justify-content-between mb-2">
-                            <span class="text-muted small fw-semibold">Pesan Masuk (Kontak)</span>
-                            <div class="stat-icon-wrapper" style="background-color: rgba(25, 135, 84, 0.1); color: #198754;">
-                                <i class="bi bi-chat-quote-fill"></i>
-                            </div>
-                        </div>
-                        <h2 class="fw-bold mb-1" id="statTotalMessages">0</h2>
-                        <span class="text-success small fw-semibold"><i class="bi bi-whatsapp me-1"></i>Form Kontak & Pertanyaan</span>
-                    </div>
-                </div>
-            </div>
-
-            <!-- ============================================== -->
-            <!-- TAB 1: RINGKASAN & ANALITIK                     -->
-            <!-- ============================================== -->
-            <section id="pane-analytics" class="tab-pane-content">
-                <div class="d-flex flex-wrap justify-content-between align-items-center mb-4 gap-3">
+            <!-- HEADER / TOPBAR (SEJAJAR DI SAMPING SIDEBAR, MENGIKUTI FLEKSIBILITAS SIDEBAR) -->
+            <header class="admin-topbar text-white">
+                <div class="d-flex align-items-center">
+                    <!-- Tombol Toggle Sidebar (Responsive) -->
+                    <button id="sidebarToggleBtn" class="btn btn-outline-light btn-sm rounded-circle p-2 me-3" onclick="toggleSidebarCollapse()" title="Kecilkan/Perluas Menu Sidebar">
+                        <i class="bi bi-layout-sidebar-inset fs-5"></i>
+                    </button>
                     <div>
-                        <h4 class="fw-bold mb-1" style="color: var(--primary);">Analisis Minat Pengunjung & Penjualan</h4>
-                        <p class="text-muted small mb-0">Pantau produk yang paling banyak diminati dan tautan saluran marketplace yang aktif dikunjungi</p>
-                    </div>
-                    <div class="d-flex gap-2">
-                        <button class="btn btn-sm btn-outline-secondary rounded-pill px-3" onclick="loadAllData()">
-                            <i class="bi bi-arrow-clockwise me-1"></i>Segarkan Data
-                        </button>
-                        <button class="btn btn-sm btn-brand-primary rounded-pill px-3" onclick="exportAnalyticsCSV()">
-                            <i class="bi bi-file-earmark-spreadsheet me-1"></i>Unduh CSV
-                        </button>
+                        <h6 class="mb-0 fw-bold text-white d-none d-sm-block" id="pageTitleNav">Ringkasan & Analitik</h6>
+                        <span class="small text-white-50 d-none d-md-block" style="font-size: 0.75rem;">Dashboard Manajemen Toko Gemas Galore</span>
                     </div>
                 </div>
 
-                <!-- CHARTS ROW -->
-                <div class="row g-4 mb-4">
-                    <div class="col-lg-8">
-                        <div class="content-card h-100">
-                            <div class="d-flex justify-content-between align-items-center mb-3">
-                                <h6 class="fw-bold mb-0" style="color: var(--primary);">
-                                    <i class="bi bi-bar-chart-line-fill me-2 text-warning"></i>Peringkat Produk Paling Sering Diklik
-                                </h6>
-                                <span class="badge bg-light text-muted border">Berdasarkan Total Klik</span>
+                <div class="d-flex align-items-center gap-2 gap-md-3">
+                    <!-- Status Database -->
+                    <span id="dbStatusBadge" class="badge rounded-pill bg-success-subtle text-success border border-success-subtle px-3 py-2 d-none d-md-inline-flex align-items-center">
+                        <i class="bi bi-database-check me-1 fs-6"></i> Supabase Terhubung
+                    </span>
+
+                    <!-- Tautan Lihat Website -->
+                    <a href="index.html" target="_blank" class="btn btn-sm btn-light rounded-pill px-3 fw-semibold">
+                        <i class="bi bi-box-arrow-up-right me-1"></i>Lihat Website
+                    </a>
+
+                    <!-- User Profile & Logout -->
+                    <div id="userProfileNav" class="d-none align-items-center gap-2">
+                        <div class="bg-white bg-opacity-10 text-white rounded-pill px-3 py-1 border border-white border-opacity-25 d-flex align-items-center gap-2">
+                            <i class="bi bi-person-circle fs-5 text-warning"></i>
+                            <span id="userEmailNav" class="small fw-semibold text-truncate" style="max-width: 140px;">admin@gemasgalore.com</span>
+                        </div>
+                        <button type="button" class="btn btn-sm btn-outline-light rounded-circle p-2" onclick="handleLogout()" title="Keluar">
+                            <i class="bi bi-box-arrow-right"></i>
+                        </button>
+                    </div>
+                </div>
+            </header>
+
+            <!-- MAIN CONTENT AREA -->
+            <main class="admin-main" id="adminMain">
+
+                <!-- STATS COUNTER BAR -->
+                <div class="row g-3 mb-4">
+                    <div class="col-sm-6 col-xl-3">
+                        <div class="card-stat">
+                            <div class="d-flex align-items-center justify-content-between mb-2">
+                                <span class="text-muted small fw-semibold">Total Klik Produk</span>
+                                <div class="stat-icon-wrapper" style="background-color: rgba(73, 25, 55, 0.1); color: var(--primary);">
+                                    <i class="bi bi-cursor-fill"></i>
+                                </div>
                             </div>
-                            <div style="height: 320px; position: relative;">
-                                <canvas id="productClickChart"></canvas>
-                            </div>
+                            <h2 class="fw-bold mb-1" id="statProductClicks">0</h2>
+                            <span class="text-success small fw-semibold"><i class="bi bi-eye me-1"></i>Minat Produk Terkini</span>
                         </div>
                     </div>
 
-                    <div class="col-lg-4">
-                        <div class="content-card h-100">
-                            <div class="d-flex justify-content-between align-items-center mb-3">
-                                <h6 class="fw-bold mb-0" style="color: var(--primary);">
-                                    <i class="bi bi-pie-chart-fill me-2" style="color: var(--primary);"></i>Distribusi Saluran Belanja
-                                </h6>
-                                <span class="badge bg-light text-muted border">Pangsa Traffic</span>
+                    <div class="col-sm-6 col-xl-3">
+                        <div class="card-stat">
+                            <div class="d-flex align-items-center justify-content-between mb-2">
+                                <span class="text-muted small fw-semibold">Klik Marketplace</span>
+                                <div class="stat-icon-wrapper" style="background-color: rgba(255, 171, 64, 0.15); color: #d97706;">
+                                    <i class="bi bi-bag-check-fill"></i>
+                                </div>
                             </div>
-                            <div style="height: 250px; position: relative;" class="d-flex align-items-center justify-content-center">
-                                <canvas id="marketplaceClickChart"></canvas>
+                            <h2 class="fw-bold mb-1" id="statMarketplaceClicks">0</h2>
+                            <span class="text-warning small fw-semibold"><i class="bi bi-graph-up-arrow me-1"></i>Shopee, Tokped, TikTok</span>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6 col-xl-3">
+                        <div class="card-stat">
+                            <div class="d-flex align-items-center justify-content-between mb-2">
+                                <span class="text-muted small fw-semibold">Koleksi Produk Aktif</span>
+                                <div class="stat-icon-wrapper" style="background-color: rgba(13, 110, 253, 0.1); color: #0d6efd;">
+                                    <i class="bi bi-grid-3x3-gap-fill"></i>
+                                </div>
                             </div>
-                            <div id="marketplaceChartLegend" class="mt-3 small text-muted text-center"></div>
+                            <h2 class="fw-bold mb-1" id="statTotalProducts">0</h2>
+                            <span class="text-primary small fw-semibold"><i class="bi bi-check-circle me-1"></i>Tersedia di Katalog</span>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6 col-xl-3">
+                        <div class="card-stat">
+                            <div class="d-flex align-items-center justify-content-between mb-2">
+                                <span class="text-muted small fw-semibold">Pesan Masuk (Kontak)</span>
+                                <div class="stat-icon-wrapper" style="background-color: rgba(25, 135, 84, 0.1); color: #198754;">
+                                    <i class="bi bi-chat-quote-fill"></i>
+                                </div>
+                            </div>
+                            <h2 class="fw-bold mb-1" id="statTotalMessages">0</h2>
+                            <span class="text-success small fw-semibold"><i class="bi bi-whatsapp me-1"></i>Form Kontak & Pertanyaan</span>
                         </div>
                     </div>
                 </div>
 
-                <!-- TOP PRODUCTS LEADERBOARD TABLE -->
-                <div class="content-card">
-                    <div class="d-flex justify-content-between align-items-center mb-3">
+                <!-- ============================================== -->
+                <!-- TAB 1: RINGKASAN & ANALITIK                     -->
+                <!-- ============================================== -->
+                <section id="pane-analytics" class="tab-pane-content">
+                    <div class="d-flex flex-wrap justify-content-between align-items-center mb-4 gap-3">
                         <div>
-                            <h5 class="fw-bold mb-1" style="color: var(--primary);">Klasemen Minat Produk (Leaderboard)</h5>
-                            <p class="text-muted small mb-0">Daftar produk diurutkan berdasarkan interaksi pengunjung tertinggi</p>
+                            <h4 class="fw-bold mb-1" style="color: var(--primary);">Analisis Minat Pengunjung & Penjualan</h4>
+                            <p class="text-muted small mb-0">Pantau produk yang paling banyak diminati dan tautan saluran marketplace yang aktif dikunjungi</p>
+                        </div>
+                        <div class="d-flex gap-2">
+                            <button class="btn btn-sm btn-outline-secondary rounded-pill px-3" onclick="loadAllData()">
+                                <i class="bi bi-arrow-clockwise me-1"></i>Segarkan Data
+                            </button>
+                            <button class="btn btn-sm btn-brand-primary rounded-pill px-3" onclick="exportAnalyticsCSV()">
+                                <i class="bi bi-file-earmark-spreadsheet me-1"></i>Unduh CSV
+                            </button>
                         </div>
                     </div>
 
-                    <div class="table-responsive">
-                        <table class="table table-hover align-middle">
-                            <thead class="table-light small text-uppercase">
+                    <!-- CHARTS ROW -->
+                    <div class="row g-4 mb-4">
+                        <div class="col-lg-8">
+                            <div class="content-card h-100">
+                                <div class="d-flex justify-content-between align-items-center mb-3">
+                                    <h6 class="fw-bold mb-0" style="color: var(--primary);">
+                                        <i class="bi bi-bar-chart-line-fill me-2 text-warning"></i>Peringkat Produk Paling Sering Diklik
+                                    </h6>
+                                    <span class="badge bg-light text-muted border">Berdasarkan Total Klik</span>
+                                </div>
+                                <div style="height: 320px; position: relative;">
+                                    <canvas id="productClickChart"></canvas>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-4">
+                            <div class="content-card h-100">
+                                <div class="d-flex justify-content-between align-items-center mb-3">
+                                    <h6 class="fw-bold mb-0" style="color: var(--primary);">
+                                        <i class="bi bi-pie-chart-fill me-2" style="color: var(--primary);"></i>Distribusi Saluran Belanja
+                                    </h6>
+                                    <span class="badge bg-light text-muted border">Pangsa Traffic</span>
+                                </div>
+                                <div style="height: 250px; position: relative;" class="d-flex align-items-center justify-content-center">
+                                    <canvas id="marketplaceClickChart"></canvas>
+                                </div>
+                                <div id="marketplaceChartLegend" class="mt-3 small text-muted text-center"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- TOP PRODUCTS LEADERBOARD TABLE -->
+                    <div class="content-card">
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <div>
+                                <h5 class="fw-bold mb-1" style="color: var(--primary);">Klasemen Minat Produk (Leaderboard)</h5>
+                                <p class="text-muted small mb-0">Daftar produk diurutkan berdasarkan interaksi pengunjung tertinggi</p>
+                            </div>
+                        </div>
+
+                        <div class="table-responsive">
+                            <table class="table table-hover align-middle">
+                                <thead class="table-light small text-uppercase">
                                 <tr>
                                     <th style="width: 60px;">Rank</th>
                                     <th>Produk</th>
@@ -567,49 +643,49 @@
                                     <th class="text-center">Total Klik</th>
                                     <th class="text-end">Lihat</th>
                                 </tr>
-                            </thead>
-                            <tbody id="topProductsTableBody">
+                                </thead>
+                                <tbody id="topProductsTableBody">
                                 <tr><td colspan="7" class="text-center py-4 text-muted">Memuat data analitik...</td></tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </section>
-
-            <!-- ============================================== -->
-            <!-- TAB 2: KATALOG PRODUK                           -->
-            <!-- ============================================== -->
-            <section id="pane-products" class="tab-pane-content d-none">
-                <div class="content-card">
-                    <div class="d-flex flex-wrap justify-content-between align-items-center mb-4 gap-3">
-                        <div>
-                            <h4 class="fw-bold mb-1" style="color: var(--primary);">Kelola Katalog Produk</h4>
-                            <p class="text-muted small mb-0">Tambah, ubah detail, perbarui harga, atau hapus produk dari database toko</p>
+                                </tbody>
+                            </table>
                         </div>
-                        <button type="button" class="btn btn-brand-primary" onclick="openAddProductModal()">
-                            <i class="bi bi-plus-circle me-1"></i>Tambah Produk Baru
-                        </button>
                     </div>
+                </section>
 
-                    <!-- Filter & Search Bar -->
-                    <div class="row g-2 mb-4">
-                        <div class="col-md-6">
-                            <div class="input-group">
-                                <span class="input-group-text bg-white"><i class="bi bi-search text-muted"></i></span>
-                                <input type="text" id="productSearchInput" class="form-control" placeholder="Cari nama produk..." oninput="filterProductsTable()">
+                <!-- ============================================== -->
+                <!-- TAB 2: KATALOG PRODUK                           -->
+                <!-- ============================================== -->
+                <section id="pane-products" class="tab-pane-content d-none">
+                    <div class="content-card">
+                        <div class="d-flex flex-wrap justify-content-between align-items-center mb-4 gap-3">
+                            <div>
+                                <h4 class="fw-bold mb-1" style="color: var(--primary);">Kelola Katalog Produk</h4>
+                                <p class="text-muted small mb-0">Tambah, ubah detail, perbarui harga, atau hapus produk dari database toko</p>
+                            </div>
+                            <button type="button" class="btn btn-brand-primary" onclick="openAddProductModal()">
+                                <i class="bi bi-plus-circle me-1"></i>Tambah Produk Baru
+                            </button>
+                        </div>
+
+                        <!-- Filter & Search Bar -->
+                        <div class="row g-2 mb-4">
+                            <div class="col-md-6">
+                                <div class="input-group">
+                                    <span class="input-group-text bg-white"><i class="bi bi-search text-muted"></i></span>
+                                    <input type="text" id="productSearchInput" class="form-control" placeholder="Cari nama produk..." oninput="filterProductsTable()">
+                                </div>
+                            </div>
+                            <div class="col-md-6 d-flex gap-2 justify-content-md-end">
+                                <button class="btn btn-sm btn-outline-secondary active filter-prod-cat" data-cat="all" onclick="setProductFilterCategory('all', this)">Semua</button>
+                                <button class="btn btn-sm btn-outline-secondary filter-prod-cat" data-cat="hijab" onclick="setProductFilterCategory('hijab', this)">Kerudung</button>
+                                <button class="btn btn-sm btn-outline-secondary filter-prod-cat" data-cat="merchandise" onclick="setProductFilterCategory('merchandise', this)">Merchandise</button>
+                                <button class="btn btn-sm btn-outline-secondary filter-prod-cat" data-cat="souvenir" onclick="setProductFilterCategory('souvenir', this)">Souvenir</button>
                             </div>
                         </div>
-                        <div class="col-md-6 d-flex gap-2 justify-content-md-end">
-                            <button class="btn btn-sm btn-outline-secondary active filter-prod-cat" data-cat="all" onclick="setProductFilterCategory('all', this)">Semua</button>
-                            <button class="btn btn-sm btn-outline-secondary filter-prod-cat" data-cat="hijab" onclick="setProductFilterCategory('hijab', this)">Kerudung</button>
-                            <button class="btn btn-sm btn-outline-secondary filter-prod-cat" data-cat="merchandise" onclick="setProductFilterCategory('merchandise', this)">Merchandise</button>
-                            <button class="btn btn-sm btn-outline-secondary filter-prod-cat" data-cat="souvenir" onclick="setProductFilterCategory('souvenir', this)">Souvenir</button>
-                        </div>
-                    </div>
 
-                    <div class="table-responsive">
-                        <table class="table table-hover align-middle">
-                            <thead class="table-light small text-uppercase">
+                        <div class="table-responsive">
+                            <table class="table table-hover align-middle">
+                                <thead class="table-light small text-uppercase">
                                 <tr>
                                     <th>Gambar</th>
                                     <th>Nama Produk & Spesifikasi</th>
@@ -619,33 +695,33 @@
                                     <th class="text-center">Klik Pengunjung</th>
                                     <th class="text-end">Aksi</th>
                                 </tr>
-                            </thead>
-                            <tbody id="productTableBody">
+                                </thead>
+                                <tbody id="productTableBody">
                                 <tr><td colspan="7" class="text-center py-4 text-muted">Memuat data produk...</td></tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </section>
-
-            <!-- ============================================== -->
-            <!-- TAB 3: KLIK MARKETPLACE                         -->
-            <!-- ============================================== -->
-            <section id="pane-marketplaces" class="tab-pane-content d-none">
-                <div class="content-card">
-                    <div class="d-flex flex-wrap justify-content-between align-items-center mb-4 gap-3">
-                        <div>
-                            <h4 class="fw-bold mb-1" style="color: var(--primary);">Pelacakan Tautan Marketplace</h4>
-                            <p class="text-muted small mb-0">Cek platform e-commerce dan saluran mana yang paling banyak menghasilkan kunjungan pembeli</p>
+                                </tbody>
+                            </table>
                         </div>
-                        <a href="#pane-settings" onclick="switchTab('settings')" class="btn btn-sm btn-outline-secondary rounded-pill px-3">
-                            <i class="bi bi-gear me-1"></i>Ubah Tautan di Pengaturan
-                        </a>
                     </div>
+                </section>
 
-                    <div class="table-responsive">
-                        <table class="table table-hover align-middle">
-                            <thead class="table-light small text-uppercase">
+                <!-- ============================================== -->
+                <!-- TAB 3: KLIK MARKETPLACE                         -->
+                <!-- ============================================== -->
+                <section id="pane-marketplaces" class="tab-pane-content d-none">
+                    <div class="content-card">
+                        <div class="d-flex flex-wrap justify-content-between align-items-center mb-4 gap-3">
+                            <div>
+                                <h4 class="fw-bold mb-1" style="color: var(--primary);">Pelacakan Tautan Marketplace</h4>
+                                <p class="text-muted small mb-0">Cek platform e-commerce dan saluran mana yang paling banyak menghasilkan kunjungan pembeli</p>
+                            </div>
+                            <a href="#pane-settings" onclick="switchTab('settings')" class="btn btn-sm btn-outline-secondary rounded-pill px-3">
+                                <i class="bi bi-gear me-1"></i>Ubah Tautan di Pengaturan
+                            </a>
+                        </div>
+
+                        <div class="table-responsive">
+                            <table class="table table-hover align-middle">
+                                <thead class="table-light small text-uppercase">
                                 <tr>
                                     <th>Saluran / Platform</th>
                                     <th>Kategori Saluran</th>
@@ -654,38 +730,38 @@
                                     <th class="text-center">Total Klik</th>
                                     <th class="text-end">Aksi Kunjungi</th>
                                 </tr>
-                            </thead>
-                            <tbody id="marketplaceTableBody">
+                                </thead>
+                                <tbody id="marketplaceTableBody">
                                 <tr><td colspan="6" class="text-center py-4 text-muted">Memuat data saluran...</td></tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </section>
-
-            <!-- ============================================== -->
-            <!-- TAB 4: PESAN MASUK                             -->
-            <!-- ============================================== -->
-            <section id="pane-messages" class="tab-pane-content d-none">
-                <div class="content-card">
-                    <div class="d-flex flex-wrap justify-content-between align-items-center mb-4 gap-3">
-                        <div>
-                            <h4 class="fw-bold mb-1" style="color: var(--primary);">Pesan Masuk & Formulir Kontak</h4>
-                            <p class="text-muted small mb-0">Pertanyaan dan formulir prospek yang dikirimkan oleh pengunjung melalui website</p>
-                        </div>
-                        <div class="d-flex gap-2">
-                            <button type="button" class="btn btn-sm btn-outline-secondary rounded-pill px-3" onclick="loadMessages()">
-                                <i class="bi bi-arrow-clockwise me-1"></i>Segarkan
-                            </button>
-                            <button type="button" class="btn btn-sm btn-brand-primary rounded-pill px-3" onclick="exportMessagesCSV()">
-                                <i class="bi bi-file-earmark-spreadsheet me-1"></i>Ekspor Pesan
-                            </button>
+                                </tbody>
+                            </table>
                         </div>
                     </div>
+                </section>
 
-                    <div class="table-responsive">
-                        <table class="table table-hover align-middle">
-                            <thead class="table-light small text-uppercase">
+                <!-- ============================================== -->
+                <!-- TAB 4: PESAN MASUK                             -->
+                <!-- ============================================== -->
+                <section id="pane-messages" class="tab-pane-content d-none">
+                    <div class="content-card">
+                        <div class="d-flex flex-wrap justify-content-between align-items-center mb-4 gap-3">
+                            <div>
+                                <h4 class="fw-bold mb-1" style="color: var(--primary);">Pesan Masuk & Formulir Kontak</h4>
+                                <p class="text-muted small mb-0">Pertanyaan dan formulir prospek yang dikirimkan oleh pengunjung melalui website</p>
+                            </div>
+                            <div class="d-flex gap-2">
+                                <button type="button" class="btn btn-sm btn-outline-secondary rounded-pill px-3" onclick="loadMessages()">
+                                    <i class="bi bi-arrow-clockwise me-1"></i>Segarkan
+                                </button>
+                                <button type="button" class="btn btn-sm btn-brand-primary rounded-pill px-3" onclick="exportMessagesCSV()">
+                                    <i class="bi bi-file-earmark-spreadsheet me-1"></i>Ekspor Pesan
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="table-responsive">
+                            <table class="table table-hover align-middle">
+                                <thead class="table-light small text-uppercase">
                                 <tr>
                                     <th>Waktu Masuk</th>
                                     <th>Pengirim</th>
@@ -693,96 +769,96 @@
                                     <th>Isi Pesan</th>
                                     <th class="text-end">Tanggapan Langsung</th>
                                 </tr>
-                            </thead>
-                            <tbody id="messagesTableBody">
+                                </thead>
+                                <tbody id="messagesTableBody">
                                 <tr><td colspan="5" class="text-center py-4 text-muted">Memuat pesan masuk...</td></tr>
-                            </tbody>
-                        </table>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
-                </div>
-            </section>
+                </section>
 
-            <!-- ============================================== -->
-            <!-- TAB 5: PENGATURAN TOKO                          -->
-            <!-- ============================================== -->
-            <section id="pane-settings" class="tab-pane-content d-none">
-                <div class="content-card">
-                    <div class="mb-4">
-                        <h4 class="fw-bold mb-1" style="color: var(--primary);">Pengaturan Informasi & Tautan Toko</h4>
-                        <p class="text-muted small">Atur nomor WhatsApp resmi dan link toko official. Perubahan yang Anda simpan di sini akan langsung aktif dan tersinkronisasi ke seluruh tombol di website.</p>
-                    </div>
+                <!-- ============================================== -->
+                <!-- TAB 5: PENGATURAN TOKO                          -->
+                <!-- ============================================== -->
+                <section id="pane-settings" class="tab-pane-content d-none">
+                    <div class="content-card">
+                        <div class="mb-4">
+                            <h4 class="fw-bold mb-1" style="color: var(--primary);">Pengaturan Informasi & Tautan Toko</h4>
+                            <p class="text-muted small">Atur nomor WhatsApp resmi dan link toko official. Perubahan yang Anda simpan di sini akan langsung aktif dan tersinkronisasi ke seluruh tombol di website.</p>
+                        </div>
 
-                    <div id="settingsAlert" class="alert alert-success d-none border-0 rounded-3">
-                        <i class="bi bi-check-circle-fill me-2"></i> Pengaturan toko berhasil disimpan dan diperbarui!
-                    </div>
+                        <div id="settingsAlert" class="alert alert-success d-none border-0 rounded-3">
+                            <i class="bi bi-check-circle-fill me-2"></i> Pengaturan toko berhasil disimpan dan diperbarui!
+                        </div>
 
-                    <form id="settingsForm" onsubmit="handleSaveSettings(event)">
-                        <div class="row g-4">
-                            <div class="col-md-6">
-                                <label class="form-label fw-bold small"><i class="bi bi-whatsapp text-success me-1"></i>Nomor WhatsApp Resmi Toko</label>
-                                <div class="input-group">
-                                    <span class="input-group-text bg-light">+</span>
-                                    <input type="text" id="settingWhatsapp" class="form-control" placeholder="6289656759653" required>
+                        <form id="settingsForm" onsubmit="handleSaveSettings(event)">
+                            <div class="row g-4">
+                                <div class="col-md-6">
+                                    <label class="form-label fw-bold small"><i class="bi bi-whatsapp text-success me-1"></i>Nomor WhatsApp Resmi Toko</label>
+                                    <div class="input-group">
+                                        <span class="input-group-text bg-light">+</span>
+                                        <input type="text" id="settingWhatsapp" class="form-control" placeholder="6289656759653" required>
+                                    </div>
+                                    <div class="form-text small">Format nomor internasional tanpa spasi (contoh: 6289656759653).</div>
                                 </div>
-                                <div class="form-text small">Format nomor internasional tanpa spasi (contoh: 6289656759653).</div>
+
+                                <div class="col-md-6">
+                                    <label class="form-label fw-bold small"><i class="bi bi-shop text-danger me-1"></i>Tautan Shopee Official</label>
+                                    <input type="url" id="settingShopee" class="form-control" placeholder="https://id.shp.ee/FdqYZK8" required>
+                                    <div class="form-text small">URL toko Shopee resmi Gemas Galore.</div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <label class="form-label fw-bold small"><i class="bi bi-basket text-success me-1"></i>Tautan Tokopedia Official</label>
+                                    <input type="url" id="settingTokopedia" class="form-control" placeholder="https://tokopedia.com/gemasgalore">
+                                </div>
+
+                                <div class="col-md-6">
+                                    <label class="form-label fw-bold small"><i class="bi bi-tiktok me-1"></i>Tautan TikTok Shop / Profil</label>
+                                    <input type="url" id="settingTiktok" class="form-control" placeholder="https://tiktok.com/@gemasgalore">
+                                </div>
+
+                                <div class="col-md-6">
+                                    <label class="form-label fw-bold small"><i class="bi bi-instagram text-danger me-1"></i>Tautan Instagram Official</label>
+                                    <input type="url" id="settingInstagram" class="form-control" placeholder="https://instagram.com/gemasgalore">
+                                </div>
                             </div>
 
-                            <div class="col-md-6">
-                                <label class="form-label fw-bold small"><i class="bi bi-shop text-danger me-1"></i>Tautan Shopee Official</label>
-                                <input type="url" id="settingShopee" class="form-control" placeholder="https://id.shp.ee/FdqYZK8" required>
-                                <div class="form-text small">URL toko Shopee resmi Gemas Galore.</div>
+                            <div class="mt-4 pt-3 border-top d-flex justify-content-end">
+                                <button type="submit" id="saveSettingsBtn" class="btn btn-brand-primary px-4 py-2">
+                                    <i class="bi bi-check2-circle me-1"></i>Simpan Pengaturan
+                                </button>
                             </div>
+                        </form>
+                    </div>
+                </section>
 
-                            <div class="col-md-6">
-                                <label class="form-label fw-bold small"><i class="bi bi-basket text-success me-1"></i>Tautan Tokopedia Official</label>
-                                <input type="url" id="settingTokopedia" class="form-control" placeholder="https://tokopedia.com/gemasgalore">
+                <!-- ============================================== -->
+                <!-- TAB 6: PANDUAN SQL                             -->
+                <!-- ============================================== -->
+                <section id="pane-guide" class="tab-pane-content d-none">
+                    <div class="content-card">
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <div>
+                                <h4 class="fw-bold mb-1" style="color: var(--primary);">Panduan Sinkronisasi Database Supabase</h4>
+                                <p class="text-muted small mb-0">Script SQL di bawah ini sudah idempotent (aman dijalankan berulang kali tanpa error)</p>
                             </div>
-
-                            <div class="col-md-6">
-                                <label class="form-label fw-bold small"><i class="bi bi-tiktok me-1"></i>Tautan TikTok Shop / Profil</label>
-                                <input type="url" id="settingTiktok" class="form-control" placeholder="https://tiktok.com/@gemasgalore">
-                            </div>
-
-                            <div class="col-md-6">
-                                <label class="form-label fw-bold small"><i class="bi bi-instagram text-danger me-1"></i>Tautan Instagram Official</label>
-                                <input type="url" id="settingInstagram" class="form-control" placeholder="https://instagram.com/gemasgalore">
-                            </div>
+                            <a href="schema.sql" download class="btn btn-sm btn-outline-dark rounded-pill px-3">
+                                <i class="bi bi-download me-1"></i>Unduh schema.sql
+                            </a>
                         </div>
 
-                        <div class="mt-4 pt-3 border-top d-flex justify-content-end">
-                            <button type="submit" id="saveSettingsBtn" class="btn btn-brand-primary px-4 py-2">
-                                <i class="bi bi-check2-circle me-1"></i>Simpan Pengaturan
+                        <div class="alert alert-info border-0 rounded-3 small mb-3">
+                            <i class="bi bi-info-circle-fill me-2"></i>
+                            Jika tabel analitik belum dibuat di database Supabase Anda, silakan buka <a href="https://supabase.com/dashboard/project/fgaymsvezuqrokylqvgw/sql/new" target="_blank" class="fw-bold">Supabase SQL Editor</a>, tempel kode di bawah, lalu klik <strong>Run</strong>.
+                        </div>
+
+                        <div class="position-relative">
+                            <button class="btn btn-sm btn-dark position-absolute top-0 end-0 m-2" onclick="copySqlCode()">
+                                <i class="bi bi-clipboard me-1"></i>Salin SQL
                             </button>
-                        </div>
-                    </form>
-                </div>
-            </section>
-
-            <!-- ============================================== -->
-            <!-- TAB 6: PANDUAN SQL                             -->
-            <!-- ============================================== -->
-            <section id="pane-guide" class="tab-pane-content d-none">
-                <div class="content-card">
-                    <div class="d-flex justify-content-between align-items-center mb-3">
-                        <div>
-                            <h4 class="fw-bold mb-1" style="color: var(--primary);">Panduan Sinkronisasi Database Supabase</h4>
-                            <p class="text-muted small mb-0">Script SQL di bawah ini sudah idempotent (aman dijalankan berulang kali tanpa error)</p>
-                        </div>
-                        <a href="schema.sql" download class="btn btn-sm btn-outline-dark rounded-pill px-3">
-                            <i class="bi bi-download me-1"></i>Unduh schema.sql
-                        </a>
-                    </div>
-
-                    <div class="alert alert-info border-0 rounded-3 small mb-3">
-                        <i class="bi bi-info-circle-fill me-2"></i>
-                        Jika tabel analitik belum dibuat di database Supabase Anda, silakan buka <a href="https://supabase.com/dashboard/project/fgaymsvezuqrokylqvgw/sql/new" target="_blank" class="fw-bold">Supabase SQL Editor</a>, tempel kode di bawah, lalu klik <strong>Run</strong>.
-                    </div>
-
-                    <div class="position-relative">
-                        <button class="btn btn-sm btn-dark position-absolute top-0 end-0 m-2" onclick="copySqlCode()">
-                            <i class="bi bi-clipboard me-1"></i>Salin SQL
-                        </button>
-                        <pre class="bg-dark text-light p-3 rounded-3 small" style="max-height: 400px; overflow-y: auto;" id="sqlCodeBlock">
+                            <pre class="bg-dark text-light p-3 rounded-3 small" style="max-height: 400px; overflow-y: auto;" id="sqlCodeBlock">
 -- 1. Tabel Pelacakan Klik & Analitik (analytics_clicks)
 CREATE TABLE IF NOT EXISTS public.analytics_clicks (
     id BIGINT GENERATED BY DEFAULT AS IDENTITY PRIMARY KEY,
@@ -812,12 +888,13 @@ CREATE POLICY "Public can record analytics" ON public.analytics_clicks FOR INSER
 CREATE POLICY "Admin can view analytics" ON public.analytics_clicks FOR SELECT TO authenticated USING (true);
 CREATE POLICY "Public can view settings" ON public.site_settings FOR SELECT USING (true);
 CREATE POLICY "Admin can manage settings" ON public.site_settings FOR ALL TO authenticated USING (true) WITH CHECK (true);
-                        </pre>
+                            </pre>
+                        </div>
                     </div>
-                </div>
-            </section>
+                </section>
 
-        </main>
+            </main>
+        </div>
     </div>
 
     <!-- MODAL TAMBAH / EDIT PRODUK -->
@@ -942,11 +1019,18 @@ CREATE POLICY "Admin can manage settings" ON public.site_settings FOR ALL TO aut
             }
         });
 
-        // 1. Sidebar Collapse & Navigation
+        // 1. Sidebar Collapse & Navigation (Fleksibel & Smooth)
         function toggleSidebarCollapse() {
+            const backdrop = document.getElementById('sidebarBackdrop');
+
             if (window.innerWidth < 992) {
-                // Mobile: toggle drawer
-                document.getElementById('adminSidebar').classList.toggle('show-mobile');
+                // Mobile: toggle drawer off-canvas
+                const sidebar = document.getElementById('adminSidebar');
+                const isOpen = sidebar.classList.toggle('show-mobile');
+                if (backdrop) {
+                    if (isOpen) backdrop.classList.remove('d-none');
+                    else backdrop.classList.add('d-none');
+                }
             } else {
                 // Desktop: toggle mini-sidebar (icon only)
                 const isCollapsed = document.body.classList.toggle('sidebar-collapsed');
@@ -961,6 +1045,15 @@ CREATE POLICY "Admin can manage settings" ON public.site_settings FOR ALL TO aut
         }
 
         // 2. Tab Navigation (100% Reliable & Bug-free)
+        const tabTitles = {
+            analytics: 'Ringkasan & Analitik',
+            products: 'Katalog Produk',
+            marketplaces: 'Klik Marketplace',
+            messages: 'Pesan Masuk (Leads)',
+            settings: 'Pengaturan Toko',
+            guide: 'Database & SQL Guide'
+        };
+
         function switchTab(tabName, linkEl) {
             // Update active state di menu sidebar
             document.querySelectorAll('.sidebar-link').forEach(link => link.classList.remove('active'));
@@ -970,6 +1063,12 @@ CREATE POLICY "Admin can manage settings" ON public.site_settings FOR ALL TO aut
             } else {
                 const targetLink = document.querySelector(`.sidebar-link[data-tab="${tabName}"]`);
                 if (targetLink) targetLink.classList.add('active');
+            }
+
+            // Update judul di header
+            const titleEl = document.getElementById('pageTitleNav');
+            if (titleEl && tabTitles[tabName]) {
+                titleEl.textContent = tabTitles[tabName];
             }
 
             // Sembunyikan semua pane tab
@@ -984,6 +1083,8 @@ CREATE POLICY "Admin can manage settings" ON public.site_settings FOR ALL TO aut
             // Jika di mobile, tutup sidebar setelah klik
             if (window.innerWidth < 992) {
                 document.getElementById('adminSidebar').classList.remove('show-mobile');
+                const backdrop = document.getElementById('sidebarBackdrop');
+                if (backdrop) backdrop.classList.add('d-none');
             }
 
             // Resize charts jika membuka tab analitik
