@@ -528,14 +528,6 @@
             transform: translateY(-1px);
         }
 
-        .admin-breadcrumb-nav .breadcrumb-category {
-            color: rgba(253, 234, 213, 0.7);
-            font-weight: 600;
-            font-size: 0.78rem;
-            letter-spacing: 0.5px;
-            text-transform: uppercase;
-        }
-
         .admin-breadcrumb-nav .breadcrumb-menu-btn {
             background: rgba(255, 255, 255, 0.12);
             border: 1px solid rgba(255, 171, 64, 0.4);
@@ -1000,13 +992,8 @@
                             <li class="breadcrumb-item">
                                 <a href="#" onclick="switchTab('analytics'); return false;" class="breadcrumb-root" title="Ke Beranda Dashboard">
                                     <i class="bi bi-house-door-fill me-1 text-warning"></i>
-                                    <span class="d-none d-sm-inline">Dashboard</span>
+                                    <span>Dashboard</span>
                                 </a>
-                            </li>
-
-                            <!-- Kategori Menu (Tampil di Desktop Lebar) -->
-                            <li class="breadcrumb-item d-none d-lg-inline-flex">
-                                <span class="breadcrumb-category" id="breadcrumbCategoryText">Ikhtisar</span>
                             </li>
 
                             <!-- Menu Dropdown Halaman Aktif -->
@@ -1017,28 +1004,24 @@
                                         <span id="pageTitleNav">Ringkasan & Analitik</span>
                                     </button>
                                     <ul class="dropdown-menu dropdown-menu-dark breadcrumb-dropdown-menu shadow" aria-labelledby="breadcrumbMenuBtn">
-                                        <li class="dropdown-header">
-                                            <i class="bi bi-compass me-1"></i> Navigasi Cepat
+                                        <li class="dropdown-header text-warning">
+                                            <i class="bi bi-compass me-1"></i> Navigasi Menu
                                         </li>
                                         <li>
                                             <a class="dropdown-item active breadcrumb-nav-item" data-tab="analytics" href="#" onclick="switchTab('analytics'); return false;">
                                                 <span><i class="bi bi-pie-chart-fill me-2 text-warning fs-6"></i>Ringkasan & Analitik</span>
                                             </a>
                                         </li>
-                                        <li><hr class="dropdown-divider border-secondary opacity-25 my-1"></li>
-                                        <li class="dropdown-header text-white-50">Katalog & Penjualan</li>
                                         <li>
                                             <a class="dropdown-item breadcrumb-nav-item" data-tab="products" href="#" onclick="switchTab('products'); return false;">
-                                                <span><i class="bi bi-box-seam-fill me-2 fs-6"></i>Katalog Produk</span>
+                                                <span><i class="bi bi-box-seam-fill me-2 text-warning fs-6"></i>Katalog Produk</span>
                                             </a>
                                         </li>
                                         <li>
                                             <a class="dropdown-item breadcrumb-nav-item" data-tab="marketplaces" href="#" onclick="switchTab('marketplaces'); return false;">
-                                                <span><i class="bi bi-shop me-2 fs-6"></i>Klik Marketplace</span>
+                                                <span><i class="bi bi-shop me-2 text-warning fs-6"></i>Klik Marketplace</span>
                                             </a>
                                         </li>
-                                        <li><hr class="dropdown-divider border-secondary opacity-25 my-1"></li>
-                                        <li class="dropdown-header text-white-50">Interaksi Pelanggan</li>
                                         <li>
                                             <a class="dropdown-item breadcrumb-nav-item" data-tab="messages" href="#" onclick="switchTab('messages'); return false;">
                                                 <span><i class="bi bi-chat-left-text-fill me-2 text-success fs-6"></i>Pesan Pelanggan</span>
@@ -1049,11 +1032,9 @@
                                                 <span><i class="bi bi-people-fill me-2 text-info fs-6"></i>Mitra Reseller</span>
                                             </a>
                                         </li>
-                                        <li><hr class="dropdown-divider border-secondary opacity-25 my-1"></li>
-                                        <li class="dropdown-header text-white-50">Konfigurasi</li>
                                         <li>
                                             <a class="dropdown-item breadcrumb-nav-item" data-tab="settings" href="#" onclick="switchTab('settings'); return false;">
-                                                <span><i class="bi bi-gear-wide-connected me-2 fs-6"></i>Pengaturan Toko</span>
+                                                <span><i class="bi bi-gear-wide-connected me-2 text-warning fs-6"></i>Pengaturan Toko</span>
                                             </a>
                                         </li>
                                     </ul>
@@ -1621,12 +1602,12 @@
 
         // 2. Tab Navigation & Breadcrumb Menu Manager
         const tabNavMeta = {
-            analytics: { category: 'Ikhtisar', title: 'Ringkasan & Analitik', icon: 'bi-pie-chart-fill' },
-            products: { category: 'Manajemen Toko', title: 'Katalog Produk', icon: 'bi-box-seam-fill' },
-            marketplaces: { category: 'Manajemen Toko', title: 'Klik Marketplace', icon: 'bi-shop' },
-            messages: { category: 'Interaksi Pelanggan', title: 'Pesan Pelanggan', icon: 'bi-chat-left-text-fill' },
-            resellers: { category: 'Interaksi Pelanggan', title: 'Mitra Reseller', icon: 'bi-people-fill' },
-            settings: { category: 'Konfigurasi', title: 'Pengaturan Toko', icon: 'bi-gear-wide-connected' }
+            analytics: { title: 'Ringkasan & Analitik', icon: 'bi-pie-chart-fill' },
+            products: { title: 'Katalog Produk', icon: 'bi-box-seam-fill' },
+            marketplaces: { title: 'Klik Marketplace', icon: 'bi-shop' },
+            messages: { title: 'Pesan Pelanggan', icon: 'bi-chat-left-text-fill' },
+            resellers: { title: 'Mitra Reseller', icon: 'bi-people-fill' },
+            settings: { title: 'Pengaturan Toko', icon: 'bi-gear-wide-connected' }
         };
 
         function switchTab(tabName, linkEl) {
@@ -1640,10 +1621,7 @@
             }
 
             // Sinkronisasi Breadcrumb & Dropdown Menu
-            const meta = tabNavMeta[tabName] || { category: 'Dashboard', title: tabName, icon: 'bi-grid' };
-
-            const catEl = document.getElementById('breadcrumbCategoryText');
-            if (catEl) catEl.textContent = meta.category;
+            const meta = tabNavMeta[tabName] || { title: tabName, icon: 'bi-grid' };
 
             const titleEl = document.getElementById('pageTitleNav');
             if (titleEl) titleEl.textContent = meta.title;
