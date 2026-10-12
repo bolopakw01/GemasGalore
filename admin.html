@@ -106,7 +106,8 @@
             width: auto;
             margin-right: 10px;
             opacity: 0;
-            transition: all 0.5s ease;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
             flex-shrink: 0;
         }
 
@@ -115,29 +116,35 @@
             font-size: 19px;
             font-weight: 600;
             opacity: 0;
+            pointer-events: none;
             white-space: nowrap;
-            transition: all 0.5s ease;
+            transition: opacity 0.3s ease;
             font-family: 'Yeseva One', cursive;
         }
 
         .sidebar.open .logo-details .logo_name,
         .sidebar.open .logo-details .logo-img {
             opacity: 1;
+            pointer-events: auto;
         }
 
         /* Tombol Toggle Sidebar (#btn) SVG */
         .sidebar .logo-details #btn {
             position: absolute;
             top: 50%;
-            right: 2px;
+            right: 11px;
             transform: translateY(-50%);
             width: 28px;
             height: 28px;
             cursor: pointer;
-            transition: transform 0.25s ease, filter 0.25s ease;
+            transition: transform 0.25s ease, filter 0.25s ease, right 0.4s ease;
             filter: invert(100%) sepia(100%) saturate(1%) hue-rotate(51deg) brightness(101%) contrast(102%);
             display: block;
             object-fit: contain;
+        }
+
+        .sidebar.open .logo-details #btn {
+            right: 2px;
         }
 
         .sidebar .logo-details #btn:hover {
@@ -210,17 +217,19 @@
             text-decoration: none;
             transition: all 0.3s ease;
             background: transparent;
-            padding: 0 10px;
+            padding: 0;
         }
 
         .sidebar li a.menu-link i {
             color: #d1b8c8;
             height: 50px;
-            min-width: 32px;
+            min-width: 50px;
+            width: 50px;
             font-size: 20px;
             text-align: center;
             line-height: 50px;
             transition: all 0.3s ease;
+            flex-shrink: 0;
         }
 
         .sidebar li a.menu-link .links_name {
@@ -230,8 +239,8 @@
             white-space: nowrap;
             opacity: 0;
             pointer-events: none;
-            transition: 0.4s;
-            margin-left: 12px;
+            transition: opacity 0.3s ease;
+            margin-left: 2px;
         }
 
         .sidebar.open li a.menu-link .links_name {
@@ -378,13 +387,15 @@
             right: 0;
             transform: translateY(-50%);
             background: #11030d;
-            width: 50px;
-            height: 60px;
+            width: 100%;
+            height: 64px;
             display: flex;
             align-items: center;
             justify-content: center;
             text-decoration: none;
-            transition: all 0.3s ease;
+            transition: all 0.4s ease;
+            padding: 0;
+            cursor: pointer;
         }
 
         .sidebar .logout-icon {
@@ -404,6 +415,7 @@
         }
 
         .sidebar.open .profile #log_out {
+            width: 50px;
             background: none;
         }
 
@@ -451,11 +463,16 @@
         /* Responsif Layar Kecil (< 768px) */
         @media (max-width: 768px) {
             .sidebar {
-                left: calc(-1 * var(--sidebar-closed-width));
+                left: -280px;
+                width: var(--sidebar-open-width);
             }
 
             .sidebar.open {
                 left: 0;
+                width: var(--sidebar-open-width);
+            }
+
+            .sidebar.open li.profile {
                 width: var(--sidebar-open-width);
             }
 
@@ -1107,9 +1124,53 @@
                             <button class="btn btn-sm btn-dark position-absolute top-0 end-0 m-2" onclick="copySqlCode()">
                                 <i class="bi bi-clipboard me-1"></i>Salin SQL
                             </button>
-                            <pre class="bg-dark text-light p-3 rounded-3 small" style="max-height: 400px; overflow-y: auto;" id="sqlCodeBlock">
--- 1. Tabel Pelacakan Klik & Analitik (analytics_clicks)
-CREATE TABLE IF NOT EXISTS public.analytics_clicks (
+                            <pre class="bg-dark text-light p-3 rounded-3 small" style="max-height: 400px; overflow-y: auto;" id="sqlCodeBlock">-- ==============================================================================
+-- RESET TOTAL & INISIALISASI DATABASE GEMAS GALORE (SUPABASE)
+-- ==============================================================================
+
+-- 1. HAPUS TABEL LAMA DENGAN BERSIH (CASCADE)
+DROP TABLE IF EXISTS public.analytics_clicks CASCADE;
+DROP TABLE IF EXISTS public.site_settings CASCADE;
+DROP TABLE IF EXISTS public.resellers CASCADE;
+DROP TABLE IF EXISTS public.messages CASCADE;
+DROP TABLE IF EXISTS public.products CASCADE;
+
+-- 2. TABEL PRODUK (products)
+CREATE TABLE public.products (
+    id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+    title TEXT NOT NULL,
+    category TEXT NOT NULL CHECK (category IN ('hijab', 'merchandise', 'souvenir')),
+    price TEXT NOT NULL,
+    image_url TEXT NOT NULL,
+    badge TEXT DEFAULT 'Koleksi',
+    description TEXT,
+    material TEXT,
+    is_active BOOLEAN DEFAULT true,
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT timezone('utc'::text, now()) NOT NULL
+);
+
+-- 3. TABEL PESAN MASUK (messages)
+CREATE TABLE public.messages (
+    id BIGINT GENERATED BY DEFAULT AS IDENTITY PRIMARY KEY,
+    name TEXT NOT NULL,
+    email TEXT NOT NULL,
+    phone TEXT,
+    message TEXT NOT NULL,
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT timezone('utc'::text, now()) NOT NULL
+);
+
+-- 4. TABEL RESELLER (resellers)
+CREATE TABLE public.resellers (
+    id BIGINT GENERATED BY DEFAULT AS IDENTITY PRIMARY KEY,
+    name TEXT NOT NULL,
+    phone TEXT NOT NULL,
+    city TEXT,
+    status TEXT DEFAULT 'pending' CHECK (status IN ('pending', 'approved', 'rejected')),
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT timezone('utc'::text, now()) NOT NULL
+);
+
+-- 5. TABEL ANALITIK PELACAKAN KLIK (analytics_clicks)
+CREATE TABLE public.analytics_clicks (
     id BIGINT GENERATED BY DEFAULT AS IDENTITY PRIMARY KEY,
     event_type TEXT NOT NULL,
     target_name TEXT NOT NULL,
@@ -1117,26 +1178,72 @@ CREATE TABLE IF NOT EXISTS public.analytics_clicks (
     created_at TIMESTAMP WITH TIME ZONE DEFAULT timezone('utc'::text, now()) NOT NULL
 );
 
--- 2. Tabel Pengaturan Toko (site_settings)
-CREATE TABLE IF NOT EXISTS public.site_settings (
+-- 6. TABEL PENGATURAN TOKO (site_settings)
+CREATE TABLE public.site_settings (
     key TEXT PRIMARY KEY,
     value TEXT NOT NULL,
     updated_at TIMESTAMP WITH TIME ZONE DEFAULT timezone('utc'::text, now()) NOT NULL
 );
 
--- 3. RLS Policies
+-- 7. AKTIFKAN ROW LEVEL SECURITY (RLS)
+ALTER TABLE public.products ENABLE ROW LEVEL SECURITY;
+ALTER TABLE public.messages ENABLE ROW LEVEL SECURITY;
+ALTER TABLE public.resellers ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.analytics_clicks ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.site_settings ENABLE ROW LEVEL SECURITY;
 
-DROP POLICY IF EXISTS "Public can record analytics" ON public.analytics_clicks;
-DROP POLICY IF EXISTS "Admin can view analytics" ON public.analytics_clicks;
-DROP POLICY IF EXISTS "Public can view settings" ON public.site_settings;
-DROP POLICY IF EXISTS "Admin can manage settings" ON public.site_settings;
+-- 8. KEBIJAKAN AKSES (POLICIES)
+CREATE POLICY "Public read products" ON public.products FOR SELECT USING (true);
+CREATE POLICY "Allow all modifications on products" ON public.products FOR ALL USING (true) WITH CHECK (true);
 
-CREATE POLICY "Public can record analytics" ON public.analytics_clicks FOR INSERT WITH CHECK (true);
-CREATE POLICY "Admin can view analytics" ON public.analytics_clicks FOR SELECT TO authenticated USING (true);
+CREATE POLICY "Public can send messages" ON public.messages FOR INSERT WITH CHECK (true);
+CREATE POLICY "Allow read messages" ON public.messages FOR SELECT USING (true);
+CREATE POLICY "Allow delete messages" ON public.messages FOR DELETE USING (true);
+
+CREATE POLICY "Public can register reseller" ON public.resellers FOR INSERT WITH CHECK (true);
+CREATE POLICY "Allow manage resellers" ON public.resellers FOR ALL USING (true) WITH CHECK (true);
+
+CREATE POLICY "Public can record clicks" ON public.analytics_clicks FOR INSERT WITH CHECK (true);
+CREATE POLICY "Allow read analytics" ON public.analytics_clicks FOR SELECT USING (true);
+CREATE POLICY "Allow delete analytics" ON public.analytics_clicks FOR DELETE USING (true);
+
 CREATE POLICY "Public can view settings" ON public.site_settings FOR SELECT USING (true);
-CREATE POLICY "Admin can manage settings" ON public.site_settings FOR ALL TO authenticated USING (true) WITH CHECK (true);
+CREATE POLICY "Allow manage settings" ON public.site_settings FOR ALL USING (true) WITH CHECK (true);
+
+-- 9. DATA AWAL PENGATURAN TOKO (site_settings)
+INSERT INTO public.site_settings (key, value) VALUES 
+    ('whatsapp_number', '6289656759653'),
+    ('shopee_url', 'https://id.shp.ee/FdqYZK8'),
+    ('tokopedia_url', 'https://tokopedia.com/gemasgalore'),
+    ('tiktok_url', 'https://tiktok.com/@gemasgalore'),
+    ('instagram_url', 'https://instagram.com/gemasgalore');
+
+-- 10. SEED DATA KATALOG PRODUK GEMAS GALORE
+INSERT INTO public.products (title, category, price, image_url, badge, description, material) VALUES 
+('Kerudung Paris Eksklusif', 'hijab', 'Rp 18.000', 'asset/img/produk/produk1.jpg', 'Bestseller', 'Kerudung Paris premium dengan logo akrilik khas Gemas Galore.', 'Paris Premium Super Fine + Pin Akrilik Eksklusif'),
+('Gantungan Tas Akrilik', 'merchandise', 'Rp 12.000', 'asset/img/bgantungantas.png', 'Merchandise', 'Gantungan tas estetik dengan desain unik dan eye-catching.', 'Akrilik Tebal 3mm Double Side + Gantungan O-Ring Premium'),
+('Card Holder Minimalis', 'souvenir', 'Rp 15.000', 'asset/img/bcardholder.png', 'Souvenir', 'Card holder ramping dan praktis dibawa bepergian.', 'Kulit Sintetis Lembut / Kanvas Tebal Jahitan Presisi'),
+('Premium Gift Packaging', 'souvenir', 'Rp 25.000', 'asset/img/produk/produk2.jpg', 'Gift Set', 'Hardbox custom premium dirancang eksklusif dengan pita satin.', 'Hardbox Doff Premium + Pita Satin + Custom Greeting Card'),
+('Kerudung Paris Segi Empat', 'hijab', 'Rp 18.000', 'asset/img/bjilbab.png', 'New Colors', 'Kerudung segi empat berbahan Paris Voile ringan dan breathable.', 'Paris Voile Berkualitas Ukuran 115 x 115 cm'),
+('Starter Reseller Kit', 'merchandise', 'Rp 15.000', 'asset/img/produk/produk3.jpg', 'Paket Mitra', 'Paket permulaan bisnis bagi Anda yang ingin menjadi reseller Gemas Galore.', 'Sampel Produk + Katalog Digital + Bimbingan Penjualan');
+
+-- 11. SEED DATA ANALITIK AWAL
+INSERT INTO public.analytics_clicks (event_type, target_name, category) VALUES
+    ('product_click', 'Kerudung Paris Eksklusif', 'hijab'),
+    ('product_click', 'Kerudung Paris Eksklusif', 'hijab'),
+    ('product_click', 'Kerudung Paris Eksklusif', 'hijab'),
+    ('product_click', 'Gantungan Tas Akrilik', 'merchandise'),
+    ('product_click', 'Gantungan Tas Akrilik', 'merchandise'),
+    ('product_click', 'Card Holder Minimalis', 'souvenir'),
+    ('product_click', 'Premium Gift Packaging', 'souvenir'),
+    ('product_click', 'Kerudung Paris Segi Empat', 'hijab'),
+    ('marketplace_click', 'Shopee', 'marketplace'),
+    ('marketplace_click', 'Shopee', 'marketplace'),
+    ('marketplace_click', 'Shopee', 'marketplace'),
+    ('marketplace_click', 'WhatsApp Order', 'whatsapp'),
+    ('marketplace_click', 'WhatsApp Order', 'whatsapp'),
+    ('marketplace_click', 'Tokopedia', 'marketplace'),
+    ('marketplace_click', 'TikTok Shop', 'marketplace');
                             </pre>
                         </div>
                     </div>
