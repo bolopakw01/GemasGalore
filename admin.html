@@ -23,12 +23,15 @@
     <style>
         :root {
             --primary: #491937;
+            --primary-dark: #2a0a1f;
             --primary-hover: #5d2046;
             --primary-light: rgba(73, 25, 55, 0.08);
             --secondary: #f8f1e9;
             --accent: #ffab40;
+            --accent-hover: #f59e0b;
             --dark: #212529;
-            --sidebar-width: 270px;
+            --sidebar-width: 260px;
+            --sidebar-collapsed-width: 72px;
         }
 
         body {
@@ -43,22 +46,22 @@
             font-family: 'Yeseva One', cursive;
         }
 
-        /* Topbar */
+        /* 1. TOPBAR - DARK LUXURY PLUM */
         .admin-topbar {
-            background-color: #ffffff;
-            border-bottom: 1px solid #e9ecef;
+            background: linear-gradient(90deg, #240a1b 0%, #3d122d 50%, #240a1b 100%);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
             height: 70px;
             position: sticky;
             top: 0;
             z-index: 1020;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.03);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
         }
 
-        /* Sidebar */
+        /* 2. SIDEBAR - DARK WINE / PLUM THEME */
         .admin-sidebar {
             width: var(--sidebar-width);
-            background-color: #ffffff;
-            border-right: 1px solid #e9ecef;
+            background: #240a1b;
+            border-right: 1px solid rgba(255, 255, 255, 0.08);
             min-height: calc(100vh - 70px);
             position: fixed;
             top: 70px;
@@ -66,39 +69,30 @@
             bottom: 0;
             z-index: 1010;
             overflow-y: auto;
-            transition: all 0.3s ease;
+            overflow-x: hidden;
+            transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1), margin-left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
-        .admin-main {
-            margin-left: var(--sidebar-width);
-            padding: 2rem;
-            min-height: calc(100vh - 70px);
-            transition: all 0.3s ease;
-        }
-
-        @media (max-width: 991.98px) {
-            .admin-sidebar {
-                margin-left: calc(-1 * var(--sidebar-width));
-            }
-            .admin-sidebar.show {
-                margin-left: 0;
-            }
-            .admin-main {
-                margin-left: 0;
-                padding: 1.25rem;
-            }
-        }
-
-        /* Sidebar Nav Links */
         .sidebar-menu {
-            padding: 1.2rem 0.8rem;
+            padding: 1.25rem 0.75rem;
+        }
+
+        .sidebar-menu-heading {
+            font-size: 0.72rem;
+            letter-spacing: 0.8px;
+            color: rgba(255, 255, 255, 0.45);
+            font-weight: 700;
+            padding: 0 0.85rem;
+            margin-bottom: 0.6rem;
+            text-transform: uppercase;
+            white-space: nowrap;
         }
 
         .sidebar-link {
             display: flex;
             align-items: center;
-            padding: 0.8rem 1.1rem;
-            color: #64748b;
+            padding: 0.8rem 1rem;
+            color: #d1b8c8;
             font-weight: 600;
             font-size: 0.92rem;
             border-radius: 0.75rem;
@@ -106,6 +100,7 @@
             text-decoration: none;
             transition: all 0.2s ease;
             cursor: pointer;
+            white-space: nowrap;
         }
 
         .sidebar-link i {
@@ -113,23 +108,97 @@
             margin-right: 0.85rem;
             width: 24px;
             text-align: center;
+            flex-shrink: 0;
+            transition: transform 0.2s ease;
         }
 
         .sidebar-link:hover {
-            color: var(--primary);
-            background-color: var(--primary-light);
+            color: #ffffff;
+            background-color: rgba(255, 255, 255, 0.08);
+        }
+
+        .sidebar-link:hover i {
+            transform: scale(1.1);
         }
 
         .sidebar-link.active {
-            color: #ffffff;
-            background: linear-gradient(135deg, #491937 0%, #6d2552 100%);
-            box-shadow: 0 4px 12px rgba(73, 25, 55, 0.25);
+            color: #1f0817 !important;
+            background: linear-gradient(135deg, #ffab40 0%, #f59e0b 100%) !important;
+            font-weight: 700 !important;
+            box-shadow: 0 4px 15px rgba(255, 171, 64, 0.35);
         }
 
-        /* Stat Cards */
+        .sidebar-link.active i {
+            color: #1f0817 !important;
+        }
+
+        .sidebar-help-box {
+            background-color: rgba(255, 255, 255, 0.05);
+            border: 1px dashed rgba(255, 255, 255, 0.15);
+            border-radius: 1rem;
+            padding: 1rem;
+            text-align: center;
+            color: #ffffff;
+        }
+
+        /* 3. MAIN CONTENT CONTAINER */
+        .admin-main {
+            margin-left: var(--sidebar-width);
+            padding: 2rem;
+            min-height: calc(100vh - 70px);
+            transition: margin-left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* 4. COLLAPSED / MINI SIDEBAR STATE (DESKTOP) */
+        body.sidebar-collapsed .admin-sidebar {
+            width: var(--sidebar-collapsed-width);
+        }
+
+        body.sidebar-collapsed .admin-main {
+            margin-left: var(--sidebar-collapsed-width);
+        }
+
+        body.sidebar-collapsed .sidebar-link {
+            justify-content: center;
+            padding: 0.85rem 0;
+            margin-bottom: 0.5rem;
+        }
+
+        body.sidebar-collapsed .sidebar-link i {
+            margin-right: 0;
+            font-size: 1.35rem;
+        }
+
+        body.sidebar-collapsed .link-label,
+        body.sidebar-collapsed .sidebar-menu-heading,
+        body.sidebar-collapsed .sidebar-help-box,
+        body.sidebar-collapsed .sidebar-divider,
+        body.sidebar-collapsed .badge-sidebar {
+            display: none !important;
+        }
+
+        /* 5. MOBILE OFF-CANVAS RESPONSIVE */
+        @media (max-width: 991.98px) {
+            .admin-sidebar {
+                width: var(--sidebar-width) !important;
+                margin-left: calc(-1 * var(--sidebar-width));
+                box-shadow: 4px 0 25px rgba(0, 0, 0, 0.4);
+            }
+
+            .admin-sidebar.show-mobile {
+                margin-left: 0 !important;
+            }
+
+            .admin-main {
+                margin-left: 0 !important;
+                padding: 1.25rem;
+            }
+        }
+
+        /* Card Stats */
         .card-stat {
             background: #ffffff;
-            border: 1px solid rgba(226, 232, 240, 0.8);
+            border: 1px solid rgba(226, 232, 240, 0.85);
             border-radius: 1.1rem;
             padding: 1.5rem;
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.02);
@@ -153,7 +222,7 @@
             font-size: 1.5rem;
         }
 
-        /* Buttons & Badges */
+        /* Buttons & Content Cards */
         .btn-brand-primary {
             background: linear-gradient(135deg, #491937 0%, #68234f 100%);
             color: #ffffff;
@@ -170,6 +239,15 @@
             color: #ffffff;
             transform: translateY(-1px);
             box-shadow: 0 6px 16px rgba(73, 25, 55, 0.3);
+        }
+
+        .content-card {
+            background: #ffffff;
+            border: 1px solid rgba(226, 232, 240, 0.85);
+            border-radius: 1.25rem;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.02);
+            padding: 1.75rem;
+            margin-bottom: 2rem;
         }
 
         .badge-category {
@@ -204,17 +282,6 @@
         .rank-3 { background-color: #cd7f32; color: #ffffff; }
         .rank-other { background-color: #f1f5f9; color: #64748b; }
 
-        /* Content Card */
-        .content-card {
-            background: #ffffff;
-            border: 1px solid rgba(226, 232, 240, 0.8);
-            border-radius: 1.25rem;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.02);
-            padding: 1.75rem;
-            margin-bottom: 2rem;
-        }
-
-        /* Progress Bar */
         .custom-progress {
             height: 8px;
             border-radius: 4px;
@@ -232,43 +299,49 @@
 
 <body>
 
-    <!-- 1. TOP NAVIGATION -->
-    <header class="admin-topbar d-flex align-items-center px-3 px-lg-4 justify-content-between">
+    <!-- 1. TOPBAR (HEADER WARNA GELAP / LUXURY PLUM) -->
+    <header class="admin-topbar d-flex align-items-center px-3 px-lg-4 justify-content-between text-white">
         <div class="d-flex align-items-center">
-            <button class="btn btn-sm btn-light d-lg-none me-2" onclick="toggleSidebar()">
-                <i class="bi bi-list fs-4"></i>
+            <!-- Tombol Toggle Sidebar (Show / Hide / Mini) -->
+            <button id="sidebarToggleBtn" class="btn btn-outline-light btn-sm rounded-circle p-2 me-3" onclick="toggleSidebarCollapse()" title="Kecilkan/Perluas Menu Sidebar">
+                <i class="bi bi-layout-sidebar-inset fs-5"></i>
             </button>
+
+            <!-- Brand Logo & Title -->
             <div class="d-flex align-items-center">
-                <img src="asset/img/logo1.png" alt="Gemas Galore" style="height: 40px;" class="me-2">
+                <img src="asset/img/logo1.png" alt="Gemas Galore" style="height: 38px;" class="me-2">
                 <div>
-                    <h5 class="brand-font mb-0" style="color: var(--primary);">Gemas Galore</h5>
-                    <span class="badge bg-warning text-dark" style="font-size: 0.68rem; font-weight: 700;">PRO ADMIN PORTAL</span>
+                    <h5 class="brand-font mb-0 text-white" style="letter-spacing: 0.5px;">Gemas Galore</h5>
+                    <span class="badge bg-warning text-dark" style="font-size: 0.65rem; font-weight: 800;">ADMIN DASHBOARD</span>
                 </div>
             </div>
         </div>
 
-        <div class="d-flex align-items-center gap-3">
+        <div class="d-flex align-items-center gap-2 gap-md-3">
+            <!-- Status Database -->
             <span id="dbStatusBadge" class="badge rounded-pill bg-success-subtle text-success border border-success-subtle px-3 py-2 d-none d-md-inline-flex align-items-center">
-                <i class="bi bi-database-check me-1 fs-6"></i> Supabase Aktif
+                <i class="bi bi-database-check me-1 fs-6"></i> Supabase Terhubung
             </span>
 
-            <a href="index.html" target="_blank" class="btn btn-sm btn-outline-secondary rounded-pill px-3">
+            <!-- Tautan Lihat Website -->
+            <a href="index.html" target="_blank" class="btn btn-sm btn-light rounded-pill px-3 fw-semibold">
                 <i class="bi bi-box-arrow-up-right me-1"></i>Lihat Website
             </a>
 
+            <!-- User Profile & Logout -->
             <div id="userProfileNav" class="d-none align-items-center gap-2">
-                <div class="bg-light rounded-pill px-3 py-1 border d-flex align-items-center gap-2">
-                    <i class="bi bi-person-circle fs-5" style="color: var(--primary);"></i>
-                    <span id="userEmailNav" class="small fw-semibold text-truncate" style="max-width: 150px;">admin@gemasgalore.com</span>
+                <div class="bg-white bg-opacity-10 text-white rounded-pill px-3 py-1 border border-white border-opacity-25 d-flex align-items-center gap-2">
+                    <i class="bi bi-person-circle fs-5 text-warning"></i>
+                    <span id="userEmailNav" class="small fw-semibold text-truncate" style="max-width: 140px;">admin@gemasgalore.com</span>
                 </div>
-                <button type="button" class="btn btn-sm btn-outline-danger rounded-circle p-2" onclick="handleLogout()" title="Keluar">
+                <button type="button" class="btn btn-sm btn-outline-light rounded-circle p-2" onclick="handleLogout()" title="Keluar">
                     <i class="bi bi-box-arrow-right"></i>
                 </button>
             </div>
         </div>
     </header>
 
-    <!-- 2. LOGIN VIEW (JIKA BELUM LOGIN) -->
+    <!-- 2. LOGIN VIEW -->
     <div id="loginView" class="container py-5">
         <div class="row justify-content-center pt-4">
             <div class="col-md-6 col-lg-4">
@@ -276,23 +349,23 @@
                     <div class="text-center mb-4">
                         <img src="asset/img/logo1.png" alt="Gemas Galore Logo" style="height: 65px;">
                         <h4 class="brand-font mt-3" style="color: var(--primary);">Portal Manajemen</h4>
-                        <p class="text-muted small">Kelola katalog, pantau klik produk, dan periksa tautan marketplace terlaris</p>
+                        <p class="text-muted small">Kelola katalog produk dan pantau statistik klik marketplace real-time</p>
                     </div>
 
                     <form id="loginForm" onsubmit="handleLogin(event)">
                         <div class="mb-3">
                             <label class="form-label small fw-semibold">Email Admin</label>
                             <div class="input-group">
-                                <span class="input-group-text bg-light border-end-0"><i class="bi bi-envelope text-muted"></i></span>
-                                <input type="email" id="loginEmail" class="form-control border-start-0" placeholder="admin@gemasgalore.com" required>
+                                <span class="input-group-text bg-light"><i class="bi bi-envelope text-muted"></i></span>
+                                <input type="email" id="loginEmail" class="form-control" placeholder="admin@gemasgalore.com" required>
                             </div>
                         </div>
 
                         <div class="mb-4">
                             <label class="form-label small fw-semibold">Kata Sandi</label>
                             <div class="input-group">
-                                <span class="input-group-text bg-light border-end-0"><i class="bi bi-lock text-muted"></i></span>
-                                <input type="password" id="loginPassword" class="form-control border-start-0" placeholder="••••••••" required>
+                                <span class="input-group-text bg-light"><i class="bi bi-lock text-muted"></i></span>
+                                <input type="password" id="loginPassword" class="form-control" placeholder="••••••••" required>
                             </div>
                         </div>
 
@@ -309,59 +382,63 @@
         </div>
     </div>
 
-    <!-- 3. DASHBOARD WRAPPER -->
+    <!-- 3. DASHBOARD MAIN VIEW -->
     <div id="dashboardView" class="d-none">
 
-        <!-- SIDEBAR -->
+        <!-- SIDEBAR (WARNA LUXURY DARK PLUM) -->
         <aside class="admin-sidebar" id="adminSidebar">
             <div class="sidebar-menu">
-                <div class="text-uppercase small fw-bold px-3 mb-2 text-muted" style="font-size: 0.72rem; letter-spacing: 0.8px;">Menu Utama</div>
+                <div class="sidebar-menu-heading">Menu Utama</div>
 
-                <a class="sidebar-link active" onclick="switchTab('analytics')">
+                <!-- Tautan 1: Ringkasan & Analitik -->
+                <a class="sidebar-link active" data-tab="analytics" onclick="switchTab('analytics', this)" title="Ringkasan & Analitik">
                     <i class="bi bi-pie-chart-fill"></i>
-                    <span>Ringkasan & Analitik</span>
+                    <span class="link-label">Ringkasan & Analitik</span>
                 </a>
 
-                <a class="sidebar-link" onclick="switchTab('products')">
+                <!-- Tautan 2: Katalog Produk -->
+                <a class="sidebar-link" data-tab="products" onclick="switchTab('products', this)" title="Katalog Produk">
                     <i class="bi bi-box-seam-fill"></i>
-                    <span>Katalog Produk</span>
+                    <span class="link-label">Katalog Produk</span>
                 </a>
 
-                <a class="sidebar-link" onclick="switchTab('marketplaces')">
+                <!-- Tautan 3: Klik Marketplace -->
+                <a class="sidebar-link" data-tab="marketplaces" onclick="switchTab('marketplaces', this)" title="Klik Marketplace">
                     <i class="bi bi-shop-window"></i>
-                    <span>Klik Marketplace</span>
+                    <span class="link-label">Klik Marketplace</span>
                 </a>
 
-                <a class="sidebar-link" onclick="switchTab('messages')">
+                <!-- Tautan 4: Pesan Masuk -->
+                <a class="sidebar-link" data-tab="messages" onclick="switchTab('messages', this)" title="Pesan Masuk">
                     <i class="bi bi-chat-left-text-fill"></i>
-                    <span>Pesan Masuk</span>
-                    <span id="badgeMessageCount" class="badge rounded-pill bg-danger ms-auto d-none">0</span>
+                    <span class="link-label">Pesan Masuk</span>
+                    <span id="badgeMessageCount" class="badge rounded-pill bg-danger ms-auto badge-sidebar d-none">0</span>
                 </a>
 
-                <a class="sidebar-link" onclick="switchTab('settings')">
+                <!-- Tautan 5: Pengaturan Toko -->
+                <a class="sidebar-link" data-tab="settings" onclick="switchTab('settings', this)" title="Pengaturan Toko">
                     <i class="bi bi-gear-wide-connected"></i>
-                    <span>Pengaturan Toko</span>
+                    <span class="link-label">Pengaturan Toko</span>
                 </a>
 
-                <a class="sidebar-link" onclick="switchTab('guide')">
+                <!-- Tautan 6: Database & SQL -->
+                <a class="sidebar-link" data-tab="guide" onclick="switchTab('guide', this)" title="Database & SQL Guide">
                     <i class="bi bi-code-square"></i>
-                    <span>Database & SQL Guide</span>
+                    <span class="link-label">Database & SQL</span>
                 </a>
 
-                <hr class="my-4 text-muted opacity-25">
+                <hr class="my-4 text-white opacity-10 sidebar-divider">
 
-                <div class="px-3">
-                    <div class="p-3 rounded-4 text-center" style="background-color: var(--secondary); border: 1px dashed rgba(73,25,55,0.2);">
-                        <i class="bi bi-headset fs-3" style="color: var(--primary);"></i>
-                        <div class="fw-bold small mt-1" style="color: var(--primary);">Bantuan Sistem</div>
-                        <div class="text-muted" style="font-size: 0.75rem;">Terhubung langsung ke Vercel & Supabase Cloud</div>
-                    </div>
+                <div class="px-2 sidebar-help-box">
+                    <i class="bi bi-cloud-check-fill fs-3 text-warning"></i>
+                    <div class="fw-bold small mt-1 text-white">Sistem Aktif</div>
+                    <div class="text-white-50" style="font-size: 0.72rem;">Vercel & Supabase Cloud</div>
                 </div>
             </div>
         </aside>
 
         <!-- MAIN CONTENT AREA -->
-        <main class="admin-main">
+        <main class="admin-main" id="adminMain">
 
             <!-- STATS COUNTER BAR -->
             <div class="row g-3 mb-4">
@@ -407,7 +484,7 @@
                 <div class="col-sm-6 col-xl-3">
                     <div class="card-stat">
                         <div class="d-flex align-items-center justify-content-between mb-2">
-                            <span class="text-muted small fw-semibold">Pesan Masuk (Leads)</span>
+                            <span class="text-muted small fw-semibold">Pesan Masuk (Kontak)</span>
                             <div class="stat-icon-wrapper" style="background-color: rgba(25, 135, 84, 0.1); color: #198754;">
                                 <i class="bi bi-chat-quote-fill"></i>
                             </div>
@@ -418,13 +495,14 @@
                 </div>
             </div>
 
-            <!-- TAB 1: RINGKASAN & ANALITIK -->
+            <!-- ============================================== -->
+            <!-- TAB 1: RINGKASAN & ANALITIK                     -->
+            <!-- ============================================== -->
             <section id="pane-analytics" class="tab-pane-content">
-                
                 <div class="d-flex flex-wrap justify-content-between align-items-center mb-4 gap-3">
                     <div>
                         <h4 class="fw-bold mb-1" style="color: var(--primary);">Analisis Minat Pengunjung & Penjualan</h4>
-                        <p class="text-muted small mb-0">Pantau produk yang paling banyak diminati dan saluran marketplace yang paling efektif</p>
+                        <p class="text-muted small mb-0">Pantau produk yang paling banyak diminati dan tautan saluran marketplace yang aktif dikunjungi</p>
                     </div>
                     <div class="d-flex gap-2">
                         <button class="btn btn-sm btn-outline-secondary rounded-pill px-3" onclick="loadAllData()">
@@ -458,7 +536,7 @@
                                 <h6 class="fw-bold mb-0" style="color: var(--primary);">
                                     <i class="bi bi-pie-chart-fill me-2" style="color: var(--primary);"></i>Distribusi Saluran Belanja
                                 </h6>
-                                <span class="badge bg-light text-muted border">Pangsa Pasar</span>
+                                <span class="badge bg-light text-muted border">Pangsa Traffic</span>
                             </div>
                             <div style="height: 250px; position: relative;" class="d-flex align-items-center justify-content-center">
                                 <canvas id="marketplaceClickChart"></canvas>
@@ -473,7 +551,7 @@
                     <div class="d-flex justify-content-between align-items-center mb-3">
                         <div>
                             <h5 class="fw-bold mb-1" style="color: var(--primary);">Klasemen Minat Produk (Leaderboard)</h5>
-                            <p class="text-muted small mb-0">Daftar produk diurutkan berdasarkan interaksi klik pengunjung tertinggi</p>
+                            <p class="text-muted small mb-0">Daftar produk diurutkan berdasarkan interaksi pengunjung tertinggi</p>
                         </div>
                     </div>
 
@@ -487,24 +565,26 @@
                                     <th>Harga</th>
                                     <th style="min-width: 140px;">Popularitas</th>
                                     <th class="text-center">Total Klik</th>
+                                    <th class="text-end">Lihat</th>
                                 </tr>
                             </thead>
                             <tbody id="topProductsTableBody">
-                                <tr><td colspan="6" class="text-center py-4 text-muted">Memuat data analitik...</td></tr>
+                                <tr><td colspan="7" class="text-center py-4 text-muted">Memuat data analitik...</td></tr>
                             </tbody>
                         </table>
                     </div>
                 </div>
-
             </section>
 
-            <!-- TAB 2: KATALOG PRODUK -->
+            <!-- ============================================== -->
+            <!-- TAB 2: KATALOG PRODUK                           -->
+            <!-- ============================================== -->
             <section id="pane-products" class="tab-pane-content d-none">
                 <div class="content-card">
                     <div class="d-flex flex-wrap justify-content-between align-items-center mb-4 gap-3">
                         <div>
                             <h4 class="fw-bold mb-1" style="color: var(--primary);">Kelola Katalog Produk</h4>
-                            <p class="text-muted small mb-0">Tambah, ubah info, ubah harga, atau hapus produk dari database toko</p>
+                            <p class="text-muted small mb-0">Tambah, ubah detail, perbarui harga, atau hapus produk dari database toko</p>
                         </div>
                         <button type="button" class="btn btn-brand-primary" onclick="openAddProductModal()">
                             <i class="bi bi-plus-circle me-1"></i>Tambah Produk Baru
@@ -532,11 +612,11 @@
                             <thead class="table-light small text-uppercase">
                                 <tr>
                                     <th>Gambar</th>
-                                    <th>Nama Produk & Deskripsi</th>
+                                    <th>Nama Produk & Spesifikasi</th>
                                     <th>Kategori</th>
                                     <th>Harga</th>
                                     <th>Label Badge</th>
-                                    <th class="text-center">Klik</th>
+                                    <th class="text-center">Klik Pengunjung</th>
                                     <th class="text-end">Aksi</th>
                                 </tr>
                             </thead>
@@ -548,17 +628,19 @@
                 </div>
             </section>
 
-            <!-- TAB 3: KLIK MARKETPLACE -->
+            <!-- ============================================== -->
+            <!-- TAB 3: KLIK MARKETPLACE                         -->
+            <!-- ============================================== -->
             <section id="pane-marketplaces" class="tab-pane-content d-none">
                 <div class="content-card">
                     <div class="d-flex flex-wrap justify-content-between align-items-center mb-4 gap-3">
                         <div>
                             <h4 class="fw-bold mb-1" style="color: var(--primary);">Pelacakan Tautan Marketplace</h4>
-                            <p class="text-muted small mb-0">Cek platform e-commerce dan saluran interaksi mana yang paling sering dikunjungi pembeli</p>
+                            <p class="text-muted small mb-0">Cek platform e-commerce dan saluran mana yang paling banyak menghasilkan kunjungan pembeli</p>
                         </div>
-                        <button class="btn btn-sm btn-outline-secondary rounded-pill px-3" onclick="simulateTestClick()">
-                            <i class="bi bi-magic me-1"></i>Uji Coba Klik Simulasi
-                        </button>
+                        <a href="#pane-settings" onclick="switchTab('settings')" class="btn btn-sm btn-outline-secondary rounded-pill px-3">
+                            <i class="bi bi-gear me-1"></i>Ubah Tautan di Pengaturan
+                        </a>
                     </div>
 
                     <div class="table-responsive">
@@ -566,11 +648,11 @@
                             <thead class="table-light small text-uppercase">
                                 <tr>
                                     <th>Saluran / Platform</th>
-                                    <th>Kategori Tautan</th>
-                                    <th>Tautan Tujuan</th>
-                                    <th style="min-width: 150px;">Distribusi Klik</th>
+                                    <th>Kategori Saluran</th>
+                                    <th>Tautan Toko Resmi</th>
+                                    <th style="min-width: 150px;">Distribusi Kunjungan</th>
                                     <th class="text-center">Total Klik</th>
-                                    <th class="text-end">Uji Tautan</th>
+                                    <th class="text-end">Aksi Kunjungi</th>
                                 </tr>
                             </thead>
                             <tbody id="marketplaceTableBody">
@@ -581,13 +663,15 @@
                 </div>
             </section>
 
-            <!-- TAB 4: PESAN MASUK -->
+            <!-- ============================================== -->
+            <!-- TAB 4: PESAN MASUK                             -->
+            <!-- ============================================== -->
             <section id="pane-messages" class="tab-pane-content d-none">
                 <div class="content-card">
                     <div class="d-flex flex-wrap justify-content-between align-items-center mb-4 gap-3">
                         <div>
                             <h4 class="fw-bold mb-1" style="color: var(--primary);">Pesan Masuk & Formulir Kontak</h4>
-                            <p class="text-muted small mb-0">Pertanyaan dan formulir prospek yang dikirimkan oleh calon pelanggan melalui website</p>
+                            <p class="text-muted small mb-0">Pertanyaan dan formulir prospek yang dikirimkan oleh pengunjung melalui website</p>
                         </div>
                         <div class="d-flex gap-2">
                             <button type="button" class="btn btn-sm btn-outline-secondary rounded-pill px-3" onclick="loadMessages()">
@@ -606,8 +690,8 @@
                                     <th>Waktu Masuk</th>
                                     <th>Pengirim</th>
                                     <th>Kontak</th>
-                                    <th>Pesan & Kebutuhan</th>
-                                    <th class="text-end">Tanggapan</th>
+                                    <th>Isi Pesan</th>
+                                    <th class="text-end">Tanggapan Langsung</th>
                                 </tr>
                             </thead>
                             <tbody id="messagesTableBody">
@@ -618,12 +702,18 @@
                 </div>
             </section>
 
-            <!-- TAB 5: PENGATURAN TOKO -->
+            <!-- ============================================== -->
+            <!-- TAB 5: PENGATURAN TOKO                          -->
+            <!-- ============================================== -->
             <section id="pane-settings" class="tab-pane-content d-none">
                 <div class="content-card">
                     <div class="mb-4">
                         <h4 class="fw-bold mb-1" style="color: var(--primary);">Pengaturan Informasi & Tautan Toko</h4>
-                        <p class="text-muted small">Atur nomor WhatsApp resmi dan link official store. Perubahan akan langsung tersinkron ke website utama.</p>
+                        <p class="text-muted small">Atur nomor WhatsApp resmi dan link toko official. Perubahan yang Anda simpan di sini akan langsung aktif dan tersinkronisasi ke seluruh tombol di website.</p>
+                    </div>
+
+                    <div id="settingsAlert" class="alert alert-success d-none border-0 rounded-3">
+                        <i class="bi bi-check-circle-fill me-2"></i> Pengaturan toko berhasil disimpan dan diperbarui!
                     </div>
 
                     <form id="settingsForm" onsubmit="handleSaveSettings(event)">
@@ -634,11 +724,11 @@
                                     <span class="input-group-text bg-light">+</span>
                                     <input type="text" id="settingWhatsapp" class="form-control" placeholder="6289656759653" required>
                                 </div>
-                                <div class="form-text small">Gunakan format internasional tanpa spasi atau tanda hubung (contoh: 6289656759653).</div>
+                                <div class="form-text small">Format nomor internasional tanpa spasi (contoh: 6289656759653).</div>
                             </div>
 
                             <div class="col-md-6">
-                                <label class="form-label fw-bold small"><i class="bi bi-shop text-warning me-1"></i>Tautan Shopee Official</label>
+                                <label class="form-label fw-bold small"><i class="bi bi-shop text-danger me-1"></i>Tautan Shopee Official</label>
                                 <input type="url" id="settingShopee" class="form-control" placeholder="https://id.shp.ee/FdqYZK8" required>
                                 <div class="form-text small">URL toko Shopee resmi Gemas Galore.</div>
                             </div>
@@ -668,7 +758,9 @@
                 </div>
             </section>
 
-            <!-- TAB 6: PANDUAN SQL -->
+            <!-- ============================================== -->
+            <!-- TAB 6: PANDUAN SQL                             -->
+            <!-- ============================================== -->
             <section id="pane-guide" class="tab-pane-content d-none">
                 <div class="content-card">
                     <div class="d-flex justify-content-between align-items-center mb-3">
@@ -683,7 +775,7 @@
 
                     <div class="alert alert-info border-0 rounded-3 small mb-3">
                         <i class="bi bi-info-circle-fill me-2"></i>
-                        Jika tabel <code>analytics_clicks</code> atau <code>site_settings</code> belum dibuat di Supabase, silakan buka <a href="https://supabase.com/dashboard/project/fgaymsvezuqrokylqvgw/sql/new" target="_blank" class="fw-bold">Supabase SQL Editor</a>, tempel kode di bawah, lalu klik <strong>Run</strong>.
+                        Jika tabel analitik belum dibuat di database Supabase Anda, silakan buka <a href="https://supabase.com/dashboard/project/fgaymsvezuqrokylqvgw/sql/new" target="_blank" class="fw-bold">Supabase SQL Editor</a>, tempel kode di bawah, lalu klik <strong>Run</strong>.
                     </div>
 
                     <div class="position-relative">
@@ -808,6 +900,7 @@ CREATE POLICY "Admin can manage settings" ON public.site_settings FOR ALL TO aut
         let currentProducts = [];
         let currentMessages = [];
         let currentAnalytics = null;
+        let currentSettings = null;
         let productModalInstance = null;
         let selectedProductCategory = 'all';
 
@@ -817,6 +910,11 @@ CREATE POLICY "Admin can manage settings" ON public.site_settings FOR ALL TO aut
 
         document.addEventListener('DOMContentLoaded', async function () {
             productModalInstance = new bootstrap.Modal(document.getElementById('productModal'));
+
+            // Pulihkan status sidebar collapsed dari localStorage jika sebelumnya dikecilkan
+            if (localStorage.getItem('gemas_sidebar_collapsed') === 'true' && window.innerWidth >= 992) {
+                document.body.classList.add('sidebar-collapsed');
+            }
 
             // Periksa koneksi Supabase
             if (!isSupabaseConfigured()) {
@@ -844,32 +942,60 @@ CREATE POLICY "Admin can manage settings" ON public.site_settings FOR ALL TO aut
             }
         });
 
-        // 1. Navigation & Tabs
-        function switchTab(tabName) {
-            document.querySelectorAll('.sidebar-link').forEach(link => link.classList.remove('active'));
-            event.currentTarget.classList.add('active');
-
-            document.querySelectorAll('.tab-pane-content').forEach(pane => pane.classList.add('d-none'));
-            const activePane = document.getElementById(`pane-${tabName}`);
-            if (activePane) activePane.classList.remove('d-none');
-
-            // Responsive auto-close sidebar on mobile
+        // 1. Sidebar Collapse & Navigation
+        function toggleSidebarCollapse() {
             if (window.innerWidth < 992) {
-                document.getElementById('adminSidebar').classList.remove('show');
+                // Mobile: toggle drawer
+                document.getElementById('adminSidebar').classList.toggle('show-mobile');
+            } else {
+                // Desktop: toggle mini-sidebar (icon only)
+                const isCollapsed = document.body.classList.toggle('sidebar-collapsed');
+                localStorage.setItem('gemas_sidebar_collapsed', isCollapsed ? 'true' : 'false');
+
+                // Resize chart agar pas dengan ukuran baru
+                setTimeout(() => {
+                    if (productBarChart) productBarChart.resize();
+                    if (marketplaceDoughnutChart) marketplaceDoughnutChart.resize();
+                }, 320);
+            }
+        }
+
+        // 2. Tab Navigation (100% Reliable & Bug-free)
+        function switchTab(tabName, linkEl) {
+            // Update active state di menu sidebar
+            document.querySelectorAll('.sidebar-link').forEach(link => link.classList.remove('active'));
+
+            if (linkEl && linkEl.classList) {
+                linkEl.classList.add('active');
+            } else {
+                const targetLink = document.querySelector(`.sidebar-link[data-tab="${tabName}"]`);
+                if (targetLink) targetLink.classList.add('active');
             }
 
-            // Resize charts jika buka tab analitik
+            // Sembunyikan semua pane tab
+            document.querySelectorAll('.tab-pane-content').forEach(pane => pane.classList.add('d-none'));
+
+            // Tampilkan pane yang diminta
+            const activePane = document.getElementById(`pane-${tabName}`);
+            if (activePane) {
+                activePane.classList.remove('d-none');
+            }
+
+            // Jika di mobile, tutup sidebar setelah klik
+            if (window.innerWidth < 992) {
+                document.getElementById('adminSidebar').classList.remove('show-mobile');
+            }
+
+            // Resize charts jika membuka tab analitik
             if (tabName === 'analytics' && productBarChart) {
-                productBarChart.resize();
-                marketplaceDoughnutChart.resize();
+                setTimeout(() => {
+                    productBarChart.resize();
+                    if (marketplaceDoughnutChart) marketplaceDoughnutChart.resize();
+                }, 80);
             }
         }
 
-        function toggleSidebar() {
-            document.getElementById('adminSidebar').classList.toggle('show');
-        }
-
-        // 2. Authentication
+        // 3. Autentikasi
         async function handleLogin(e) {
             e.preventDefault();
             const email = document.getElementById('loginEmail').value;
@@ -920,23 +1046,22 @@ CREATE POLICY "Admin can manage settings" ON public.site_settings FOR ALL TO aut
             loadAllData();
         }
 
-        // 3. Data Loader Orchestrator
+        // 4. Data Loader
         async function loadAllData() {
             await Promise.all([
+                loadSettings(),
                 loadProducts(),
                 loadMessages(),
-                loadAnalytics(),
-                loadSettings()
+                loadAnalytics()
             ]);
         }
 
-        // 4. Analitik & Click Tracking Engine
+        // 5. Analitik & Real Click Tracking
         async function loadAnalytics() {
             if (typeof getAnalyticsSummary !== 'function') return;
 
             currentAnalytics = await getAnalyticsSummary();
 
-            // Perbarui counter
             document.getElementById('statProductClicks').textContent = currentAnalytics.totalProductClicks;
             document.getElementById('statMarketplaceClicks').textContent = currentAnalytics.totalMarketplaceClicks;
 
@@ -949,21 +1074,20 @@ CREATE POLICY "Admin can manage settings" ON public.site_settings FOR ALL TO aut
             const productClicks = analytics.productClicks || {};
             const marketplaceClicks = analytics.marketplaceClicks || {};
 
-            // Prepare Top Product Data (Sort Descending, Top 7)
+            // Urutkan Produk Teratas
             const sortedProducts = Object.entries(productClicks)
                 .sort((a, b) => b[1] - a[1])
                 .slice(0, 7);
 
-            // Default fallback label jika belum ada klik sama sekali
             let prodLabels = sortedProducts.map(p => p[0]);
             let prodCounts = sortedProducts.map(p => p[1]);
 
             if (prodLabels.length === 0) {
-                prodLabels = ['Kerudung Paris Eksklusif', 'Gantungan Tas Akrilik', 'Card Holder Minimalis', 'Premium Gift Packaging'];
+                prodLabels = currentProducts.slice(0, 4).map(p => p.title);
                 prodCounts = [0, 0, 0, 0];
             }
 
-            // 1. Product Bar Chart
+            // 1. Bar Chart Produk Terpopuler
             const ctxProd = document.getElementById('productClickChart').getContext('2d');
             if (productBarChart) productBarChart.destroy();
 
@@ -1011,7 +1135,7 @@ CREATE POLICY "Admin can manage settings" ON public.site_settings FOR ALL TO aut
                 }
             });
 
-            // 2. Marketplace Doughnut Chart
+            // 2. Doughnut Chart Marketplace
             const mpPlatforms = ['Shopee', 'Tokopedia', 'TikTok Shop', 'Instagram', 'WhatsApp'];
             const mpColors = ['#ee4d2d', '#00aa5b', '#000000', '#e1306c', '#25d366'];
             const mpCounts = mpPlatforms.map(platform => {
@@ -1024,7 +1148,6 @@ CREATE POLICY "Admin can manage settings" ON public.site_settings FOR ALL TO aut
                 return count;
             });
 
-            // Fallback display jika belum ada interaksi
             const totalMpClicks = mpCounts.reduce((a, b) => a + b, 0);
             const chartMpData = totalMpClicks > 0 ? mpCounts : [1, 1, 1, 1, 1];
 
@@ -1062,7 +1185,6 @@ CREATE POLICY "Admin can manage settings" ON public.site_settings FOR ALL TO aut
                 }
             });
 
-            // Custom Legend
             const legendEl = document.getElementById('marketplaceChartLegend');
             legendEl.innerHTML = mpPlatforms.map((name, i) => `
                 <span class="d-inline-flex align-items-center me-3 mb-1">
@@ -1076,7 +1198,6 @@ CREATE POLICY "Admin can manage settings" ON public.site_settings FOR ALL TO aut
             const tableBody = document.getElementById('topProductsTableBody');
             const productClicks = analytics.productClicks || {};
 
-            // Urutkan produk berdasarkan jumlah klik
             const rankedList = [...currentProducts].map(p => {
                 const clicks = productClicks[p.title] || 0;
                 return { ...p, clicks };
@@ -1085,7 +1206,7 @@ CREATE POLICY "Admin can manage settings" ON public.site_settings FOR ALL TO aut
             const maxClicks = Math.max(...rankedList.map(p => p.clicks), 1);
 
             if (rankedList.length === 0) {
-                tableBody.innerHTML = '<tr><td colspan="6" class="text-center py-4 text-muted">Belum ada data produk.</td></tr>';
+                tableBody.innerHTML = '<tr><td colspan="7" class="text-center py-4 text-muted">Belum ada data produk.</td></tr>';
                 return;
             }
 
@@ -1122,22 +1243,35 @@ CREATE POLICY "Admin can manage settings" ON public.site_settings FOR ALL TO aut
                         <td class="text-center">
                             <span class="badge bg-dark rounded-pill px-3 py-2 fs-6">${p.clicks} <i class="bi bi-cursor-fill ms-1 small text-warning"></i></span>
                         </td>
+                        <td class="text-end">
+                            <a href="index.html#products" target="_blank" class="btn btn-sm btn-outline-secondary rounded-pill px-2" title="Lihat di Halaman Utama">
+                                <i class="bi bi-box-arrow-up-right"></i>
+                            </a>
+                        </td>
                     </tr>
                 `;
             }).join('');
         }
 
+        // Tampilkan Tautan Marketplace & Aksi Kunjungi Nyata
         function renderMarketplaceTable(analytics) {
             const tableBody = document.getElementById('marketplaceTableBody');
             const mpClicks = analytics.marketplaceClicks || {};
-            const total = analytics.totalMarketplaceClicks || 1;
+
+            const settings = currentSettings || {
+                whatsapp_number: '6289656759653',
+                shopee_url: 'https://id.shp.ee/FdqYZK8',
+                tokopedia_url: 'https://tokopedia.com/gemasgalore',
+                tiktok_url: 'https://tiktok.com/@gemasgalore',
+                instagram_url: 'https://instagram.com/gemasgalore'
+            };
 
             const channels = [
-                { name: 'Shopee Official', key: 'Shopee', cat: 'Official Store', url: 'https://id.shp.ee/FdqYZK8', icon: 'bi-shop text-danger' },
-                { name: 'Tokopedia Store', key: 'Tokopedia', cat: 'Official Store', url: 'https://tokopedia.com/gemasgalore', icon: 'bi-basket text-success' },
-                { name: 'TikTok Shop', key: 'TikTok', cat: 'Social Commerce', url: 'https://tiktok.com/@gemasgalore', icon: 'bi-tiktok text-dark' },
-                { name: 'Instagram DM & Shop', key: 'Instagram', cat: 'Social Media', url: 'https://instagram.com/gemasgalore', icon: 'bi-instagram text-danger' },
-                { name: 'WhatsApp Langsung (Floating & CTA)', key: 'WhatsApp', cat: 'Direct Messaging', url: 'https://wa.me/6289656759653', icon: 'bi-whatsapp text-success' }
+                { name: 'Shopee Official Store', key: 'Shopee', cat: 'Official Store', url: settings.shopee_url, icon: 'bi-shop text-danger' },
+                { name: 'Tokopedia Store', key: 'Tokopedia', cat: 'Official Store', url: settings.tokopedia_url, icon: 'bi-basket text-success' },
+                { name: 'TikTok Shop / Profil', key: 'TikTok', cat: 'Social Commerce', url: settings.tiktok_url, icon: 'bi-tiktok text-dark' },
+                { name: 'Instagram Official', key: 'Instagram', cat: 'Social Media', url: settings.instagram_url, icon: 'bi-instagram text-danger' },
+                { name: 'WhatsApp Official Chat', key: 'WhatsApp', cat: 'Direct Messaging', url: `https://wa.me/${settings.whatsapp_number}?text=Halo%20Gemas%20Galore`, icon: 'bi-whatsapp text-success' }
             ];
 
             tableBody.innerHTML = channels.map(ch => {
@@ -1162,7 +1296,11 @@ CREATE POLICY "Admin can manage settings" ON public.site_settings FOR ALL TO aut
                             </div>
                         </td>
                         <td><span class="badge bg-light text-dark border">${ch.cat}</span></td>
-                        <td><a href="${ch.url}" target="_blank" class="small text-truncate d-inline-block text-secondary" style="max-width: 220px;">${ch.url}</a></td>
+                        <td>
+                            <a href="${ch.url}" target="_blank" class="small text-truncate d-inline-block text-secondary" style="max-width: 240px;">
+                                ${ch.url}
+                            </a>
+                        </td>
                         <td>
                             <div class="d-flex align-items-center gap-2">
                                 <div class="custom-progress flex-grow-1">
@@ -1177,23 +1315,22 @@ CREATE POLICY "Admin can manage settings" ON public.site_settings FOR ALL TO aut
                             </span>
                         </td>
                         <td class="text-end">
-                            <a href="${ch.url}" target="_blank" class="btn btn-sm btn-outline-dark rounded-pill px-3">
-                                <i class="bi bi-box-arrow-up-right me-1"></i>Buka
-                            </a>
+                            <button class="btn btn-sm btn-brand-primary rounded-pill px-3" onclick="visitMarketplaceReal('${ch.key}', '${ch.url}')">
+                                <i class="bi bi-box-arrow-up-right me-1"></i>Kunjungi Toko
+                            </button>
                         </td>
                     </tr>
                 `;
             }).join('');
         }
 
-        // Simulasi Klik untuk Testing
-        async function simulateTestClick() {
+        // Buka Tautan Nyata dan Catat Kunjungan
+        async function visitMarketplaceReal(platform, url) {
             if (typeof trackClick === 'function') {
-                await trackClick('marketplace_click', 'Shopee', 'store_popup');
-                await trackClick('product_click', 'Kerudung Paris Eksklusif', 'hijab');
-                await loadAnalytics();
-                alert('Berhasil mensimulasikan klik pengujian pada Shopee & Kerudung Paris Eksklusif!');
+                await trackClick('marketplace_click', platform, 'admin_direct');
             }
+            window.open(url, '_blank');
+            await loadAnalytics();
         }
 
         // Ekspor Analitik ke CSV
@@ -1228,7 +1365,7 @@ CREATE POLICY "Admin can manage settings" ON public.site_settings FOR ALL TO aut
             document.body.removeChild(link);
         }
 
-        // 5. Product Management CRUD
+        // 6. Katalog Produk
         async function loadProducts() {
             const tableBody = document.getElementById('productTableBody');
             tableBody.innerHTML = '<tr><td colspan="7" class="text-center py-4"><span class="spinner-border spinner-border-sm me-2"></span>Memuat katalog produk...</td></tr>';
@@ -1244,7 +1381,7 @@ CREATE POLICY "Admin can manage settings" ON public.site_settings FOR ALL TO aut
             const clicksMap = (currentAnalytics && currentAnalytics.productClicks) ? currentAnalytics.productClicks : {};
 
             if (products.length === 0) {
-                tableBody.innerHTML = '<tr><td colspan="7" class="text-center py-4 text-muted">Belum ada produk yang cocok dengan pencarian.</td></tr>';
+                tableBody.innerHTML = '<tr><td colspan="7" class="text-center py-4 text-muted">Belum ada produk yang cocok dengan filter.</td></tr>';
                 return;
             }
 
@@ -1302,11 +1439,7 @@ CREATE POLICY "Admin can manage settings" ON public.site_settings FOR ALL TO aut
 
         function previewModalImage(url) {
             const img = document.getElementById('prodImgPreview');
-            if (url) {
-                img.src = url;
-            } else {
-                img.src = 'asset/img/logo1.png';
-            }
+            img.src = url || 'asset/img/logo1.png';
         }
 
         function openAddProductModal() {
@@ -1361,7 +1494,6 @@ CREATE POLICY "Admin can manage settings" ON public.site_settings FOR ALL TO aut
                     if (error) alert('Gagal menambah: ' + error.message);
                 }
             } else {
-                // Fallback offline / demo
                 let custom = JSON.parse(localStorage.getItem('gemas_custom_products') || JSON.stringify(DEFAULT_PRODUCTS));
                 if (id) {
                     const idx = custom.findIndex(p => p.id == id);
@@ -1399,7 +1531,7 @@ CREATE POLICY "Admin can manage settings" ON public.site_settings FOR ALL TO aut
             await loadAnalytics();
         }
 
-        // 6. Messages & Inbox
+        // 7. Pesan Masuk
         async function loadMessages() {
             const tableBody = document.getElementById('messagesTableBody');
             tableBody.innerHTML = '<tr><td colspan="5" class="text-center py-4"><span class="spinner-border spinner-border-sm me-2"></span>Memuat pesan masuk...</td></tr>';
@@ -1492,16 +1624,16 @@ CREATE POLICY "Admin can manage settings" ON public.site_settings FOR ALL TO aut
             document.body.removeChild(link);
         }
 
-        // 7. Store Settings
+        // 8. Pengaturan Toko (Store Settings)
         async function loadSettings() {
             if (typeof getSiteSettings !== 'function') return;
-            const settings = await getSiteSettings();
+            currentSettings = await getSiteSettings();
 
-            document.getElementById('settingWhatsapp').value = settings.whatsapp_number || '6289656759653';
-            document.getElementById('settingShopee').value = settings.shopee_url || 'https://id.shp.ee/FdqYZK8';
-            document.getElementById('settingTokopedia').value = settings.tokopedia_url || 'https://tokopedia.com/gemasgalore';
-            document.getElementById('settingTiktok').value = settings.tiktok_url || 'https://tiktok.com/@gemasgalore';
-            document.getElementById('settingInstagram').value = settings.instagram_url || 'https://instagram.com/gemasgalore';
+            document.getElementById('settingWhatsapp').value = currentSettings.whatsapp_number || '6289656759653';
+            document.getElementById('settingShopee').value = currentSettings.shopee_url || 'https://id.shp.ee/FdqYZK8';
+            document.getElementById('settingTokopedia').value = currentSettings.tokopedia_url || 'https://tokopedia.com/gemasgalore';
+            document.getElementById('settingTiktok').value = currentSettings.tiktok_url || 'https://tiktok.com/@gemasgalore';
+            document.getElementById('settingInstagram').value = currentSettings.instagram_url || 'https://instagram.com/gemasgalore';
         }
 
         async function handleSaveSettings(e) {
@@ -1524,10 +1656,25 @@ CREATE POLICY "Admin can manage settings" ON public.site_settings FOR ALL TO aut
                 await updateSiteSetting('instagram_url', ig);
             }
 
+            currentSettings = {
+                whatsapp_number: wa,
+                shopee_url: shopee,
+                tokopedia_url: tokped,
+                tiktok_url: tiktok,
+                instagram_url: ig
+            };
+
             btn.disabled = false;
             btn.innerHTML = '<i class="bi bi-check2-circle me-1"></i>Simpan Pengaturan';
-            alert('Pengaturan toko berhasil disimpan!');
-            await loadAnalytics();
+
+            const alertEl = document.getElementById('settingsAlert');
+            alertEl.classList.remove('d-none');
+            setTimeout(() => alertEl.classList.add('d-none'), 4000);
+
+            // Re-render marketplace table dengan URL baru
+            if (currentAnalytics) {
+                renderMarketplaceTable(currentAnalytics);
+            }
         }
 
         function copySqlCode() {

@@ -221,6 +221,7 @@ async function trackClick(eventType, targetName, category = "general") {
  */
 async function getAnalyticsSummary() {
   let events = [];
+  const localEvents = JSON.parse(localStorage.getItem("gemas_analytics_events") || "[]");
 
   // 1. Coba ambil dari Supabase
   if (supabaseClient) {
@@ -239,9 +240,17 @@ async function getAnalyticsSummary() {
     }
   }
 
-  // 2. Jika Supabase kosong/offline, pakai data lokal
+  // 2. Gabungkan data Supabase dan lokal
   if (events.length === 0) {
-    events = JSON.parse(localStorage.getItem("gemas_analytics_events") || "[]");
+    events = localEvents;
+  } else if (localEvents.length > 0) {
+    const existingIds = new Set(events.map(e => `${e.event_type}_${e.target_name}_${e.created_at}`));
+    localEvents.forEach(le => {
+      const key = `${le.event_type}_${le.target_name}_${le.created_at}`;
+      if (!existingIds.has(key)) {
+        events.push(le);
+      }
+    });
   }
 
   // 3. Agregasi data
@@ -261,19 +270,21 @@ async function getAnalyticsSummary() {
     }
   });
 
-  // Jika events masih sangat sedikit (baru diinstal), gabungkan dengan counter lokal
+  // Gabungkan dengan counter lokal agar klik instan selalu tercermin
   const localCounts = JSON.parse(localStorage.getItem("gemas_click_counts") || "{}");
   Object.keys(localCounts).forEach(k => {
     const [type, name] = k.split(":::");
     if (type === "product_click" || type === "product_whatsapp") {
-      if (!productClicks[name]) {
+      if ((productClicks[name] || 0) < localCounts[k]) {
+        const diff = localCounts[k] - (productClicks[name] || 0);
         productClicks[name] = localCounts[k];
-        totalProductClicks += localCounts[k];
+        totalProductClicks += diff;
       }
     } else if (type === "marketplace_click") {
-      if (!marketplaceClicks[name]) {
+      if ((marketplaceClicks[name] || 0) < localCounts[k]) {
+        const diff = localCounts[k] - (marketplaceClicks[name] || 0);
         marketplaceClicks[name] = localCounts[k];
-        totalMarketplaceClicks += localCounts[k];
+        totalMarketplaceClicks += diff;
       }
     }
   });
