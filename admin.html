@@ -475,93 +475,143 @@
         }
 
         /* ========================================================
-           BREADCRUMB MENU TOPBAR
+           BREADCRUMB MENU TOPBAR (DISESUAIKAN DENGAN BRAND & RESPONSIF)
            ======================================================== */
+        .admin-breadcrumb-nav {
+            max-width: 100%;
+            overflow: hidden;
+        }
+
         .admin-breadcrumb-nav .breadcrumb {
             background: transparent;
             padding: 0;
             margin: 0;
             font-size: 0.88rem;
+            flex-wrap: nowrap;
+            align-items: center;
         }
 
         .admin-breadcrumb-nav .breadcrumb-item {
             display: inline-flex;
             align-items: center;
+            white-space: nowrap;
         }
 
         .admin-breadcrumb-nav .breadcrumb-item + .breadcrumb-item::before {
             content: "›";
-            color: rgba(255, 171, 64, 0.75);
+            color: rgba(255, 171, 64, 0.85);
             font-size: 1.15rem;
             line-height: 1;
             padding: 0 0.45rem;
             vertical-align: middle;
+            font-weight: 700;
         }
 
         .admin-breadcrumb-nav .breadcrumb-root {
-            color: rgba(253, 234, 213, 0.85);
+            color: rgba(253, 234, 213, 0.9);
             text-decoration: none;
             font-weight: 500;
-            padding: 4px 8px;
-            border-radius: 8px;
+            padding: 5px 10px;
+            border-radius: 50rem;
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 171, 64, 0.25);
             transition: all 0.2s ease;
             display: inline-flex;
             align-items: center;
+            font-size: 0.84rem;
         }
 
         .admin-breadcrumb-nav .breadcrumb-root:hover {
             color: #ffffff;
-            background: rgba(255, 255, 255, 0.1);
+            background: rgba(255, 171, 64, 0.25);
+            border-color: rgba(255, 171, 64, 0.55);
+            transform: translateY(-1px);
         }
 
         .admin-breadcrumb-nav .breadcrumb-category {
-            color: rgba(253, 234, 213, 0.6);
-            font-weight: 500;
-            font-size: 0.82rem;
-            letter-spacing: 0.3px;
+            color: rgba(253, 234, 213, 0.7);
+            font-weight: 600;
+            font-size: 0.78rem;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
         }
 
         .admin-breadcrumb-nav .breadcrumb-menu-btn {
-            background: rgba(255, 255, 255, 0.1);
-            border: 1px solid rgba(255, 171, 64, 0.35);
-            border-radius: 20px;
-            padding: 4px 12px;
+            background: rgba(255, 255, 255, 0.12);
+            border: 1px solid rgba(255, 171, 64, 0.4);
+            border-radius: 50rem;
+            padding: 5px 12px;
             font-size: 0.84rem;
             color: #ffffff !important;
             font-weight: 600;
             transition: all 0.25s ease;
             cursor: pointer;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
         }
 
         .admin-breadcrumb-nav .breadcrumb-menu-btn:hover,
         .admin-breadcrumb-nav .breadcrumb-menu-btn:focus,
         .admin-breadcrumb-nav .breadcrumb-menu-btn[aria-expanded="true"] {
-            background: rgba(255, 171, 64, 0.2);
+            background: rgba(255, 171, 64, 0.25);
             border-color: var(--accent);
-            box-shadow: 0 2px 10px rgba(255, 171, 64, 0.25);
+            box-shadow: 0 2px 14px rgba(255, 171, 64, 0.35);
+            color: #ffffff !important;
+        }
+
+        #pageTitleNav {
+            display: inline-block;
+            max-width: 130px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            vertical-align: middle;
+        }
+
+        @media (min-width: 480px) {
+            #pageTitleNav {
+                max-width: 170px;
+            }
+        }
+
+        @media (min-width: 768px) {
+            #pageTitleNav {
+                max-width: 220px;
+            }
+        }
+
+        @media (min-width: 992px) {
+            #pageTitleNav {
+                max-width: none;
+            }
         }
 
         .breadcrumb-dropdown-menu {
-            background: #360f29 !important;
-            border: 1px solid rgba(255, 171, 64, 0.3) !important;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35) !important;
-            border-radius: 12px !important;
-            min-width: 240px;
+            background: linear-gradient(180deg, #3d122f 0%, #290a1f 100%) !important;
+            border: 1px solid rgba(255, 171, 64, 0.35) !important;
+            box-shadow: 0 12px 35px rgba(0, 0, 0, 0.45) !important;
+            border-radius: 14px !important;
+            min-width: 250px;
+            max-width: 92vw;
             padding: 8px;
+            margin-top: 8px !important;
         }
 
         .breadcrumb-dropdown-menu .dropdown-item {
-            color: #ecd5e5;
+            color: #f8f1e9;
             border-radius: 8px;
             padding: 8px 12px;
             font-size: 0.85rem;
             display: flex;
             align-items: center;
+            justify-content: space-between;
             transition: all 0.2s ease;
         }
 
         .breadcrumb-dropdown-menu .dropdown-item:hover {
-            background: rgba(255, 171, 64, 0.18);
+            background: rgba(255, 171, 64, 0.2);
             color: #ffffff;
             transform: translateX(3px);
         }
@@ -570,6 +620,7 @@
             background: linear-gradient(135deg, #ffab40 0%, #f59e0b 100%) !important;
             color: #491937 !important;
             font-weight: 700 !important;
+            box-shadow: 0 2px 10px rgba(255, 171, 64, 0.3);
         }
 
         .breadcrumb-dropdown-menu .dropdown-item.active i {
@@ -577,12 +628,12 @@
         }
 
         .breadcrumb-dropdown-menu .dropdown-header {
-            color: var(--accent);
-            font-size: 0.7rem;
+            color: var(--accent) !important;
+            font-size: 0.68rem;
             font-weight: 700;
             text-transform: uppercase;
             letter-spacing: 0.8px;
-            padding: 6px 12px 2px;
+            padding: 8px 12px 3px;
         }
 
         .admin-main {
@@ -953,8 +1004,8 @@
                                 </a>
                             </li>
 
-                            <!-- Kategori Menu -->
-                            <li class="breadcrumb-item d-none d-md-inline-flex">
+                            <!-- Kategori Menu (Tampil di Desktop Lebar) -->
+                            <li class="breadcrumb-item d-none d-lg-inline-flex">
                                 <span class="breadcrumb-category" id="breadcrumbCategoryText">Ikhtisar</span>
                             </li>
 
@@ -965,44 +1016,44 @@
                                         <i class="bi bi-pie-chart-fill text-warning me-1" id="breadcrumbCurrentIcon"></i>
                                         <span id="pageTitleNav">Ringkasan & Analitik</span>
                                     </button>
-                                    <ul class="dropdown-menu dropdown-menu-dark breadcrumb-dropdown-menu" aria-labelledby="breadcrumbMenuBtn">
+                                    <ul class="dropdown-menu dropdown-menu-dark breadcrumb-dropdown-menu shadow" aria-labelledby="breadcrumbMenuBtn">
                                         <li class="dropdown-header">
-                                            <i class="bi bi-compass me-1"></i> Navigasi Menu
+                                            <i class="bi bi-compass me-1"></i> Navigasi Cepat
                                         </li>
                                         <li>
                                             <a class="dropdown-item active breadcrumb-nav-item" data-tab="analytics" href="#" onclick="switchTab('analytics'); return false;">
-                                                <i class="bi bi-pie-chart-fill me-2 text-warning fs-6"></i>Ringkasan & Analitik
+                                                <span><i class="bi bi-pie-chart-fill me-2 text-warning fs-6"></i>Ringkasan & Analitik</span>
                                             </a>
                                         </li>
                                         <li><hr class="dropdown-divider border-secondary opacity-25 my-1"></li>
                                         <li class="dropdown-header text-white-50">Katalog & Penjualan</li>
                                         <li>
                                             <a class="dropdown-item breadcrumb-nav-item" data-tab="products" href="#" onclick="switchTab('products'); return false;">
-                                                <i class="bi bi-box-seam-fill me-2 fs-6"></i>Katalog Produk
+                                                <span><i class="bi bi-box-seam-fill me-2 fs-6"></i>Katalog Produk</span>
                                             </a>
                                         </li>
                                         <li>
                                             <a class="dropdown-item breadcrumb-nav-item" data-tab="marketplaces" href="#" onclick="switchTab('marketplaces'); return false;">
-                                                <i class="bi bi-shop me-2 fs-6"></i>Klik Marketplace
+                                                <span><i class="bi bi-shop me-2 fs-6"></i>Klik Marketplace</span>
                                             </a>
                                         </li>
                                         <li><hr class="dropdown-divider border-secondary opacity-25 my-1"></li>
                                         <li class="dropdown-header text-white-50">Interaksi Pelanggan</li>
                                         <li>
                                             <a class="dropdown-item breadcrumb-nav-item" data-tab="messages" href="#" onclick="switchTab('messages'); return false;">
-                                                <i class="bi bi-chat-left-text-fill me-2 text-success fs-6"></i>Pesan Pelanggan
+                                                <span><i class="bi bi-chat-left-text-fill me-2 text-success fs-6"></i>Pesan Pelanggan</span>
                                             </a>
                                         </li>
                                         <li>
                                             <a class="dropdown-item breadcrumb-nav-item" data-tab="resellers" href="#" onclick="switchTab('resellers'); return false;">
-                                                <i class="bi bi-people-fill me-2 text-info fs-6"></i>Mitra Reseller
+                                                <span><i class="bi bi-people-fill me-2 text-info fs-6"></i>Mitra Reseller</span>
                                             </a>
                                         </li>
                                         <li><hr class="dropdown-divider border-secondary opacity-25 my-1"></li>
                                         <li class="dropdown-header text-white-50">Konfigurasi</li>
                                         <li>
                                             <a class="dropdown-item breadcrumb-nav-item" data-tab="settings" href="#" onclick="switchTab('settings'); return false;">
-                                                <i class="bi bi-gear-wide-connected me-2 fs-6"></i>Pengaturan Toko
+                                                <span><i class="bi bi-gear-wide-connected me-2 fs-6"></i>Pengaturan Toko</span>
                                             </a>
                                         </li>
                                     </ul>
@@ -1019,8 +1070,8 @@
                     </span>
 
                     <!-- Tautan Lihat Website -->
-                    <a href="index.html" target="_blank" class="btn btn-sm btn-store-link rounded-pill px-3 fw-semibold shadow-sm">
-                        <i class="bi bi-box-arrow-up-right me-1"></i>Buka Website
+                    <a href="index.html" target="_blank" class="btn btn-sm btn-store-link rounded-pill px-3 fw-semibold shadow-sm" title="Buka Toko Online">
+                        <i class="bi bi-box-arrow-up-right me-1"></i><span class="d-none d-sm-inline">Buka Website</span>
                     </a>
 
                     <!-- Email Badge -->
