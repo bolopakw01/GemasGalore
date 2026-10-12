@@ -12,10 +12,10 @@
     <!-- Bootstrap Icons -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
 
-    <!-- Google Fonts -->
+    <!-- Google Fonts (Poppins & Yeseva One) -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Yeseva+One&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Yeseva+One&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
     <!-- Chart.js CDN -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -23,20 +23,25 @@
     <style>
         :root {
             --primary: #491937;
-            --primary-dark: #240a1b;
+            --primary-dark: #190514;
             --primary-hover: #5d2046;
             --primary-light: rgba(73, 25, 55, 0.08);
             --secondary: #f8f1e9;
             --accent: #ffab40;
             --accent-hover: #f59e0b;
             --dark: #212529;
-            --sidebar-width: 260px;
-            --sidebar-collapsed-width: 72px;
-            --topbar-height: 70px;
+            --sidebar-closed-width: 78px;
+            --sidebar-open-width: 260px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Poppins", sans-serif;
         }
 
         body {
-            font-family: 'Plus Jakarta Sans', sans-serif;
             background-color: #f4f6fa;
             color: var(--dark);
             min-height: 100vh;
@@ -47,127 +52,382 @@
             font-family: 'Yeseva One', cursive;
         }
 
-        /* 1. SIDEBAR (TINGGI PENUH 100VH, TIDAK TERTUTUP HEADER) */
-        .admin-sidebar {
-            width: var(--sidebar-width);
-            background: #240a1b;
-            border-right: 1px solid rgba(255, 255, 255, 0.08);
-            height: 100vh;
+        /* ========================================================
+           1. SIDEBAR (PERSIS DENGAN MODEL [LOPA PARTS] SIDEBAR)
+           ======================================================== */
+        .sidebar {
             position: fixed;
-            top: 0;
             left: 0;
-            bottom: 0;
+            top: 0;
+            height: 100%;
+            width: var(--sidebar-closed-width);
+            background: #190514;
+            padding: 6px 14px;
             z-index: 1040;
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            overflow-x: hidden;
+            box-shadow: 4px 0 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .sidebar.open {
+            width: var(--sidebar-open-width);
+        }
+
+        /* Logo Details & Glowing Animated Border */
+        .sidebar .logo-details {
+            height: 60px;
+            display: flex;
+            align-items: center;
+            position: relative;
+        }
+
+        .sidebar .logo-details::after {
+            content: "";
+            position: absolute;
+            left: 0;
+            right: 0;
+            bottom: -6px;
+            height: 2px;
+            background: linear-gradient(90deg, rgba(255, 171, 64, 0.03) 0%, rgba(255, 171, 64, 0.45) 45%, rgba(255, 171, 64, 0.03) 80%);
+            background-size: 400% 100%;
+            background-position: 100% 0%;
+            pointer-events: none;
+            box-shadow: 0 0 10px rgba(255, 171, 64, 0.2);
+            animation: glowLine 6s linear infinite;
+        }
+
+        @keyframes glowLine {
+            0% { background-position: 400% 0%; }
+            100% { background-position: -100% 0%; }
+        }
+
+        .sidebar .logo-details .logo-img {
+            height: 38px;
+            width: auto;
+            margin-right: 10px;
+            opacity: 0;
+            transition: all 0.5s ease;
+            flex-shrink: 0;
+        }
+
+        .sidebar .logo-details .logo_name {
+            color: #fff;
+            font-size: 19px;
+            font-weight: 600;
+            opacity: 0;
+            white-space: nowrap;
+            transition: all 0.5s ease;
+            font-family: 'Yeseva One', cursive;
+        }
+
+        .sidebar.open .logo-details .logo_name,
+        .sidebar.open .logo-details .logo-img {
+            opacity: 1;
+        }
+
+        /* Tombol Toggle Sidebar (#btn) */
+        .sidebar .logo-details #btn {
+            position: absolute;
+            top: 50%;
+            right: 0;
+            transform: translateY(-50%);
+            font-size: 24px;
+            color: #fff;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 32px;
+            height: 32px;
+            line-height: 32px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .sidebar .logo-details #btn:hover {
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--accent);
+        }
+
+        /* Nav List Items */
+        .sidebar .nav-list {
+            margin-top: 18px;
+            padding-left: 0;
+            height: calc(100% - 140px);
             overflow-y: auto;
             overflow-x: hidden;
-            display: flex;
-            flex-direction: column;
-            transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1), transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            list-style: none;
         }
 
-        /* Header di dalam Sidebar (Brand Logo & Toggle) */
-        .sidebar-header {
-            height: var(--topbar-height);
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 0 1.25rem;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-            background: #1c0615;
-            flex-shrink: 0;
+        .sidebar .nav-list::-webkit-scrollbar {
+            width: 4px;
+        }
+        .sidebar .nav-list::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 4px;
         }
 
-        .sidebar-brand-wrapper {
+        .sidebar li {
+            position: relative;
+            margin: 8px 0;
+            list-style: none;
+        }
+
+        /* Hover Tooltip (Muncul saat sidebar tertutup/mini) */
+        .sidebar li .tooltip {
+            position: absolute;
+            top: -20px;
+            left: calc(100% + 15px);
+            z-index: 1050;
+            background: #ffffff;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.25);
+            padding: 6px 14px;
+            border-radius: 6px;
+            font-size: 13px;
+            font-weight: 500;
+            color: var(--primary);
+            opacity: 0;
+            white-space: nowrap;
+            pointer-events: none;
+            transition: 0s;
+        }
+
+        .sidebar li:hover .tooltip {
+            opacity: 1;
+            pointer-events: auto;
+            transition: all 0.3s ease;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        .sidebar.open li .tooltip {
+            display: none !important;
+        }
+
+        /* Menu Link */
+        .sidebar li a.menu-link {
             display: flex;
+            height: 50px;
+            width: 100%;
+            border-radius: 12px;
             align-items: center;
             text-decoration: none;
-            color: #ffffff;
-            overflow: hidden;
+            transition: all 0.3s ease;
+            background: transparent;
+            padding: 0 10px;
         }
 
-        .sidebar-menu {
-            padding: 1.25rem 0.75rem;
-            flex-grow: 1;
-        }
-
-        .sidebar-menu-heading {
-            font-size: 0.72rem;
-            letter-spacing: 0.8px;
-            color: rgba(255, 255, 255, 0.45);
-            font-weight: 700;
-            padding: 0 0.85rem;
-            margin-bottom: 0.6rem;
-            text-transform: uppercase;
-            white-space: nowrap;
-        }
-
-        .sidebar-link {
-            display: flex;
-            align-items: center;
-            padding: 0.8rem 1rem;
+        .sidebar li a.menu-link i {
             color: #d1b8c8;
-            font-weight: 600;
-            font-size: 0.92rem;
-            border-radius: 0.75rem;
-            margin-bottom: 0.35rem;
-            text-decoration: none;
-            transition: all 0.2s ease;
-            cursor: pointer;
-            white-space: nowrap;
-        }
-
-        .sidebar-link i {
-            font-size: 1.25rem;
-            margin-right: 0.85rem;
-            width: 24px;
+            height: 50px;
+            min-width: 32px;
+            font-size: 20px;
             text-align: center;
-            flex-shrink: 0;
-            transition: transform 0.2s ease;
+            line-height: 50px;
+            transition: all 0.3s ease;
         }
 
-        .sidebar-link:hover {
+        .sidebar li a.menu-link .links_name {
+            color: #d1b8c8;
+            font-size: 14px;
+            font-weight: 500;
+            white-space: nowrap;
+            opacity: 0;
+            pointer-events: none;
+            transition: 0.4s;
+            margin-left: 12px;
+        }
+
+        .sidebar.open li a.menu-link .links_name {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        /* Hover & Active States */
+        .sidebar li a.menu-link:hover {
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        .sidebar li a.menu-link:hover i,
+        .sidebar li a.menu-link:hover .links_name {
             color: #ffffff;
-            background-color: rgba(255, 255, 255, 0.08);
         }
 
-        .sidebar-link:hover i {
-            transform: scale(1.1);
-        }
-
-        .sidebar-link.active {
-            color: #1f0817 !important;
+        .sidebar li a.menu-link.active {
             background: linear-gradient(135deg, #ffab40 0%, #f59e0b 100%) !important;
-            font-weight: 700 !important;
             box-shadow: 0 4px 15px rgba(255, 171, 64, 0.35);
         }
 
-        .sidebar-link.active i {
-            color: #1f0817 !important;
+        .sidebar li a.menu-link.active i,
+        .sidebar li a.menu-link.active .links_name {
+            color: #190514 !important;
+            font-weight: 700 !important;
         }
 
-        .sidebar-help-box {
-            background-color: rgba(255, 255, 255, 0.05);
-            border: 1px dashed rgba(255, 255, 255, 0.15);
-            border-radius: 1rem;
-            padding: 1rem;
-            text-align: center;
-            color: #ffffff;
-            margin: 0 0.5rem 1rem 0.5rem;
+        /* Section Label & Decorative Line */
+        .sidebar li.section-label {
+            display: block;
+            padding: 6px 10px;
+            margin-top: 14px;
         }
 
-        /* 2. CONTENT WRAPPER & TOPBAR (FLEKSIBEL MENGIKUTI SIDEBAR) */
-        .admin-content-wrapper {
-            margin-left: var(--sidebar-width);
+        .sidebar li.section-label .section-decor {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .sidebar li.section-label .section-text {
+            color: rgba(255, 255, 255, 0.45);
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 0.6px;
+            font-weight: 600;
+            white-space: nowrap;
+        }
+
+        .sidebar li.section-label .section-line {
+            flex: 1;
+            height: 1px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 1px;
+        }
+
+        .sidebar:not(.open) li.section-label .section-text {
+            display: none;
+        }
+
+        .sidebar:not(.open) li.section-label .section-decor {
+            justify-content: center;
+        }
+
+        .sidebar:not(.open) li.section-label .section-line {
+            width: 20px;
+            flex: none;
+            margin: 0 auto;
+        }
+
+        /* Profile & Logout Section at Bottom */
+        .sidebar li.profile {
+            position: fixed;
+            height: 64px;
+            width: var(--sidebar-closed-width);
+            left: 0;
+            bottom: 0;
+            padding: 10px 14px;
+            background: #11030d;
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+            z-index: 1045;
+        }
+
+        .sidebar.open li.profile {
+            width: var(--sidebar-open-width);
+        }
+
+        .sidebar li .profile-details {
+            display: flex;
+            align-items: center;
+            flex-wrap: nowrap;
+            overflow: hidden;
+            flex-grow: 1;
+        }
+
+        .sidebar .profile .profile-avatar {
+            height: 40px;
+            width: 40px;
+            min-width: 40px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #491937 0%, #ffab40 100%);
+            color: #fff;
+            font-weight: 700;
+            margin-right: 10px;
+            font-size: 16px;
+            border: 2px solid rgba(255, 255, 255, 0.15);
+        }
+
+        .sidebar li.profile .name_job {
+            opacity: 0;
+            pointer-events: none;
+            transition: all 0.4s ease;
+            white-space: nowrap;
+        }
+
+        .sidebar.open li.profile .name_job {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .sidebar li.profile .name {
+            font-size: 13px;
+            font-weight: 600;
+            color: #fff;
+            line-height: 1.2;
+        }
+
+        .sidebar li.profile .job {
+            font-size: 11px;
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        .sidebar .profile #log_out {
+            position: absolute;
+            top: 50%;
+            right: 0;
+            transform: translateY(-50%);
+            background: #11030d;
+            width: 50px;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            color: #fff;
+            font-size: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .sidebar .profile #log_out:hover {
+            color: #ef4444;
+        }
+
+        .sidebar.open .profile #log_out {
+            background: none;
+        }
+
+        /* ========================================================
+           2. HOME SECTION (KONTEN UTAMA & HEADER SEJAJAR)
+           ======================================================== */
+        .home-section {
+            position: relative;
+            background: #f4f6fa;
             min-height: 100vh;
+            top: 0;
+            left: var(--sidebar-closed-width);
+            width: calc(100% - var(--sidebar-closed-width));
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 2;
             display: flex;
             flex-direction: column;
-            transition: margin-left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
+        .sidebar.open ~ .home-section {
+            left: var(--sidebar-open-width);
+            width: calc(100% - var(--sidebar-open-width));
+        }
+
+        /* Header / Topbar di dalam Home Section (Tidak Pernah Menutupi Sidebar) */
         .admin-topbar {
-            background: linear-gradient(90deg, #2a0b20 0%, #3d122d 50%, #2a0b20 100%);
+            background: linear-gradient(90deg, #1f0618 0%, #360f29 50%, #1f0618 100%);
             border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-            height: var(--topbar-height);
+            height: 70px;
             position: sticky;
             top: 0;
             z-index: 1020;
@@ -183,55 +443,21 @@
             flex-grow: 1;
         }
 
-        /* 3. MODE SIDEBAR KECIL / COLLAPSED (DESKTOP) */
-        body.sidebar-collapsed .admin-sidebar {
-            width: var(--sidebar-collapsed-width);
-        }
-
-        body.sidebar-collapsed .admin-content-wrapper {
-            margin-left: var(--sidebar-collapsed-width);
-        }
-
-        body.sidebar-collapsed .sidebar-header {
-            padding: 0;
-            justify-content: center;
-        }
-
-        body.sidebar-collapsed .sidebar-brand-text,
-        body.sidebar-collapsed .sidebar-collapse-btn,
-        body.sidebar-collapsed .link-label,
-        body.sidebar-collapsed .sidebar-menu-heading,
-        body.sidebar-collapsed .sidebar-help-box,
-        body.sidebar-collapsed .sidebar-divider,
-        body.sidebar-collapsed .badge-sidebar {
-            display: none !important;
-        }
-
-        body.sidebar-collapsed .sidebar-link {
-            justify-content: center;
-            padding: 0.85rem 0;
-            margin-bottom: 0.5rem;
-        }
-
-        body.sidebar-collapsed .sidebar-link i {
-            margin-right: 0;
-            font-size: 1.35rem;
-        }
-
-        /* 4. RESPONSIVE MOBILE (< 992px) */
-        @media (max-width: 991.98px) {
-            .admin-sidebar {
-                width: var(--sidebar-width) !important;
-                transform: translateX(-100%);
-                box-shadow: 4px 0 25px rgba(0, 0, 0, 0.4);
+        /* Responsif Layar Kecil (< 768px) */
+        @media (max-width: 768px) {
+            .sidebar {
+                left: calc(-1 * var(--sidebar-closed-width));
             }
 
-            .admin-sidebar.show-mobile {
-                transform: translateX(0);
+            .sidebar.open {
+                left: 0;
+                width: var(--sidebar-open-width);
             }
 
-            .admin-content-wrapper {
-                margin-left: 0 !important;
+            .home-section,
+            .sidebar.open ~ .home-section {
+                left: 0 !important;
+                width: 100% !important;
             }
 
             .admin-topbar {
@@ -255,7 +481,9 @@
             backdrop-filter: blur(2px);
         }
 
-        /* Card Stats */
+        /* ========================================================
+           3. UI CARDS & TABLES
+           ======================================================== */
         .card-stat {
             background: #ffffff;
             border: 1px solid rgba(226, 232, 240, 0.85);
@@ -282,7 +510,6 @@
             font-size: 1.5rem;
         }
 
-        /* Buttons & Content Cards */
         .btn-brand-primary {
             background: linear-gradient(135deg, #491937 0%, #68234f 100%);
             color: #ffffff;
@@ -360,7 +587,7 @@
 <body>
 
     <!-- BACKDROP MOBILE -->
-    <div id="sidebarBackdrop" class="sidebar-backdrop d-none" onclick="toggleSidebarCollapse()"></div>
+    <div id="sidebarBackdrop" class="sidebar-backdrop d-none" onclick="toggleSidebar()"></div>
 
     <!-- 1. VIEW LOGIN (JIKA BELUM LOGIN) -->
     <div id="loginView" class="container py-5">
@@ -406,82 +633,102 @@
     <!-- 2. DASHBOARD MAIN VIEW -->
     <div id="dashboardView" class="d-none">
 
-        <!-- SIDEBAR (FULL HEIGHT 100VH - TIDAK TERTUTUP HEADER) -->
-        <aside class="admin-sidebar" id="adminSidebar">
-            <!-- Header Sidebar (Logo & Brand) -->
-            <div class="sidebar-header">
-                <a href="admin.html" class="sidebar-brand-wrapper">
-                    <img src="asset/img/logo1.png" alt="Gemas Galore" style="height: 38px;" class="me-2 flex-shrink-0">
-                    <div class="sidebar-brand-text">
-                        <h6 class="brand-font mb-0 text-white" style="letter-spacing: 0.5px;">Gemas Galore</h6>
-                        <span class="badge bg-warning text-dark" style="font-size: 0.62rem; font-weight: 800;">ADMIN</span>
+        <!-- SIDEBAR (PERSIS SEPERTI CONTOH [LOPA PARTS] SIDEBAR) -->
+        <div class="sidebar open" id="sidebar">
+            <div class="logo-details">
+                <img src="asset/img/logo1.png" alt="Gemas Galore" class="logo-img">
+                <div class="logo_name">Gemas Galore</div>
+                <i class="bi bi-list" id="btn" title="Toggle Menu"></i>
+            </div>
+
+            <ul class="nav-list">
+                <!-- 1. Ringkasan & Analitik -->
+                <li>
+                    <a href="#" class="menu-link active" data-tab="analytics" onclick="switchTab('analytics', this)">
+                        <i class="bi bi-pie-chart-fill"></i>
+                        <span class="links_name">Ringkasan & Analitik</span>
+                    </a>
+                    <span class="tooltip">Ringkasan & Analitik</span>
+                </li>
+
+                <!-- Section Divider -->
+                <li class="section-label">
+                    <div class="section-decor">
+                        <span class="section-text">Manajemen Toko</span>
+                        <span class="section-line" aria-hidden="true"></span>
                     </div>
-                </a>
-                <button class="btn btn-sm btn-link text-white-50 p-0 sidebar-collapse-btn d-none d-lg-inline-block" onclick="toggleSidebarCollapse()" title="Kecilkan Sidebar">
-                    <i class="bi bi-layout-sidebar-inset fs-5"></i>
-                </button>
-            </div>
+                </li>
 
-            <!-- Menu Sidebar -->
-            <div class="sidebar-menu">
-                <div class="sidebar-menu-heading">Menu Utama</div>
+                <!-- 2. Katalog Produk -->
+                <li>
+                    <a href="#" class="menu-link" data-tab="products" onclick="switchTab('products', this)">
+                        <i class="bi bi-box-seam-fill"></i>
+                        <span class="links_name">Katalog Produk</span>
+                    </a>
+                    <span class="tooltip">Katalog Produk</span>
+                </li>
 
-                <!-- Tautan 1: Ringkasan & Analitik -->
-                <a class="sidebar-link active" data-tab="analytics" onclick="switchTab('analytics', this)" title="Ringkasan & Analitik">
-                    <i class="bi bi-pie-chart-fill"></i>
-                    <span class="link-label">Ringkasan & Analitik</span>
-                </a>
+                <!-- 3. Klik Marketplace -->
+                <li>
+                    <a href="#" class="menu-link" data-tab="marketplaces" onclick="switchTab('marketplaces', this)">
+                        <i class="bi bi-shop"></i>
+                        <span class="links_name">Klik Marketplace</span>
+                    </a>
+                    <span class="tooltip">Klik Marketplace</span>
+                </li>
 
-                <!-- Tautan 2: Katalog Produk -->
-                <a class="sidebar-link" data-tab="products" onclick="switchTab('products', this)" title="Katalog Produk">
-                    <i class="bi bi-box-seam-fill"></i>
-                    <span class="link-label">Katalog Produk</span>
-                </a>
+                <!-- 4. Pesan Masuk -->
+                <li>
+                    <a href="#" class="menu-link" data-tab="messages" onclick="switchTab('messages', this)">
+                        <i class="bi bi-chat-left-text-fill"></i>
+                        <span class="links_name">Pesan Masuk</span>
+                    </a>
+                    <span class="tooltip">Pesan Masuk</span>
+                </li>
 
-                <!-- Tautan 3: Klik Marketplace -->
-                <a class="sidebar-link" data-tab="marketplaces" onclick="switchTab('marketplaces', this)" title="Klik Marketplace">
-                    <i class="bi bi-shop-window"></i>
-                    <span class="link-label">Klik Marketplace</span>
-                </a>
+                <!-- 5. Pengaturan Toko -->
+                <li>
+                    <a href="#" class="menu-link" data-tab="settings" onclick="switchTab('settings', this)">
+                        <i class="bi bi-gear-wide-connected"></i>
+                        <span class="links_name">Pengaturan Toko</span>
+                    </a>
+                    <span class="tooltip">Pengaturan Toko</span>
+                </li>
 
-                <!-- Tautan 4: Pesan Masuk -->
-                <a class="sidebar-link" data-tab="messages" onclick="switchTab('messages', this)" title="Pesan Masuk">
-                    <i class="bi bi-chat-left-text-fill"></i>
-                    <span class="link-label">Pesan Masuk</span>
-                    <span id="badgeMessageCount" class="badge rounded-pill bg-danger ms-auto badge-sidebar d-none">0</span>
-                </a>
+                <!-- 6. Database & SQL -->
+                <li>
+                    <a href="#" class="menu-link" data-tab="guide" onclick="switchTab('guide', this)">
+                        <i class="bi bi-code-square"></i>
+                        <span class="links_name">Database & SQL</span>
+                    </a>
+                    <span class="tooltip">Database & SQL</span>
+                </li>
 
-                <!-- Tautan 5: Pengaturan Toko -->
-                <a class="sidebar-link" data-tab="settings" onclick="switchTab('settings', this)" title="Pengaturan Toko">
-                    <i class="bi bi-gear-wide-connected"></i>
-                    <span class="link-label">Pengaturan Toko</span>
-                </a>
+                <!-- Profile Dock di Bagian Bawah -->
+                <li class="profile">
+                    <div class="profile-details">
+                        <div class="profile-avatar" aria-hidden="true" id="userAvatarChar">G</div>
+                        <div class="name_job">
+                            <div class="name" id="userNameLabel">Gemas Admin</div>
+                            <div class="job">Store Owner</div>
+                        </div>
+                    </div>
+                    <a id="log_out" href="#" onclick="handleLogout()" title="Keluar">
+                        <i class="bi bi-box-arrow-right"></i>
+                    </a>
+                </li>
+            </ul>
+        </div>
 
-                <!-- Tautan 6: Database & SQL -->
-                <a class="sidebar-link" data-tab="guide" onclick="switchTab('guide', this)" title="Database & SQL Guide">
-                    <i class="bi bi-code-square"></i>
-                    <span class="link-label">Database & SQL</span>
-                </a>
+        <!-- HOME SECTION (KONTEN UTAMA & HEADER SEJAJAR DENGAN SIDEBAR) -->
+        <section class="home-section" id="homeSection">
 
-                <hr class="my-4 text-white opacity-10 sidebar-divider">
-
-                <div class="sidebar-help-box">
-                    <i class="bi bi-cloud-check-fill fs-3 text-warning"></i>
-                    <div class="fw-bold small mt-1 text-white">Sistem Aktif</div>
-                    <div class="text-white-50" style="font-size: 0.72rem;">Vercel & Supabase Cloud</div>
-                </div>
-            </div>
-        </aside>
-
-        <!-- CONTENT WRAPPER (MEMUAT HEADER DAN ISI KONTEN - SEJAJAR & FLEKSIBEL DENGAN SIDEBAR) -->
-        <div class="admin-content-wrapper" id="adminContentWrapper">
-
-            <!-- HEADER / TOPBAR (SEJAJAR DI SAMPING SIDEBAR, MENGIKUTI FLEKSIBILITAS SIDEBAR) -->
+            <!-- HEADER / TOPBAR (SEJAJAR, TIDAK PERNAH MENUTUPI SIDEBAR) -->
             <header class="admin-topbar text-white">
                 <div class="d-flex align-items-center">
-                    <!-- Tombol Toggle Sidebar (Responsive) -->
-                    <button id="sidebarToggleBtn" class="btn btn-outline-light btn-sm rounded-circle p-2 me-3" onclick="toggleSidebarCollapse()" title="Kecilkan/Perluas Menu Sidebar">
-                        <i class="bi bi-layout-sidebar-inset fs-5"></i>
+                    <!-- Tombol Hamburger untuk Mobile -->
+                    <button class="btn btn-outline-light btn-sm rounded-circle p-2 me-3 d-md-none" onclick="toggleSidebar()" title="Menu">
+                        <i class="bi bi-list fs-5"></i>
                     </button>
                     <div>
                         <h6 class="mb-0 fw-bold text-white d-none d-sm-block" id="pageTitleNav">Ringkasan & Analitik</h6>
@@ -500,21 +747,18 @@
                         <i class="bi bi-box-arrow-up-right me-1"></i>Lihat Website
                     </a>
 
-                    <!-- User Profile & Logout -->
+                    <!-- Email Badge -->
                     <div id="userProfileNav" class="d-none align-items-center gap-2">
                         <div class="bg-white bg-opacity-10 text-white rounded-pill px-3 py-1 border border-white border-opacity-25 d-flex align-items-center gap-2">
                             <i class="bi bi-person-circle fs-5 text-warning"></i>
                             <span id="userEmailNav" class="small fw-semibold text-truncate" style="max-width: 140px;">admin@gemasgalore.com</span>
                         </div>
-                        <button type="button" class="btn btn-sm btn-outline-light rounded-circle p-2" onclick="handleLogout()" title="Keluar">
-                            <i class="bi bi-box-arrow-right"></i>
-                        </button>
                     </div>
                 </div>
             </header>
 
             <!-- MAIN CONTENT AREA -->
-            <main class="admin-main" id="adminMain">
+            <main class="admin-main">
 
                 <!-- STATS COUNTER BAR -->
                 <div class="row g-3 mb-4">
@@ -634,18 +878,18 @@
                         <div class="table-responsive">
                             <table class="table table-hover align-middle">
                                 <thead class="table-light small text-uppercase">
-                                <tr>
-                                    <th style="width: 60px;">Rank</th>
-                                    <th>Produk</th>
-                                    <th>Kategori</th>
-                                    <th>Harga</th>
-                                    <th style="min-width: 140px;">Popularitas</th>
-                                    <th class="text-center">Total Klik</th>
-                                    <th class="text-end">Lihat</th>
-                                </tr>
+                                    <tr>
+                                        <th style="width: 60px;">Rank</th>
+                                        <th>Produk</th>
+                                        <th>Kategori</th>
+                                        <th>Harga</th>
+                                        <th style="min-width: 140px;">Popularitas</th>
+                                        <th class="text-center">Total Klik</th>
+                                        <th class="text-end">Lihat</th>
+                                    </tr>
                                 </thead>
                                 <tbody id="topProductsTableBody">
-                                <tr><td colspan="7" class="text-center py-4 text-muted">Memuat data analitik...</td></tr>
+                                    <tr><td colspan="7" class="text-center py-4 text-muted">Memuat data analitik...</td></tr>
                                 </tbody>
                             </table>
                         </div>
@@ -686,18 +930,18 @@
                         <div class="table-responsive">
                             <table class="table table-hover align-middle">
                                 <thead class="table-light small text-uppercase">
-                                <tr>
-                                    <th>Gambar</th>
-                                    <th>Nama Produk & Spesifikasi</th>
-                                    <th>Kategori</th>
-                                    <th>Harga</th>
-                                    <th>Label Badge</th>
-                                    <th class="text-center">Klik Pengunjung</th>
-                                    <th class="text-end">Aksi</th>
-                                </tr>
+                                    <tr>
+                                        <th>Gambar</th>
+                                        <th>Nama Produk & Spesifikasi</th>
+                                        <th>Kategori</th>
+                                        <th>Harga</th>
+                                        <th>Label Badge</th>
+                                        <th class="text-center">Klik Pengunjung</th>
+                                        <th class="text-end">Aksi</th>
+                                    </tr>
                                 </thead>
                                 <tbody id="productTableBody">
-                                <tr><td colspan="7" class="text-center py-4 text-muted">Memuat data produk...</td></tr>
+                                    <tr><td colspan="7" class="text-center py-4 text-muted">Memuat data produk...</td></tr>
                                 </tbody>
                             </table>
                         </div>
@@ -722,17 +966,17 @@
                         <div class="table-responsive">
                             <table class="table table-hover align-middle">
                                 <thead class="table-light small text-uppercase">
-                                <tr>
-                                    <th>Saluran / Platform</th>
-                                    <th>Kategori Saluran</th>
-                                    <th>Tautan Toko Resmi</th>
-                                    <th style="min-width: 150px;">Distribusi Kunjungan</th>
-                                    <th class="text-center">Total Klik</th>
-                                    <th class="text-end">Aksi Kunjungi</th>
-                                </tr>
+                                    <tr>
+                                        <th>Saluran / Platform</th>
+                                        <th>Kategori Saluran</th>
+                                        <th>Tautan Toko Resmi</th>
+                                        <th style="min-width: 150px;">Distribusi Kunjungan</th>
+                                        <th class="text-center">Total Klik</th>
+                                        <th class="text-end">Aksi Kunjungi</th>
+                                    </tr>
                                 </thead>
                                 <tbody id="marketplaceTableBody">
-                                <tr><td colspan="6" class="text-center py-4 text-muted">Memuat data saluran...</td></tr>
+                                    <tr><td colspan="6" class="text-center py-4 text-muted">Memuat data saluran...</td></tr>
                                 </tbody>
                             </table>
                         </div>
@@ -762,16 +1006,16 @@
                         <div class="table-responsive">
                             <table class="table table-hover align-middle">
                                 <thead class="table-light small text-uppercase">
-                                <tr>
-                                    <th>Waktu Masuk</th>
-                                    <th>Pengirim</th>
-                                    <th>Kontak</th>
-                                    <th>Isi Pesan</th>
-                                    <th class="text-end">Tanggapan Langsung</th>
-                                </tr>
+                                    <tr>
+                                        <th>Waktu Masuk</th>
+                                        <th>Pengirim</th>
+                                        <th>Kontak</th>
+                                        <th>Isi Pesan</th>
+                                        <th class="text-end">Tanggapan Langsung</th>
+                                    </tr>
                                 </thead>
                                 <tbody id="messagesTableBody">
-                                <tr><td colspan="5" class="text-center py-4 text-muted">Memuat pesan masuk...</td></tr>
+                                    <tr><td colspan="5" class="text-center py-4 text-muted">Memuat pesan masuk...</td></tr>
                                 </tbody>
                             </table>
                         </div>
@@ -894,7 +1138,8 @@ CREATE POLICY "Admin can manage settings" ON public.site_settings FOR ALL TO aut
                 </section>
 
             </main>
-        </div>
+        </section>
+
     </div>
 
     <!-- MODAL TAMBAH / EDIT PRODUK -->
@@ -985,12 +1230,25 @@ CREATE POLICY "Admin can manage settings" ON public.site_settings FOR ALL TO aut
         let productBarChart = null;
         let marketplaceDoughnutChart = null;
 
+        // Elements
+        const sidebar = document.getElementById("sidebar");
+        const closeBtn = document.getElementById("btn");
+
         document.addEventListener('DOMContentLoaded', async function () {
             productModalInstance = new bootstrap.Modal(document.getElementById('productModal'));
 
-            // Pulihkan status sidebar collapsed dari localStorage jika sebelumnya dikecilkan
-            if (localStorage.getItem('gemas_sidebar_collapsed') === 'true' && window.innerWidth >= 992) {
-                document.body.classList.add('sidebar-collapsed');
+            // Setup tombol toggle sidebar persis seperti referensi [lopa parts]
+            if (closeBtn && sidebar) {
+                closeBtn.addEventListener("click", () => {
+                    toggleSidebar();
+                });
+            }
+
+            // Pulihkan status sidebar open dari localStorage
+            const savedSidebarState = localStorage.getItem('gemas_sidebar_open');
+            if (savedSidebarState === 'false' && window.innerWidth >= 768) {
+                sidebar.classList.remove("open");
+                btnChangeIcon();
             }
 
             // Periksa koneksi Supabase
@@ -1019,28 +1277,33 @@ CREATE POLICY "Admin can manage settings" ON public.site_settings FOR ALL TO aut
             }
         });
 
-        // 1. Sidebar Collapse & Navigation (Fleksibel & Smooth)
-        function toggleSidebarCollapse() {
+        // 1. Sidebar Toggle & Icon Helper
+        function toggleSidebar() {
             const backdrop = document.getElementById('sidebarBackdrop');
 
-            if (window.innerWidth < 992) {
-                // Mobile: toggle drawer off-canvas
-                const sidebar = document.getElementById('adminSidebar');
-                const isOpen = sidebar.classList.toggle('show-mobile');
+            if (window.innerWidth < 768) {
+                const isOpen = sidebar.classList.toggle("open");
                 if (backdrop) {
                     if (isOpen) backdrop.classList.remove('d-none');
                     else backdrop.classList.add('d-none');
                 }
             } else {
-                // Desktop: toggle mini-sidebar (icon only)
-                const isCollapsed = document.body.classList.toggle('sidebar-collapsed');
-                localStorage.setItem('gemas_sidebar_collapsed', isCollapsed ? 'true' : 'false');
+                sidebar.classList.toggle("open");
+                localStorage.setItem('gemas_sidebar_open', sidebar.classList.contains("open") ? 'true' : 'false');
+                btnChangeIcon();
 
-                // Resize chart agar pas dengan ukuran baru
                 setTimeout(() => {
                     if (productBarChart) productBarChart.resize();
                     if (marketplaceDoughnutChart) marketplaceDoughnutChart.resize();
-                }, 320);
+                }, 350);
+            }
+        }
+
+        function btnChangeIcon() {
+            if (sidebar.classList.contains("open")) {
+                closeBtn.classList.replace("bi-list", "bi-arrow-left-short");
+            } else {
+                closeBtn.classList.replace("bi-arrow-left-short", "bi-list");
             }
         }
 
@@ -1055,39 +1318,33 @@ CREATE POLICY "Admin can manage settings" ON public.site_settings FOR ALL TO aut
         };
 
         function switchTab(tabName, linkEl) {
-            // Update active state di menu sidebar
-            document.querySelectorAll('.sidebar-link').forEach(link => link.classList.remove('active'));
+            document.querySelectorAll('.sidebar .menu-link').forEach(link => link.classList.remove('active'));
 
             if (linkEl && linkEl.classList) {
                 linkEl.classList.add('active');
             } else {
-                const targetLink = document.querySelector(`.sidebar-link[data-tab="${tabName}"]`);
+                const targetLink = document.querySelector(`.sidebar .menu-link[data-tab="${tabName}"]`);
                 if (targetLink) targetLink.classList.add('active');
             }
 
-            // Update judul di header
             const titleEl = document.getElementById('pageTitleNav');
             if (titleEl && tabTitles[tabName]) {
                 titleEl.textContent = tabTitles[tabName];
             }
 
-            // Sembunyikan semua pane tab
             document.querySelectorAll('.tab-pane-content').forEach(pane => pane.classList.add('d-none'));
 
-            // Tampilkan pane yang diminta
             const activePane = document.getElementById(`pane-${tabName}`);
             if (activePane) {
                 activePane.classList.remove('d-none');
             }
 
-            // Jika di mobile, tutup sidebar setelah klik
-            if (window.innerWidth < 992) {
-                document.getElementById('adminSidebar').classList.remove('show-mobile');
+            if (window.innerWidth < 768) {
+                sidebar.classList.remove('open');
                 const backdrop = document.getElementById('sidebarBackdrop');
                 if (backdrop) backdrop.classList.add('d-none');
             }
 
-            // Resize charts jika membuka tab analitik
             if (tabName === 'analytics' && productBarChart) {
                 setTimeout(() => {
                     productBarChart.resize();
@@ -1144,6 +1401,13 @@ CREATE POLICY "Admin can manage settings" ON public.site_settings FOR ALL TO aut
             document.getElementById('userProfileNav').classList.add('d-flex');
             document.getElementById('userEmailNav').textContent = email;
 
+            const initial = (email || 'G').charAt(0).toUpperCase();
+            const avatarChar = document.getElementById('userAvatarChar');
+            if (avatarChar) avatarChar.textContent = initial;
+
+            const nameLabel = document.getElementById('userNameLabel');
+            if (nameLabel) nameLabel.textContent = email.split('@')[0];
+
             loadAllData();
         }
 
@@ -1175,7 +1439,6 @@ CREATE POLICY "Admin can manage settings" ON public.site_settings FOR ALL TO aut
             const productClicks = analytics.productClicks || {};
             const marketplaceClicks = analytics.marketplaceClicks || {};
 
-            // Urutkan Produk Teratas
             const sortedProducts = Object.entries(productClicks)
                 .sort((a, b) => b[1] - a[1])
                 .slice(0, 7);
@@ -1188,7 +1451,6 @@ CREATE POLICY "Admin can manage settings" ON public.site_settings FOR ALL TO aut
                 prodCounts = [0, 0, 0, 0];
             }
 
-            // 1. Bar Chart Produk Terpopuler
             const ctxProd = document.getElementById('productClickChart').getContext('2d');
             if (productBarChart) productBarChart.destroy();
 
@@ -1219,12 +1481,12 @@ CREATE POLICY "Admin can manage settings" ON public.site_settings FOR ALL TO aut
                     scales: {
                         y: {
                             beginAtZero: true,
-                            ticks: { precision: 0, font: { family: 'Plus Jakarta Sans' } },
+                            ticks: { precision: 0, font: { family: 'Poppins' } },
                             grid: { color: '#f1f5f9' }
                         },
                         x: {
                             ticks: {
-                                font: { family: 'Plus Jakarta Sans', size: 11 },
+                                font: { family: 'Poppins', size: 11 },
                                 callback: function(val) {
                                     const text = this.getLabelForValue(val);
                                     return text.length > 15 ? text.substring(0, 15) + '...' : text;
@@ -1236,7 +1498,6 @@ CREATE POLICY "Admin can manage settings" ON public.site_settings FOR ALL TO aut
                 }
             });
 
-            // 2. Doughnut Chart Marketplace
             const mpPlatforms = ['Shopee', 'Tokopedia', 'TikTok Shop', 'Instagram', 'WhatsApp'];
             const mpColors = ['#ee4d2d', '#00aa5b', '#000000', '#e1306c', '#25d366'];
             const mpCounts = mpPlatforms.map(platform => {
@@ -1354,7 +1615,6 @@ CREATE POLICY "Admin can manage settings" ON public.site_settings FOR ALL TO aut
             }).join('');
         }
 
-        // Tampilkan Tautan Marketplace & Aksi Kunjungi Nyata
         function renderMarketplaceTable(analytics) {
             const tableBody = document.getElementById('marketplaceTableBody');
             const mpClicks = analytics.marketplaceClicks || {};
@@ -1425,7 +1685,6 @@ CREATE POLICY "Admin can manage settings" ON public.site_settings FOR ALL TO aut
             }).join('');
         }
 
-        // Buka Tautan Nyata dan Catat Kunjungan
         async function visitMarketplaceReal(platform, url) {
             if (typeof trackClick === 'function') {
                 await trackClick('marketplace_click', platform, 'admin_direct');
@@ -1434,7 +1693,6 @@ CREATE POLICY "Admin can manage settings" ON public.site_settings FOR ALL TO aut
             await loadAnalytics();
         }
 
-        // Ekspor Analitik ke CSV
         function exportAnalyticsCSV() {
             if (!currentAnalytics) return;
             const rows = [
@@ -1654,12 +1912,6 @@ CREATE POLICY "Admin can manage settings" ON public.site_settings FOR ALL TO aut
             currentMessages = messages;
             document.getElementById('statTotalMessages').textContent = messages.length;
 
-            const badgeMsg = document.getElementById('badgeMessageCount');
-            if (messages.length > 0) {
-                badgeMsg.textContent = messages.length;
-                badgeMsg.classList.remove('d-none');
-            }
-
             if (messages.length === 0) {
                 tableBody.innerHTML = '<tr><td colspan="5" class="text-center py-4 text-muted">Belum ada pesan masuk dari formulir kontak.</td></tr>';
                 return;
@@ -1772,7 +2024,6 @@ CREATE POLICY "Admin can manage settings" ON public.site_settings FOR ALL TO aut
             alertEl.classList.remove('d-none');
             setTimeout(() => alertEl.classList.add('d-none'), 4000);
 
-            // Re-render marketplace table dengan URL baru
             if (currentAnalytics) {
                 renderMarketplaceTable(currentAnalytics);
             }
