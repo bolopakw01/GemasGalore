@@ -1,0 +1,12 @@
+# Dependencies & environment
+node_modules/
+.env
+.env.local
+.env.*.local
+
+# Supabase local generated
+.supabase/
+
+# OS files
+Thumbs.db
+.DS_Store
