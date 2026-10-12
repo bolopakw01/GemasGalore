@@ -125,29 +125,24 @@
             opacity: 1;
         }
 
-        /* Tombol Toggle Sidebar (#btn) */
+        /* Tombol Toggle Sidebar (#btn) SVG */
         .sidebar .logo-details #btn {
             position: absolute;
             top: 50%;
-            right: 0;
+            right: 2px;
             transform: translateY(-50%);
-            font-size: 24px;
-            color: #fff;
-            text-align: center;
+            width: 28px;
+            height: 28px;
             cursor: pointer;
-            transition: all 0.3s ease;
-            width: 32px;
-            height: 32px;
-            line-height: 32px;
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            transition: transform 0.25s ease, filter 0.25s ease;
+            filter: invert(100%) sepia(100%) saturate(1%) hue-rotate(51deg) brightness(101%) contrast(102%);
+            display: block;
+            object-fit: contain;
         }
 
         .sidebar .logo-details #btn:hover {
-            background: rgba(255, 255, 255, 0.1);
-            color: var(--accent);
+            transform: translateY(-50%) scale(1.15);
+            filter: invert(72%) sepia(55%) saturate(1200%) hue-rotate(350deg) brightness(102%) contrast(102%);
         }
 
         /* Nav List Items */
@@ -389,13 +384,23 @@
             align-items: center;
             justify-content: center;
             text-decoration: none;
-            color: #fff;
-            font-size: 20px;
             transition: all 0.3s ease;
         }
 
-        .sidebar .profile #log_out:hover {
-            color: #ef4444;
+        .sidebar .logout-icon {
+            height: 24px;
+            width: auto;
+            display: inline-block;
+            filter: invert(100%) sepia(100%) saturate(1%) hue-rotate(51deg) brightness(101%) contrast(102%);
+            transition: transform 0.25s ease, filter 0.25s ease;
+        }
+
+        .sidebar.open .logout-icon {
+            transform: scaleX(-1);
+        }
+
+        .sidebar .profile #log_out:hover .logout-icon {
+            filter: invert(36%) sepia(85%) saturate(2500%) hue-rotate(340deg) brightness(102%) contrast(102%);
         }
 
         .sidebar.open .profile #log_out {
@@ -638,7 +643,7 @@
             <div class="logo-details">
                 <img src="asset/img/logo1.png" alt="Gemas Galore" class="logo-img">
                 <div class="logo_name">Gemas Galore</div>
-                <i class="bi bi-list" id="btn" title="Toggle Menu"></i>
+                <img id="btn" src="asset/img/icon/line-md--menu-fold-left.svg" alt="menu" title="Toggle Menu" />
             </div>
 
             <ul class="nav-list">
@@ -714,7 +719,7 @@
                         </div>
                     </div>
                     <a id="log_out" href="#" onclick="handleLogout()" title="Keluar">
-                        <i class="bi bi-box-arrow-right"></i>
+                        <img src="asset/img/icon/line-md--log-out.svg" alt="logout" class="logout-icon" />
                     </a>
                 </li>
             </ul>
@@ -727,8 +732,8 @@
             <header class="admin-topbar text-white">
                 <div class="d-flex align-items-center">
                     <!-- Tombol Hamburger untuk Mobile -->
-                    <button class="btn btn-outline-light btn-sm rounded-circle p-2 me-3 d-md-none" onclick="toggleSidebar()" title="Menu">
-                        <i class="bi bi-list fs-5"></i>
+                    <button class="btn btn-outline-light btn-sm rounded-circle p-1 me-3 d-md-none" onclick="toggleSidebar()" title="Menu" style="width: 36px; height: 36px; display: inline-flex; align-items: center; justify-content: center;">
+                        <img src="asset/img/icon/line-md--menu-fold-right.svg" alt="Menu" style="width: 20px; height: 20px; filter: invert(100%); display: block;" />
                     </button>
                     <div>
                         <h6 class="mb-0 fw-bold text-white d-none d-sm-block" id="pageTitleNav">Ringkasan & Analitik</h6>
@@ -1230,9 +1235,11 @@ CREATE POLICY "Admin can manage settings" ON public.site_settings FOR ALL TO aut
         let productBarChart = null;
         let marketplaceDoughnutChart = null;
 
-        // Elements
+        // Elements & Icons
         const sidebar = document.getElementById("sidebar");
         const closeBtn = document.getElementById("btn");
+        const menuIcon = "asset/img/icon/line-md--menu-fold-right.svg";
+        const menuIconAlt = "asset/img/icon/line-md--menu-fold-left.svg";
 
         document.addEventListener('DOMContentLoaded', async function () {
             productModalInstance = new bootstrap.Modal(document.getElementById('productModal'));
@@ -1248,8 +1255,8 @@ CREATE POLICY "Admin can manage settings" ON public.site_settings FOR ALL TO aut
             const savedSidebarState = localStorage.getItem('gemas_sidebar_open');
             if (savedSidebarState === 'false' && window.innerWidth >= 768) {
                 sidebar.classList.remove("open");
-                btnChangeIcon();
             }
+            btnChangeIcon();
 
             // Periksa koneksi Supabase
             if (!isSupabaseConfigured()) {
@@ -1300,10 +1307,11 @@ CREATE POLICY "Admin can manage settings" ON public.site_settings FOR ALL TO aut
         }
 
         function btnChangeIcon() {
+            if (!closeBtn || !sidebar) return;
             if (sidebar.classList.contains("open")) {
-                closeBtn.classList.replace("bi-list", "bi-arrow-left-short");
+                closeBtn.src = menuIconAlt;
             } else {
-                closeBtn.classList.replace("bi-arrow-left-short", "bi-list");
+                closeBtn.src = menuIcon;
             }
         }
 
