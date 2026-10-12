@@ -1,8 +1,8 @@
 // ========================================================
 // SUPABASE CONFIGURATION - GEMAS GALORE
 // ========================================================
-// Masukkan URL dan Anon Key project Supabase Anda di bawah ini:
-// Dapatkan di: Supabase Dashboard -> Project Settings -> API
+// Terintegrasi dengan database PostgreSQL Supabase
+// Lengkap dengan pelacakan analitik klik & pengaturan toko
 // ========================================================
 
 const SUPABASE_CONFIG = {
@@ -32,9 +32,8 @@ if (typeof supabase !== "undefined" && isSupabaseConfigured()) {
 }
 
 // ========================================================
-// DATA PRODUK CADANGAN (FALLBACK)
+// DATA PRODUK CADANGAN (FALLBACK LOKAL)
 // ========================================================
-// Digunakan otomatis jika Supabase belum dikonfigurasi atau offline
 const DEFAULT_PRODUCTS = [
   {
     id: "1",
@@ -99,10 +98,9 @@ const DEFAULT_PRODUCTS = [
 ];
 
 // ========================================================
-// DATABASE HELPER FUNCTIONS
+// 1. DATABASE HELPER: PRODUK
 // ========================================================
 
-// 1. Ambil semua produk
 async function getProducts() {
   if (supabaseClient) {
     try {
@@ -113,18 +111,32 @@ async function getProducts() {
 
       if (error) {
         console.warn("Gagal memuat produk dari Supabase, menggunakan data lokal:", error.message);
-        return DEFAULT_PRODUCTS;
+        return getLocalProducts();
       }
-      return data && data.length > 0 ? data : DEFAULT_PRODUCTS;
+      return data && data.length > 0 ? data : getLocalProducts();
     } catch (e) {
       console.warn("Error fetching from Supabase:", e);
-      return DEFAULT_PRODUCTS;
+      return getLocalProducts();
     }
+  }
+  return getLocalProducts();
+}
+
+function getLocalProducts() {
+  const custom = localStorage.getItem("gemas_custom_products");
+  if (custom) {
+    try {
+      const parsed = JSON.parse(custom);
+      if (Array.isArray(parsed) && parsed.length > 0) return parsed;
+    } catch (e) {}
   }
   return DEFAULT_PRODUCTS;
 }
 
-// 2. Simpan pesan dari form kontak
+// ========================================================
+// 2. DATABASE HELPER: PESAN & FORM KONTAK
+// ========================================================
+
 async function saveMessage(messageData) {
   if (supabaseClient) {
     try {
@@ -133,18 +145,207 @@ async function saveMessage(messageData) {
         .insert([messageData]);
       if (error) {
         console.error("Gagal menyimpan pesan ke Supabase:", error.message);
+        saveLocalMessage(messageData);
         return { success: false, error };
       }
       return { success: true, data };
     } catch (e) {
       console.error("Error saving message:", e);
+      saveLocalMessage(messageData);
       return { success: false, error: e };
     }
   }
-  // Simpan di localStorage sebagai fallback offline
-  const localMessages = JSON.parse(localStorage.getItem("offline_messages") || "[]");
-  localMessages.push({ ...messageData, created_at: new Date().toISOString() });
-  localStorage.setItem("offline_messages", JSON.stringify(localMessages));
+  saveLocalMessage(messageData);
   return { success: true, fallback: true };
 }
 
+function saveLocalMessage(messageData) {
+  const localMessages = JSON.parse(localStorage.getItem("offline_messages") || "[]");
+  localMessages.push({ ...messageData, created_at: new Date().toISOString() });
+  localStorage.setItem("offline_messages", JSON.stringify(localMessages));
+}
+
+// ========================================================
+// 3. DATABASE HELPER: PELACAKAN KLIK & ANALITIK
+// ========================================================
+
+/**
+ * Mencatat event klik (produk, marketplace, whatsapp)
+ * @param {string} eventType - 'product_click', 'product_whatsapp', 'marketplace_click'
+ * @param {string} targetName - contoh: 'Kerudung Paris Eksklusif', 'Shopee', 'Tokopedia'
+ * @param {string} category - contoh: 'hijab', 'store_popup', 'floating_wa'
+ */
+async function trackClick(eventType, targetName, category = "general") {
+  if (!targetName) return;
+
+  const clickData = {
+    event_type: eventType,
+    target_name: targetName,
+    category: category,
+    created_at: new Date().toISOString()
+  };
+
+  // Simpan ke localStorage selalu agar instan dan offline-ready
+  try {
+    const rawEvents = JSON.parse(localStorage.getItem("gemas_analytics_events") || "[]");
+    rawEvents.push(clickData);
+    // Batasi maksimum 1000 log lokal untuk hemat memori
+    if (rawEvents.length > 1000) rawEvents.shift();
+    localStorage.setItem("gemas_analytics_events", JSON.stringify(rawEvents));
+
+    // Agregat counter
+    const counts = JSON.parse(localStorage.getItem("gemas_click_counts") || "{}");
+    const key = `${eventType}:::${targetName}`;
+    counts[key] = (counts[key] || 0) + 1;
+    localStorage.setItem("gemas_click_counts", JSON.stringify(counts));
+  } catch (err) {
+    console.warn("Failed caching click event locally:", err);
+  }
+
+  // Kirim ke Supabase jika client aktif
+  if (supabaseClient) {
+    try {
+      await supabaseClient.from("analytics_clicks").insert([{
+        event_type: eventType,
+        target_name: targetName,
+        category: category
+      }]);
+    } catch (e) {
+      // Non-blocking error, log diam-diam
+    }
+  }
+}
+
+/**
+ * Mengambil ringkasan analitik klik
+ */
+async function getAnalyticsSummary() {
+  let events = [];
+
+  // 1. Coba ambil dari Supabase
+  if (supabaseClient) {
+    try {
+      const { data, error } = await supabaseClient
+        .from("analytics_clicks")
+        .select("*")
+        .order("created_at", { ascending: false })
+        .limit(2000);
+
+      if (!error && data && data.length > 0) {
+        events = data;
+      }
+    } catch (e) {
+      console.warn("Could not fetch remote analytics:", e);
+    }
+  }
+
+  // 2. Jika Supabase kosong/offline, pakai data lokal
+  if (events.length === 0) {
+    events = JSON.parse(localStorage.getItem("gemas_analytics_events") || "[]");
+  }
+
+  // 3. Agregasi data
+  const productClicks = {};
+  const marketplaceClicks = {};
+  let totalProductClicks = 0;
+  let totalMarketplaceClicks = 0;
+
+  events.forEach(ev => {
+    const target = ev.target_name || "Unknown";
+    if (ev.event_type === "product_click" || ev.event_type === "product_whatsapp") {
+      productClicks[target] = (productClicks[target] || 0) + 1;
+      totalProductClicks++;
+    } else if (ev.event_type === "marketplace_click") {
+      marketplaceClicks[target] = (marketplaceClicks[target] || 0) + 1;
+      totalMarketplaceClicks++;
+    }
+  });
+
+  // Jika events masih sangat sedikit (baru diinstal), gabungkan dengan counter lokal
+  const localCounts = JSON.parse(localStorage.getItem("gemas_click_counts") || "{}");
+  Object.keys(localCounts).forEach(k => {
+    const [type, name] = k.split(":::");
+    if (type === "product_click" || type === "product_whatsapp") {
+      if (!productClicks[name]) {
+        productClicks[name] = localCounts[k];
+        totalProductClicks += localCounts[k];
+      }
+    } else if (type === "marketplace_click") {
+      if (!marketplaceClicks[name]) {
+        marketplaceClicks[name] = localCounts[k];
+        totalMarketplaceClicks += localCounts[k];
+      }
+    }
+  });
+
+  return {
+    rawEvents: events,
+    productClicks,
+    marketplaceClicks,
+    totalProductClicks,
+    totalMarketplaceClicks,
+    totalClicks: totalProductClicks + totalMarketplaceClicks
+  };
+}
+
+// ========================================================
+// 4. DATABASE HELPER: PENGATURAN TOKO (SETTINGS)
+// ========================================================
+
+const DEFAULT_SETTINGS = {
+  whatsapp_number: "6289656759653",
+  shopee_url: "https://id.shp.ee/FdqYZK8",
+  tokopedia_url: "https://tokopedia.com/gemasgalore",
+  tiktok_url: "https://tiktok.com/@gemasgalore",
+  instagram_url: "https://instagram.com/gemasgalore"
+};
+
+async function getSiteSettings() {
+  let settings = { ...DEFAULT_SETTINGS };
+
+  // Ambil dari Supabase jika ada
+  if (supabaseClient) {
+    try {
+      const { data, error } = await supabaseClient.from("site_settings").select("*");
+      if (!error && data && data.length > 0) {
+        data.forEach(item => {
+          settings[item.key] = item.value;
+        });
+        localStorage.setItem("gemas_site_settings", JSON.stringify(settings));
+        return settings;
+      }
+    } catch (e) {
+      console.warn("Could not fetch remote settings:", e);
+    }
+  }
+
+  // Fallback lokal
+  const local = localStorage.getItem("gemas_site_settings");
+  if (local) {
+    try {
+      return { ...settings, ...JSON.parse(local) };
+    } catch (e) {}
+  }
+  return settings;
+}
+
+async function updateSiteSetting(key, value) {
+  // Simpan lokal
+  const current = await getSiteSettings();
+  current[key] = value;
+  localStorage.setItem("gemas_site_settings", JSON.stringify(current));
+
+  // Simpan Supabase
+  if (supabaseClient) {
+    try {
+      await supabaseClient.from("site_settings").upsert({
+        key: key,
+        value: value,
+        updated_at: new Date().toISOString()
+      });
+    } catch (e) {
+      console.warn("Could not upsert setting in Supabase:", e);
+    }
+  }
+  return true;
+}

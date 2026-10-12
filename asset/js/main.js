@@ -5,6 +5,73 @@ document.addEventListener('DOMContentLoaded', async function () {
     yearEl.textContent = new Date().getFullYear();
   }
 
+  // ===== Dynamic Site Settings (Sync WhatsApp & Links) =====
+  let currentSettings = {
+    whatsapp_number: '6289656759653',
+    shopee_url: 'https://id.shp.ee/FdqYZK8',
+    tokopedia_url: 'https://tokopedia.com/gemasgalore',
+    tiktok_url: 'https://tiktok.com/@gemasgalore',
+    instagram_url: 'https://instagram.com/gemasgalore'
+  };
+
+  if (typeof getSiteSettings === 'function') {
+    try {
+      currentSettings = await getSiteSettings();
+    } catch (e) {
+      console.warn('Fallback default site settings');
+    }
+  }
+
+  // Update floating WA button
+  const floatingWa = document.querySelector('.floating-wa-btn');
+  if (floatingWa) {
+    floatingWa.href = `https://wa.me/${currentSettings.whatsapp_number}?text=Halo%20Gemas%20Galore,%20saya%20ingin%20tanya-tanya%20produk%20dan%20layanan`;
+    floatingWa.addEventListener('click', function () {
+      if (typeof trackClick === 'function') {
+        trackClick('marketplace_click', 'WhatsApp Floating', 'floating_wa');
+      }
+    });
+  }
+
+  // Track Hero CTA clicks
+  const heroWa = document.querySelector('#home .btn-outline-light');
+  if (heroWa) {
+    heroWa.href = `https://wa.me/${currentSettings.whatsapp_number}`;
+    heroWa.addEventListener('click', function () {
+      if (typeof trackClick === 'function') {
+        trackClick('marketplace_click', 'WhatsApp Hero', 'hero_cta');
+      }
+    });
+  }
+
+  // Track Reseller CTA clicks
+  const resellerWa = document.querySelector('section:has(img[src*="banner1"]) a.btn, section a[href*="Program%20Reseller"]');
+  if (resellerWa) {
+    resellerWa.href = `https://wa.me/${currentSettings.whatsapp_number}?text=Halo%20Gemas%20Galore,%20saya%20tertarik%20mendaftar%20Program%20Reseller.%20Boleh%20minta%20info%20syarat%20dan%20katalognya?`;
+    resellerWa.addEventListener('click', function () {
+      if (typeof trackClick === 'function') {
+        trackClick('marketplace_click', 'WhatsApp Reseller', 'reseller_cta');
+      }
+    });
+  }
+
+  // Track Contact Section Clicks
+  document.querySelectorAll('#contact a[href*="tiktok"]').forEach(el => {
+    el.addEventListener('click', () => {
+      if (typeof trackClick === 'function') trackClick('marketplace_click', 'TikTok (Kontak)', 'contact_section');
+    });
+  });
+  document.querySelectorAll('#contact a[href*="shp.ee"], #contact a[href*="shopee"]').forEach(el => {
+    el.addEventListener('click', () => {
+      if (typeof trackClick === 'function') trackClick('marketplace_click', 'Shopee (Kontak)', 'contact_section');
+    });
+  });
+  document.querySelectorAll('#contact a[href*="wa.me"]').forEach(el => {
+    el.addEventListener('click', () => {
+      if (typeof trackClick === 'function') trackClick('marketplace_click', 'WhatsApp (Kontak)', 'contact_section');
+    });
+  });
+
   // ===== Navbar Scroll Effect =====
   const navbar = document.querySelector('.navbar');
   window.addEventListener('scroll', function () {
@@ -75,8 +142,13 @@ document.addEventListener('DOMContentLoaded', async function () {
         saveMessage({ name, email, phone, message });
       }
 
+      // Catat konversi form submit ke analytics
+      if (typeof trackClick === 'function') {
+        trackClick('marketplace_click', 'Submit Formulir Kontak', 'lead_form');
+      }
+
       // 2. Format dan buka pesan via WhatsApp
-      const waNumber = '6289656759653';
+      const waNumber = currentSettings.whatsapp_number || '6289656759653';
       const text = `Halo Gemas Galore!%0A%0A*Nama:* ${encodeURIComponent(name)}%0A*Email:* ${encodeURIComponent(email)}%0A*No HP:* ${encodeURIComponent(phone)}%0A*Pesan:* ${encodeURIComponent(message)}`;
       const waUrl = `https://wa.me/${waNumber}?text=${text}`;
 
@@ -128,6 +200,8 @@ document.addEventListener('DOMContentLoaded', async function () {
               <span class="fw-bold fs-5" style="color: #491937;">${p.price}</span>
               <div class="d-flex gap-2">
                 <button type="button" class="btn btn-sm btn-brand-primary btn-quick-view"
+                  data-id="${p.id || ''}"
+                  data-category="${p.category || 'general'}"
                   data-title="${p.title}"
                   data-price="${p.price}"
                   data-img="${p.image_url}"
@@ -173,7 +247,7 @@ document.addEventListener('DOMContentLoaded', async function () {
     });
   }
 
-  // ===== Setup Quick View Modal =====
+  // ===== Setup Quick View Modal & Event Tracking =====
   function setupQuickViewEvents() {
     const quickViewBtns = document.querySelectorAll('.btn-quick-view');
     const modalImg = document.getElementById('quickViewImg');
@@ -183,16 +257,23 @@ document.addEventListener('DOMContentLoaded', async function () {
     const modalDesc = document.getElementById('quickViewDesc');
     const modalMaterial = document.getElementById('quickViewMaterial');
     const modalWaBtn = document.getElementById('quickViewWaBtn');
+    const modalShopeeBtn = document.querySelector('#productQuickViewModal a[href*="shp.ee"]');
 
     quickViewBtns.forEach(btn => {
       btn.onclick = function (e) {
         e.preventDefault();
         const title = this.getAttribute('data-title') || '';
+        const category = this.getAttribute('data-category') || 'general';
         const price = this.getAttribute('data-price') || '';
         const img = this.getAttribute('data-img') || '';
         const badge = this.getAttribute('data-badge') || 'Koleksi';
         const desc = this.getAttribute('data-desc') || '';
         const material = this.getAttribute('data-material') || 'Bahan Premium Berkualitas';
+
+        // 🎯 TRACKING: Catat klik produk
+        if (typeof trackClick === 'function') {
+          trackClick('product_click', title, category);
+        }
 
         if (modalImg) modalImg.src = img;
         if (modalTitle) modalTitle.textContent = title;
@@ -201,9 +282,26 @@ document.addEventListener('DOMContentLoaded', async function () {
         if (modalDesc) modalDesc.textContent = desc;
         if (modalMaterial) modalMaterial.textContent = material;
 
+        const waNumber = currentSettings.whatsapp_number || '6289656759653';
         if (modalWaBtn) {
           const waMsg = `Halo Gemas Galore, saya tertarik memesan produk *${encodeURIComponent(title)}* (${encodeURIComponent(price)}). Boleh info detail dan ketersediaannya?`;
-          modalWaBtn.href = `https://wa.me/6289656759653?text=${waMsg}`;
+          modalWaBtn.href = `https://wa.me/${waNumber}?text=${waMsg}`;
+          
+          // Re-bind click event untuk WA Order produk
+          modalWaBtn.onclick = function () {
+            if (typeof trackClick === 'function') {
+              trackClick('product_whatsapp', title, 'whatsapp');
+            }
+          };
+        }
+
+        if (modalShopeeBtn) {
+          if (currentSettings.shopee_url) modalShopeeBtn.href = currentSettings.shopee_url;
+          modalShopeeBtn.onclick = function () {
+            if (typeof trackClick === 'function') {
+              trackClick('marketplace_click', `Shopee (Detail: ${title})`, 'modal_quickview');
+            }
+          };
         }
 
         const modalElement = document.getElementById('productQuickViewModal');
