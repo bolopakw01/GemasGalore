@@ -190,21 +190,7 @@ INSERT INTO public.products (title, category, price, image_url, badge, descripti
     'Sampel Produk + Katalog Digital + Bimbingan Penjualan'
 );
 
--- 11. SEED DATA DUMMY ANALITIK AWAL
--- Membantu visualisasi grafik di panel admin langsung tampil interaktif
-INSERT INTO public.analytics_clicks (event_type, target_name, category) VALUES
-    ('product_click', 'Kerudung Paris Eksklusif', 'hijab'),
-    ('product_click', 'Kerudung Paris Eksklusif', 'hijab'),
-    ('product_click', 'Kerudung Paris Eksklusif', 'hijab'),
-    ('product_click', 'Gantungan Tas Akrilik', 'merchandise'),
-    ('product_click', 'Gantungan Tas Akrilik', 'merchandise'),
-    ('product_click', 'Card Holder Minimalis', 'souvenir'),
-    ('product_click', 'Premium Gift Packaging', 'souvenir'),
-    ('product_click', 'Kerudung Paris Segi Empat', 'hijab'),
-    ('marketplace_click', 'Shopee', 'marketplace'),
-    ('marketplace_click', 'Shopee', 'marketplace'),
-    ('marketplace_click', 'Shopee', 'marketplace'),
-    ('marketplace_click', 'WhatsApp Order', 'whatsapp'),
-    ('marketplace_click', 'WhatsApp Order', 'whatsapp'),
-    ('marketplace_click', 'Tokopedia', 'marketplace'),
-    ('marketplace_click', 'TikTok Shop', 'marketplace');
+-- ==============================================================================
+-- CATATAN: Seluruh analitik (analytics_clicks), pesan (messages), dan pendaftar reseller (resellers)
+-- adalah data real yang ditangkap langsung dari interaksi pengunjung website secara realtime.
+-- ==============================================================================

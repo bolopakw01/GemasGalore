@@ -972,14 +972,57 @@
                         <li class="mb-2"><i class="bi bi-check-circle-fill"
                                 style="color: #491937; margin-right: 0.5rem;"></i> Support dan pendampingan penuh dari tim marketing</li>
                     </ul>
-                    <a href="https://wa.me/6289656759653?text=Halo%20Gemas%20Galore,%20saya%20tertarik%20mendaftar%20Program%20Reseller.%20Boleh%20minta%20info%20syarat%20dan%20katalognya?"
-                        target="_blank" rel="noopener" class="btn px-4 py-2" style="background-color: #491937; color: #fff;">
-                        <i class="bi bi-person-plus me-2 text-white"></i>Daftar Sekarang via WhatsApp
-                    </a>
+                    <div class="d-flex flex-wrap gap-2">
+                        <button type="button" class="btn px-4 py-2" style="background-color: #491937; color: #fff;" data-bs-toggle="modal" data-bs-target="#resellerModal">
+                            <i class="bi bi-person-plus me-2 text-white"></i>Daftar Mitra Reseller
+                        </button>
+                        <a href="https://wa.me/6289656759653?text=Halo%20Gemas%20Galore,%20saya%20tertarik%20mendaftar%20Program%20Reseller.%20Boleh%20minta%20info%20syarat%20dan%20katalognya?"
+                            target="_blank" rel="noopener" class="btn btn-outline-dark px-4 py-2 reseller-wa-btn">
+                            <i class="bi bi-whatsapp me-2 text-success"></i>Tanya via WhatsApp
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>
     </section>
+
+    <!-- Modal Pendaftaran Mitra Reseller -->
+    <div class="modal fade" id="resellerModal" tabindex="-1" aria-labelledby="resellerModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content border-0 shadow-lg rounded-4 overflow-hidden">
+                <div class="modal-header border-0 pb-0" style="background: linear-gradient(135deg, #491937 0%, #38102a 100%); color: white; border-radius: 1rem 1rem 0 0;">
+                    <div class="p-2">
+                        <h5 class="modal-title fw-bold" id="resellerModalLabel">
+                            <i class="bi bi-person-check-fill text-warning me-2"></i>Gabung Mitra Reseller
+                        </h5>
+                        <p class="small text-white-50 mb-0">Isi data singkat untuk terdaftar di database kemitraan Gemas Galore</p>
+                    </div>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body p-4">
+                    <form id="resellerRegisterForm">
+                        <div class="mb-3">
+                            <label for="resellerName" class="form-label small fw-semibold text-secondary">Nama Lengkap</label>
+                            <input type="text" class="form-control" id="resellerName" placeholder="Contoh: Aisyah Putri" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="resellerPhone" class="form-label small fw-semibold text-secondary">Nomor WhatsApp</label>
+                            <input type="tel" class="form-control" id="resellerPhone" placeholder="Contoh: 08123456789" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="resellerCity" class="form-label small fw-semibold text-secondary">Kota / Kabupaten Domisili</label>
+                            <input type="text" class="form-control" id="resellerCity" placeholder="Contoh: Sleman, Yogyakarta" required>
+                        </div>
+                        <div class="d-grid mt-4">
+                            <button type="submit" id="btnSubmitReseller" class="btn py-2 text-white fw-semibold" style="background-color: #491937;">
+                                <i class="bi bi-send-check me-2"></i>Kirim Pendaftaran & Buka WhatsApp
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <!-- FAQ Section -->
     <section id="faq" class="py-5 bg-light">

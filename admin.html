@@ -1070,7 +1070,20 @@
 
                 <!-- STATS COUNTER BAR -->
                 <div class="row g-3 mb-4">
-                    <div class="col-sm-6 col-xl-3">
+                    <div class="col-sm-6 col-xl">
+                        <div class="card-stat">
+                            <div class="d-flex align-items-center justify-content-between mb-2">
+                                <span class="text-muted small fw-semibold">Kunjungan Web</span>
+                                <div class="stat-icon-wrapper" style="background-color: rgba(13, 110, 253, 0.12); color: #0d6efd;">
+                                    <i class="bi bi-eye-fill"></i>
+                                </div>
+                            </div>
+                            <h2 class="fw-bold mb-1" id="statPageViews">0</h2>
+                            <span class="small fw-semibold text-primary"><i class="bi bi-activity me-1"></i>Pengunjung Real</span>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6 col-xl">
                         <div class="card-stat">
                             <div class="d-flex align-items-center justify-content-between mb-2">
                                 <span class="text-muted small fw-semibold">Total Klik Produk</span>
@@ -1079,11 +1092,11 @@
                                 </div>
                             </div>
                             <h2 class="fw-bold mb-1" id="statProductClicks">0</h2>
-                            <span class="small fw-semibold" style="color: var(--primary);"><i class="bi bi-eye me-1"></i>Minat Produk Terkini</span>
+                            <span class="small fw-semibold" style="color: var(--primary);"><i class="bi bi-bag-heart me-1"></i>Minat Produk</span>
                         </div>
                     </div>
 
-                    <div class="col-sm-6 col-xl-3">
+                    <div class="col-sm-6 col-xl">
                         <div class="card-stat">
                             <div class="d-flex align-items-center justify-content-between mb-2">
                                 <span class="text-muted small fw-semibold">Klik Marketplace</span>
@@ -1096,10 +1109,10 @@
                         </div>
                     </div>
 
-                    <div class="col-sm-6 col-xl-3">
+                    <div class="col-sm-6 col-xl">
                         <div class="card-stat">
                             <div class="d-flex align-items-center justify-content-between mb-2">
-                                <span class="text-muted small fw-semibold">Koleksi Produk Aktif</span>
+                                <span class="text-muted small fw-semibold">Koleksi Produk</span>
                                 <div class="stat-icon-wrapper" style="background-color: var(--brand-cream); color: var(--primary);">
                                     <i class="bi bi-grid-3x3-gap-fill"></i>
                                 </div>
@@ -1109,16 +1122,16 @@
                         </div>
                     </div>
 
-                    <div class="col-sm-6 col-xl-3">
+                    <div class="col-sm-6 col-xl">
                         <div class="card-stat">
                             <div class="d-flex align-items-center justify-content-between mb-2">
-                                <span class="text-muted small fw-semibold">Pesan Masuk (Kontak)</span>
+                                <span class="text-muted small fw-semibold">Pesan Masuk</span>
                                 <div class="stat-icon-wrapper" style="background-color: rgba(37, 211, 102, 0.15); color: #15803d;">
                                     <i class="bi bi-chat-quote-fill"></i>
                                 </div>
                             </div>
                             <h2 class="fw-bold mb-1" id="statTotalMessages">0</h2>
-                            <span class="text-success small fw-semibold"><i class="bi bi-whatsapp me-1"></i>Form Kontak & Pertanyaan</span>
+                            <span class="text-success small fw-semibold"><i class="bi bi-whatsapp me-1"></i>Form Kontak & Tanya</span>
                         </div>
                     </div>
                 </div>
@@ -1214,9 +1227,14 @@
                                 <h4 class="fw-bold mb-1" style="color: var(--primary);">Kelola Katalog Produk</h4>
                                 <p class="text-muted small mb-0">Tambah, ubah detail, perbarui harga, atau hapus produk dari database toko</p>
                             </div>
-                            <button type="button" class="btn btn-brand-primary" onclick="openAddProductModal()">
-                                <i class="bi bi-plus-circle me-1"></i>Tambah Produk Baru
-                            </button>
+                            <div class="d-flex gap-2">
+                                <button type="button" class="btn btn-outline-secondary btn-sm rounded-pill px-3" onclick="exportProductsCSV()">
+                                    <i class="bi bi-file-earmark-spreadsheet me-1"></i>Unduh CSV
+                                </button>
+                                <button type="button" class="btn btn-brand-primary btn-sm rounded-pill px-3" onclick="openAddProductModal()">
+                                    <i class="bi bi-plus-circle me-1"></i>Tambah Produk Baru
+                                </button>
+                            </div>
                         </div>
 
                         <!-- Filter & Search Bar -->
@@ -1734,6 +1752,10 @@
 
             currentAnalytics = await getAnalyticsSummary();
 
+            const statPageViewsEl = document.getElementById('statPageViews');
+            if (statPageViewsEl) {
+                statPageViewsEl.textContent = currentAnalytics.totalPageViews || 0;
+            }
             document.getElementById('statProductClicks').textContent = currentAnalytics.totalProductClicks;
             document.getElementById('statMarketplaceClicks').textContent = currentAnalytics.totalMarketplaceClicks;
 
@@ -2000,35 +2022,82 @@
             await loadAnalytics();
         }
 
+        // Utility Unduh CSV dengan UTF-8 BOM untuk kompatibilitas Excel
+        function downloadCSV(filename, rows) {
+            const csvBody = rows.map(r => r.join(',')).join('\r\n');
+            const blob = new Blob(["\uFEFF" + csvBody], { type: 'text/csv;charset=utf-8;' });
+            const link = document.createElement("a");
+            const url = URL.createObjectURL(blob);
+            link.setAttribute("href", url);
+            link.setAttribute("download", filename);
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            URL.revokeObjectURL(url);
+        }
+
         function exportAnalyticsCSV() {
             if (!currentAnalytics) return;
-            const rows = [
-                ['Tipe Event', 'Nama Target', 'Kategori', 'Waktu Klik']
-            ];
-
             const events = currentAnalytics.rawEvents || [];
             if (events.length === 0) {
                 alert('Belum ada log data analitik untuk diekspor.');
                 return;
             }
 
+            const rows = [
+                ['"Tipe Event"', '"Nama Target"', '"Kategori"', '"Waktu Tercatat"']
+            ];
+
             events.forEach(e => {
+                const eventType = (e.event_type || '').replace(/"/g, '""');
+                const targetName = (e.target_name || '').replace(/"/g, '""');
+                const category = (e.category || '-').replace(/"/g, '""');
+                const createdAt = e.created_at ? new Date(e.created_at).toLocaleString('id-ID') : '-';
+
                 rows.push([
-                    `"${e.event_type}"`,
-                    `"${e.target_name}"`,
-                    `"${e.category || '-'}"`,
-                    `"${e.created_at || '-'}"`
+                    `"${eventType}"`,
+                    `"${targetName}"`,
+                    `"${category}"`,
+                    `"${createdAt}"`
                 ]);
             });
 
-            const csvContent = "data:text/csv;charset=utf-8," + rows.map(r => r.join(',')).join('\n');
-            const encodedUri = encodeURI(csvContent);
-            const link = document.createElement("a");
-            link.setAttribute("href", encodedUri);
-            link.setAttribute("download", `gemas_galore_analytics_${Date.now()}.csv`);
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
+            downloadCSV(`gemas_galore_analitik_${Date.now()}.csv`, rows);
+        }
+
+        function exportProductsCSV() {
+            if (!currentProducts || currentProducts.length === 0) {
+                alert('Belum ada produk untuk diekspor.');
+                return;
+            }
+
+            const rows = [
+                ['"Nama Produk"', '"Kategori"', '"Harga"', '"Badge"', '"Bahan / Material"', '"Deskripsi"', '"Total Klik"']
+            ];
+
+            const clicksMap = (currentAnalytics && currentAnalytics.productClicks) ? currentAnalytics.productClicks : {};
+
+            currentProducts.forEach(p => {
+                const title = (p.title || '').replace(/"/g, '""');
+                const category = (p.category || '').replace(/"/g, '""');
+                const price = (p.price || '').replace(/"/g, '""');
+                const badge = (p.badge || 'Koleksi').replace(/"/g, '""');
+                const material = (p.material || '-').replace(/"/g, '""');
+                const desc = (p.description || '').replace(/"/g, '""');
+                const clicks = clicksMap[p.title] || 0;
+
+                rows.push([
+                    `"${title}"`,
+                    `"${category}"`,
+                    `"${price}"`,
+                    `"${badge}"`,
+                    `"${material}"`,
+                    `"${desc}"`,
+                    `"${clicks}"`
+                ]);
+            });
+
+            downloadCSV(`gemas_galore_katalog_produk_${Date.now()}.csv`, rows);
         }
 
         // 6. Katalog Produk
@@ -2275,33 +2344,32 @@
         }
 
         function exportMessagesCSV() {
-            if (currentMessages.length === 0) {
+            if (!currentMessages || currentMessages.length === 0) {
                 alert('Belum ada pesan masuk untuk diekspor.');
                 return;
             }
 
             const rows = [
-                ['Waktu', 'Nama Pengirim', 'Email', 'No Telepon', 'Isi Pesan']
+                ['"Waktu"', '"Nama Pengirim"', '"Email"', '"No Telepon"', '"Isi Pesan"']
             ];
 
             currentMessages.forEach(m => {
+                const date = m.created_at ? new Date(m.created_at).toLocaleString('id-ID') : '-';
+                const name = (m.name || '-').replace(/"/g, '""');
+                const email = (m.email || '-').replace(/"/g, '""');
+                const phone = (m.phone || '-').replace(/"/g, '""');
+                const message = (m.message || '').replace(/"/g, '""');
+
                 rows.push([
-                    `"${m.created_at || '-'}"`,
-                    `"${m.name || '-'}"`,
-                    `"${m.email || '-'}"`,
-                    `"${m.phone || '-'}"`,
-                    `"${(m.message || '').replace(/"/g, '""')}"`
+                    `"${date}"`,
+                    `"${name}"`,
+                    `"${email}"`,
+                    `"${phone}"`,
+                    `"${message}"`
                 ]);
             });
 
-            const csvContent = "data:text/csv;charset=utf-8," + rows.map(r => r.join(',')).join('\n');
-            const encodedUri = encodeURI(csvContent);
-            const link = document.createElement("a");
-            link.setAttribute("href", encodedUri);
-            link.setAttribute("download", `gemas_galore_messages_${Date.now()}.csv`);
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
+            downloadCSV(`gemas_galore_pesan_masuk_${Date.now()}.csv`, rows);
         }
 
         // 8. Pengaturan Toko (Store Settings)
@@ -2434,25 +2502,24 @@
                 return;
             }
             const rows = [
-                ['Waktu Daftar', 'Nama Lengkap', 'No WhatsApp', 'Kota', 'Status']
+                ['"Waktu Daftar"', '"Nama Lengkap"', '"No WhatsApp"', '"Kota / Domisili"', '"Status"']
             ];
             currentResellers.forEach(r => {
+                const date = r.created_at ? new Date(r.created_at).toLocaleString('id-ID') : '-';
+                const name = (r.name || '-').replace(/"/g, '""');
+                const phone = (r.phone || '-').replace(/"/g, '""');
+                const city = (r.city || '-').replace(/"/g, '""');
+                const status = (r.status || 'pending').replace(/"/g, '""');
+
                 rows.push([
-                    `"${r.created_at || '-'}"`,
-                    `"${r.name || '-'}"`,
-                    `"${r.phone || '-'}"`,
-                    `"${r.city || '-'}"`,
-                    `"${r.status || 'pending'}"`
+                    `"${date}"`,
+                    `"${name}"`,
+                    `"${phone}"`,
+                    `"${city}"`,
+                    `"${status}"`
                 ]);
             });
-            const csvContent = "data:text/csv;charset=utf-8," + rows.map(r => r.join(',')).join('\n');
-            const encodedUri = encodeURI(csvContent);
-            const link = document.createElement("a");
-            link.setAttribute("href", encodedUri);
-            link.setAttribute("download", `gemas_galore_resellers_${Date.now()}.csv`);
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
+            downloadCSV(`gemas_galore_mitra_reseller_${Date.now()}.csv`, rows);
         }
     </script>
 </body>

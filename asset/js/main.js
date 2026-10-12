@@ -22,6 +22,11 @@ document.addEventListener('DOMContentLoaded', async function () {
     }
   }
 
+  // ===== Track Real Page View =====
+  if (typeof trackPageView === 'function') {
+    trackPageView('Halaman Utama');
+  }
+
   // Track Hero CTA clicks
   const heroWa = document.querySelector('#home .btn-outline-light');
   if (heroWa) {
@@ -33,13 +38,60 @@ document.addEventListener('DOMContentLoaded', async function () {
     });
   }
 
-  // Track Reseller CTA clicks
-  const resellerWa = document.querySelector('section:has(img[src*="banner1"]) a.btn, section a[href*="Program%20Reseller"]');
+  // Track Reseller CTA clicks (Direct WhatsApp)
+  const resellerWa = document.querySelector('.reseller-wa-btn, section:has(img[src*="banner1"]) a[href*="wa.me"]');
   if (resellerWa) {
     resellerWa.href = `https://wa.me/${currentSettings.whatsapp_number}?text=Halo%20Gemas%20Galore,%20saya%20tertarik%20mendaftar%20Program%20Reseller.%20Boleh%20minta%20info%20syarat%20dan%20katalognya?`;
     resellerWa.addEventListener('click', function () {
       if (typeof trackClick === 'function') {
         trackClick('marketplace_click', 'WhatsApp Reseller', 'reseller_cta');
+      }
+    });
+  }
+
+  // Handle Reseller Form Submission (Simpan ke Supabase & Buka WA)
+  const resellerForm = document.getElementById('resellerRegisterForm');
+  if (resellerForm) {
+    resellerForm.addEventListener('submit', async function (e) {
+      e.preventDefault();
+      const submitBtn = document.getElementById('btnSubmitReseller');
+      if (submitBtn) {
+        submitBtn.disabled = true;
+        submitBtn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Menyimpan...';
+      }
+
+      const name = document.getElementById('resellerName')?.value.trim() || '';
+      const phone = document.getElementById('resellerPhone')?.value.trim() || '';
+      const city = document.getElementById('resellerCity')?.value.trim() || '';
+
+      if (typeof registerReseller === 'function') {
+        await registerReseller({ name, phone, city });
+      }
+
+      if (typeof trackClick === 'function') {
+        trackClick('marketplace_click', 'Pendaftaran Mitra Reseller', 'reseller_registration');
+      }
+
+      // Tutup modal
+      const modalEl = document.getElementById('resellerModal');
+      if (modalEl) {
+        const bsModal = bootstrap.Modal.getInstance(modalEl) || new bootstrap.Modal(modalEl);
+        bsModal.hide();
+      }
+
+      // Format pesan WhatsApp dan buka
+      const cleanPhone = phone.replace(/[^0-9]/g, '');
+      const waNumber = currentSettings.whatsapp_number || '6289656759653';
+      const waText = `Halo Gemas Galore!%0A%0ASaya mendaftar sebagai *Mitra Reseller*:%0A*Nama:* ${encodeURIComponent(name)}%0A*No WA:* ${encodeURIComponent(cleanPhone)}%0A*Kota/Domisili:* ${encodeURIComponent(city)}%0A%0AMohon panduan syarat kemitraan dan katalognya ya. Terima kasih!`;
+      const waUrl = `https://wa.me/${waNumber}?text=${waText}`;
+
+      alert('Terima kasih! Pendaftaran Anda berhasil disimpan. Kami akan mengarahkan Anda ke WhatsApp untuk konfirmasi instan.');
+      window.open(waUrl, '_blank');
+      this.reset();
+
+      if (submitBtn) {
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = '<i class="bi bi-send-check me-2"></i>Kirim Pendaftaran & Buka WhatsApp';
       }
     });
   }

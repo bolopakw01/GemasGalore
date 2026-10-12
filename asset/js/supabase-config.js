@@ -109,14 +109,14 @@ async function getProducts() {
         .select("*")
         .order("created_at", { ascending: false });
 
-      if (error) {
-        console.warn("Gagal memuat produk dari Supabase, menggunakan data lokal:", error.message);
-        return getLocalProducts();
+      if (!error && Array.isArray(data)) {
+        return data;
       }
-      return data && data.length > 0 ? data : getLocalProducts();
+      if (error) {
+        console.warn("Gagal memuat produk dari Supabase, menggunakan data cadangan:", error.message);
+      }
     } catch (e) {
       console.warn("Error fetching from Supabase:", e);
-      return getLocalProducts();
     }
   }
   return getLocalProducts();
@@ -170,10 +170,26 @@ function saveLocalMessage(messageData) {
 // ========================================================
 
 /**
- * Mencatat event klik (produk, marketplace, whatsapp)
- * @param {string} eventType - 'product_click', 'product_whatsapp', 'marketplace_click'
- * @param {string} targetName - contoh: 'Kerudung Paris Eksklusif', 'Shopee', 'Tokopedia'
- * @param {string} category - contoh: 'hijab', 'store_popup', 'floating_wa'
+ * Mencatat kunjungan halaman (Page View)
+ * Menggunakan sessionStorage agar tidak mencatat ganda saat refresh di tab yang sama
+ */
+async function trackPageView(pageName = "Halaman Utama") {
+  try {
+    const sessionKey = `gg_pv_${encodeURIComponent(pageName)}`;
+    if (sessionStorage.getItem(sessionKey)) {
+      return; // Sudah tercatat dalam sesi tab aktif ini
+    }
+    sessionStorage.setItem(sessionKey, Date.now().toString());
+  } catch (e) {}
+
+  return trackClick("page_view", pageName, "pageview");
+}
+
+/**
+ * Mencatat event klik (produk, marketplace, whatsapp, page view)
+ * @param {string} eventType - 'product_click', 'product_whatsapp', 'marketplace_click', 'page_view'
+ * @param {string} targetName - contoh: 'Kerudung Paris Eksklusif', 'Shopee', 'Tokopedia', 'Halaman Utama'
+ * @param {string} category - contoh: 'hijab', 'store_popup', 'lead_form', 'pageview'
  */
 async function trackClick(eventType, targetName, category = "general") {
   if (!targetName) return;
@@ -189,20 +205,13 @@ async function trackClick(eventType, targetName, category = "general") {
   try {
     const rawEvents = JSON.parse(localStorage.getItem("gemas_analytics_events") || "[]");
     rawEvents.push(clickData);
-    // Batasi maksimum 1000 log lokal untuk hemat memori
-    if (rawEvents.length > 1000) rawEvents.shift();
+    if (rawEvents.length > 2000) rawEvents.shift();
     localStorage.setItem("gemas_analytics_events", JSON.stringify(rawEvents));
-
-    // Agregat counter
-    const counts = JSON.parse(localStorage.getItem("gemas_click_counts") || "{}");
-    const key = `${eventType}:::${targetName}`;
-    counts[key] = (counts[key] || 0) + 1;
-    localStorage.setItem("gemas_click_counts", JSON.stringify(counts));
   } catch (err) {
     console.warn("Failed caching click event locally:", err);
   }
 
-  // Kirim ke Supabase jika client aktif
+  // Kirim ke Supabase secara realtime
   if (supabaseClient) {
     try {
       await supabaseClient.from("analytics_clicks").insert([{
@@ -211,28 +220,28 @@ async function trackClick(eventType, targetName, category = "general") {
         category: category
       }]);
     } catch (e) {
-      // Non-blocking error, log diam-diam
+      // Non-blocking error
     }
   }
 }
 
 /**
- * Mengambil ringkasan analitik klik
+ * Mengambil data analitik real dari database Supabase
  */
 async function getAnalyticsSummary() {
   let events = [];
   const localEvents = JSON.parse(localStorage.getItem("gemas_analytics_events") || "[]");
 
-  // 1. Coba ambil dari Supabase
+  // 1. Ambil data asli dari Supabase
   if (supabaseClient) {
     try {
       const { data, error } = await supabaseClient
         .from("analytics_clicks")
         .select("*")
         .order("created_at", { ascending: false })
-        .limit(2000);
+        .limit(5000);
 
-      if (!error && data && data.length > 0) {
+      if (!error && Array.isArray(data)) {
         events = data;
       }
     } catch (e) {
@@ -240,28 +249,25 @@ async function getAnalyticsSummary() {
     }
   }
 
-  // 2. Gabungkan data Supabase dan lokal
+  // 2. Jika Supabase offline atau belum ada data remote, gunakan log lokal
   if (events.length === 0) {
     events = localEvents;
-  } else if (localEvents.length > 0) {
-    const existingIds = new Set(events.map(e => `${e.event_type}_${e.target_name}_${e.created_at}`));
-    localEvents.forEach(le => {
-      const key = `${le.event_type}_${le.target_name}_${le.created_at}`;
-      if (!existingIds.has(key)) {
-        events.push(le);
-      }
-    });
   }
 
-  // 3. Agregasi data
+  // 3. Agregasi data murni dari log event
   const productClicks = {};
   const marketplaceClicks = {};
+  const pageViews = {};
   let totalProductClicks = 0;
   let totalMarketplaceClicks = 0;
+  let totalPageViews = 0;
 
   events.forEach(ev => {
     const target = ev.target_name || "Unknown";
-    if (ev.event_type === "product_click" || ev.event_type === "product_whatsapp") {
+    if (ev.event_type === "page_view") {
+      pageViews[target] = (pageViews[target] || 0) + 1;
+      totalPageViews++;
+    } else if (ev.event_type === "product_click" || ev.event_type === "product_whatsapp") {
       productClicks[target] = (productClicks[target] || 0) + 1;
       totalProductClicks++;
     } else if (ev.event_type === "marketplace_click") {
@@ -270,27 +276,10 @@ async function getAnalyticsSummary() {
     }
   });
 
-  // Gabungkan dengan counter lokal agar klik instan selalu tercermin
-  const localCounts = JSON.parse(localStorage.getItem("gemas_click_counts") || "{}");
-  Object.keys(localCounts).forEach(k => {
-    const [type, name] = k.split(":::");
-    if (type === "product_click" || type === "product_whatsapp") {
-      if ((productClicks[name] || 0) < localCounts[k]) {
-        const diff = localCounts[k] - (productClicks[name] || 0);
-        productClicks[name] = localCounts[k];
-        totalProductClicks += diff;
-      }
-    } else if (type === "marketplace_click") {
-      if ((marketplaceClicks[name] || 0) < localCounts[k]) {
-        const diff = localCounts[k] - (marketplaceClicks[name] || 0);
-        marketplaceClicks[name] = localCounts[k];
-        totalMarketplaceClicks += diff;
-      }
-    }
-  });
-
   return {
     rawEvents: events,
+    totalPageViews,
+    pageViews,
     productClicks,
     marketplaceClicks,
     totalProductClicks,
@@ -364,6 +353,38 @@ async function updateSiteSetting(key, value) {
 // ========================================================
 // 5. DATABASE HELPER: MITRA RESELLER
 // ========================================================
+
+async function registerReseller(resellerData) {
+  if (supabaseClient) {
+    try {
+      const { data, error } = await supabaseClient
+        .from("resellers")
+        .insert([{
+          name: resellerData.name,
+          phone: resellerData.phone,
+          city: resellerData.city || "",
+          status: "pending"
+        }]);
+      if (!error) return { success: true, data };
+      console.warn("Gagal simpan reseller ke Supabase:", error.message);
+    } catch (e) {
+      console.warn("Error registering reseller:", e);
+    }
+  }
+
+  // Fallback lokal jika offline
+  const local = JSON.parse(localStorage.getItem("gemas_resellers") || "[]");
+  local.unshift({
+    id: Date.now(),
+    name: resellerData.name,
+    phone: resellerData.phone,
+    city: resellerData.city || "",
+    status: "pending",
+    created_at: new Date().toISOString()
+  });
+  localStorage.setItem("gemas_resellers", JSON.stringify(local));
+  return { success: true, fallback: true };
+}
 
 async function getResellers() {
   if (supabaseClient) {
