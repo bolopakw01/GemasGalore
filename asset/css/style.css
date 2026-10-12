@@ -891,3 +891,208 @@ h6 {
     will-change: auto !important;
   }
 }
+
+/* ===== Product Filter Tabs ===== */
+.product-filters {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  margin-bottom: 2.5rem;
+}
+
+.product-filter-btn {
+  background-color: transparent;
+  color: #491937;
+  border: 1.5px solid #491937;
+  padding: 0.45rem 1.25rem;
+  border-radius: 50rem;
+  font-weight: 600;
+  font-size: 0.95rem;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.product-filter-btn:hover,
+.product-filter-btn.active {
+  background-color: #491937;
+  color: #ffffff;
+  box-shadow: 0 4px 12px rgba(73, 25, 55, 0.25);
+  transform: translateY(-2px);
+}
+
+.product-card {
+  transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
+  border-radius: 1rem;
+  overflow: hidden;
+}
+
+.product-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 12px 24px rgba(73, 25, 55, 0.12) !important;
+}
+
+/* Product item animation on filter */
+.product-item {
+  transition: all 0.4s ease;
+}
+
+.product-item.filter-hidden {
+  display: none !important;
+}
+
+/* ===== Floating WhatsApp CTA Widget ===== */
+.floating-wa-btn {
+  position: fixed;
+  bottom: 25px;
+  right: 25px;
+  background-color: #25d366;
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.25rem;
+  border-radius: 50rem;
+  box-shadow: 0 4px 16px rgba(37, 211, 102, 0.4);
+  z-index: 998;
+  text-decoration: none !important;
+  font-weight: 600;
+  font-size: 0.95rem;
+  transition: all 0.3s ease;
+  animation: wa-pulse 2.5s infinite;
+}
+
+.floating-wa-btn i {
+  font-size: 1.4rem;
+  color: #ffffff !important;
+}
+
+.floating-wa-btn span {
+  color: #ffffff;
+}
+
+.floating-wa-btn:hover {
+  background-color: #1ebe5d;
+  color: #ffffff;
+  transform: translateY(-3px) scale(1.03);
+  box-shadow: 0 6px 20px rgba(37, 211, 102, 0.5);
+}
+
+@keyframes wa-pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.5);
+  }
+  70% {
+    box-shadow: 0 0 0 14px rgba(37, 211, 102, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(37, 211, 102, 0);
+  }
+}
+
+/* Reposition back-to-top slightly above floating WA */
+#back-to-top {
+  bottom: 85px !important;
+  right: 25px !important;
+  z-index: 997;
+}
+
+@media (max-width: 576px) {
+  .floating-wa-btn {
+    bottom: 20px;
+    right: 20px;
+    padding: 0.65rem 1rem;
+    font-size: 0.85rem;
+  }
+  .floating-wa-btn i {
+    font-size: 1.2rem;
+  }
+  #back-to-top {
+    bottom: 75px !important;
+    right: 20px !important;
+  }
+}
+
+/* ===== FAQ Accordion Styling ===== */
+.faq-accordion .accordion-item {
+  border: 1px solid rgba(73, 25, 55, 0.12);
+  border-radius: 0.75rem !important;
+  overflow: hidden;
+  margin-bottom: 1rem;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.02);
+}
+
+.faq-accordion .accordion-button {
+  background-color: #ffffff;
+  color: #491937;
+  font-weight: 600;
+  font-size: 1.05rem;
+  padding: 1.15rem 1.5rem;
+  box-shadow: none;
+}
+
+.faq-accordion .accordion-button:not(.collapsed) {
+  background-color: rgba(73, 25, 55, 0.05);
+  color: #491937;
+}
+
+.faq-accordion .accordion-button::after {
+  filter: invert(14%) sepia(26%) saturate(2716%) hue-rotate(282deg) brightness(91%) contrast(98%);
+}
+
+.faq-accordion .accordion-body {
+  background-color: #ffffff;
+  color: #555555;
+  line-height: 1.7;
+  padding: 1.25rem 1.5rem;
+  border-top: 1px solid rgba(73, 25, 55, 0.08);
+}
+
+/* ===== Quick View Product Modal Styling ===== */
+.modal-content.product-modal-content {
+  border-radius: 1.25rem;
+  border: none;
+  overflow: hidden;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+}
+
+.product-modal-img {
+  height: 100%;
+  min-height: 280px;
+  max-height: 380px;
+  object-fit: cover;
+  border-radius: 1rem;
+  width: 100%;
+}
+
+.modal-header.product-modal-header {
+  border-bottom: 1px solid rgba(73, 25, 55, 0.1);
+}
+
+.btn-brand-primary {
+  background-color: #491937;
+  color: #ffffff;
+  border: none;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.btn-brand-primary:hover {
+  background-color: #6a234e;
+  color: #ffffff;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(73, 25, 55, 0.25);
+}
+
+.btn-brand-outline {
+  border: 1.5px solid #491937;
+  color: #491937;
+  background-color: transparent;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.btn-brand-outline:hover {
+  background-color: #491937;
+  color: #ffffff;
+}

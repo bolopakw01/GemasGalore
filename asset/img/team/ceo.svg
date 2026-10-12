@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 150 150" width="150" height="150">
+  <defs>
+    <linearGradient id="ceoGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#491937"/>
+      <stop offset="100%" stop-color="#732757"/>
+    </linearGradient>
+    <linearGradient id="goldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ffab40"/>
+      <stop offset="100%" stop-color="#ffd54f"/>
+    </linearGradient>
+  </defs>
+  <!-- Background Circle -->
+  <circle cx="75" cy="75" r="72" fill="#f8f1e9" stroke="#491937" stroke-width="4"/>
+  
+  <!-- Silhouette / Avatar Base -->
+  <!-- Shoulders / Blouse -->
+  <path d="M25 135 C30 102 50 96 75 96 C100 96 120 102 125 135 Z" fill="url(#ceoGrad)"/>
+  
+  <!-- Neck -->
+  <rect x="68" y="72" width="14" height="24" rx="4" fill="#e0bb9b"/>
+  
+  <!-- Hijab / Headcover -->
+  <ellipse cx="75" cy="62" rx="34" ry="40" fill="url(#ceoGrad)"/>
+  
+  <!-- Face Oval -->
+  <ellipse cx="75" cy="62" rx="20" ry="24" fill="#fedac1"/>
+  
+  <!-- Hijab Inner Wrap / Drapes -->
+  <path d="M56 74 C65 88 85 88 94 74 C90 94 60 94 56 74 Z" fill="url(#ceoGrad)"/>
+  
+  <!-- Hijab Pin / Gold Accessory -->
+  <circle cx="75" cy="85" r="4" fill="url(#goldGrad)"/>
+  
+  <!-- Inner Detail Accents -->
+  <path d="M55 50 Q75 35 95 50 Q75 42 55 50 Z" fill="#320f25" opacity="0.4"/>
+</svg>
+
