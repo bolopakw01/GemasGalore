@@ -1095,4 +1095,324 @@ h6 {
 .btn-brand-outline:hover {
   background-color: #491937;
   color: #ffffff;
+}
+
+/* ============================================================
+   RESPONSIVE — COMPREHENSIVE OVERRIDES
+   Supplements Bootstrap 5 grid with custom component fixes.
+   Breakpoints: 1199px | 991px | 767px | 575px | 399px
+   ============================================================ */
+
+/* ── Large tablets / small laptops (≤ 1199px) ── */
+@media (max-width: 1199px) {
+  .hero-title {
+    font-size: clamp(2.8rem, 6vw, 5rem);
+  }
+}
+
+/* ── Tablets (≤ 991px) ── */
+@media (max-width: 991px) {
+  /* Navbar: mobile collapse menu padding & spacing */
+  .navbar-collapse {
+    background-color: #f8f1e9;
+    border-radius: 0.75rem;
+    padding: 0.75rem 1rem;
+    margin-top: 0.5rem;
+    box-shadow: 0 4px 12px rgba(73, 25, 55, 0.1);
+  }
+  .navbar-nav .nav-link {
+    padding: 0.5rem 0.75rem !important;
+  }
+
+  /* Hero */
+  .hero-title {
+    font-size: clamp(2.5rem, 7vw, 3.5rem);
+  }
+  .hero-logo {
+    height: 65px !important;
+  }
+
+  /* About section image */
+  #about img {
+    max-height: 320px;
+    width: 100%;
+    object-fit: cover;
+  }
+
+  /* Products: filter buttons on tablet */
+  .product-filters {
+    gap: 0.4rem;
+  }
+  .product-filter-btn {
+    font-size: 0.85rem;
+    padding: 0.4rem 1rem;
+  }
+
+  /* FAQ accordion button font */
+  .faq-accordion .accordion-button {
+    font-size: 0.95rem;
+    padding: 1rem 1.25rem;
+  }
+
+  /* Reseller section heading */
+  .col-lg-6 h2 {
+    font-size: 1.5rem;
+  }
+}
+
+/* ── Mobile landscape / large phones (≤ 767px) ── */
+@media (max-width: 767px) {
+  /* ── General ── */
+  .container {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+  section.py-5 {
+    padding-top: 2.5rem !important;
+    padding-bottom: 2.5rem !important;
+  }
+
+  /* ── Hero ── */
+  .hero-section {
+    min-height: 55vh;
+  }
+  .hero-title {
+    font-size: clamp(2rem, 10vw, 3rem);
+    line-height: 1.15;
+  }
+  .hero-subtitle {
+    font-size: 0.95rem;
+    margin-bottom: 1.5rem;
+  }
+  .hero-logo {
+    height: 55px !important;
+  }
+  .hero-divider {
+    width: 50px;
+    margin: 0.75rem auto;
+  }
+  .hero-buttons {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.6rem;
+  }
+  .btn-hero {
+    width: 100%;
+    text-align: center;
+    padding: 0.7rem 1rem;
+    font-size: 0.95rem;
+  }
+
+  /* ── Section titles ── */
+  .section-title {
+    font-size: 1.4rem;
+    padding-bottom: 10px;
+  }
+
+  /* ── About ── */
+  #about img {
+    border-radius: 0.75rem;
+  }
+
+  /* ── Products ── */
+  .product-filters {
+    gap: 0.35rem;
+  }
+  .product-filter-btn {
+    font-size: 0.8rem;
+    padding: 0.35rem 0.85rem;
+  }
+
+  /* ── Team ── */
+  .team-card {
+    padding: 0.75rem;
+  }
+  /* Override inline styles on team images */
+  #team img.rounded-circle {
+    width: 100px !important;
+    height: 100px !important;
+  }
+
+  /* ── Awards ── */
+  .award-card {
+    padding: 1.25rem 0.75rem;
+  }
+  .award-icon i {
+    font-size: 2rem !important;
+  }
+  .award-card h5 {
+    font-size: 0.95rem;
+  }
+
+  /* ── Testimonials ── */
+  .testimonial-card:before {
+    font-size: 3rem;
+    top: -12px;
+  }
+
+  /* ── Reseller Section image ── */
+  .col-lg-6 img.img-fluid.rounded-4 {
+    max-height: 240px !important;
+  }
+
+  /* ── FAQ ── */
+  .faq-accordion .accordion-button {
+    font-size: 0.875rem;
+    padding: 0.85rem 1rem;
+  }
+  .faq-accordion .accordion-body {
+    font-size: 0.875rem;
+    padding: 1rem;
+  }
+
+  /* ── Contact ── */
+  #contact .card-body {
+    padding: 1.25rem !important;
+  }
+  #contact iframe {
+    height: 200px;
+  }
+  #contact h4 {
+    font-size: 1.1rem;
+  }
+
+  /* ── Footer ── */
+  footer .row > div {
+    text-align: center !important;
+  }
+  footer .col-md-6:last-child {
+    margin-top: 0.5rem;
+  }
+  footer a {
+    display: inline-block;
+    margin: 0.2rem 0.4rem;
+  }
+
+  /* ── Product Quick View Modal ── */
+  .product-modal-img {
+    min-height: 200px;
+    max-height: 260px;
+  }
+  .modal-body.p-4 {
+    padding: 1.25rem !important;
+  }
+
+  /* ── Store Popup ── */
+  .popup-content {
+    padding: 20px 16px;
+    width: 94%;
+  }
+  .popup-content h4 {
+    font-size: 1rem;
+    margin-bottom: 16px;
+  }
+  .store-buttons {
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
+  .store-btn {
+    padding: 10px 8px;
+    font-size: 0.85rem;
+  }
+  .store-btn i {
+    font-size: 1rem;
+    margin-right: 5px;
+  }
+}
+
+/* ── Small phones (≤ 575px) ── */
+@media (max-width: 575px) {
+  /* ── Hero ── */
+  .hero-section {
+    min-height: 45vh;
+    padding: 30px 0;
+  }
+  .hero-title {
+    font-size: clamp(1.8rem, 11vw, 2.6rem);
+    line-height: 1.2;
+  }
+  .hero-logo {
+    height: 48px !important;
+  }
+
+  /* ── Product filter tabs ── */
+  .product-filters {
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  .product-filter-btn {
+    font-size: 0.78rem;
+    padding: 0.3rem 0.7rem;
+  }
+
+  /* ── Team images (override inline styles) ── */
+  #team img.rounded-circle {
+    width: 80px !important;
+    height: 80px !important;
+  }
+
+  /* ── FAQ ── */
+  .faq-accordion .accordion-button {
+    font-size: 0.82rem;
+  }
+
+  /* ── Contact ── */
+  .contact-info .d-flex {
+    align-items: flex-start;
+  }
+  #contact iframe {
+    height: 180px;
+  }
+
+  /* ── Store Popup: single column on tiny screens ── */
+  .store-buttons {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+
+  /* ── Modal: stack columns ── */
+  #productQuickViewModal .col-md-5,
+  #productQuickViewModal .col-md-7 {
+    width: 100%;
+  }
+  .product-modal-img {
+    min-height: 180px;
+    max-height: 230px;
+    margin-bottom: 1rem;
+  }
+
+  /* ── Floating WA: icon only ── */
+  .floating-wa-btn span {
+    display: none;
+  }
+  .floating-wa-btn {
+    padding: 0.7rem;
+    border-radius: 50%;
+  }
+}
+
+/* ── Extra small phones (≤ 399px) ── */
+@media (max-width: 399px) {
+  .hero-title {
+    font-size: clamp(1.5rem, 13vw, 2.2rem);
+  }
+  .hero-subtitle {
+    font-size: 0.85rem;
+  }
+  .section-title {
+    font-size: 1.15rem;
+  }
+  .btn-hero {
+    font-size: 0.85rem;
+    padding: 0.6rem 0.8rem;
+  }
+  /* Splash screen logo smaller on tiny phones */
+  .logo-container {
+    width: 100px;
+    height: 100px;
+  }
+  .splash-title {
+    font-size: 1.4rem;
+  }
 }
