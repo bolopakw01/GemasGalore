@@ -699,31 +699,31 @@
                     <span class="tooltip">Klik Marketplace</span>
                 </li>
 
-                <!-- 4. Pesan Masuk -->
+                <!-- 4. Pesan Pelanggan -->
                 <li>
                     <a href="#" class="menu-link" data-tab="messages" onclick="switchTab('messages', this)">
                         <i class="bi bi-chat-left-text-fill"></i>
-                        <span class="links_name">Pesan Masuk</span>
+                        <span class="links_name">Pesan Pelanggan</span>
                     </a>
-                    <span class="tooltip">Pesan Masuk</span>
+                    <span class="tooltip">Pesan Pelanggan</span>
                 </li>
 
-                <!-- 5. Pengaturan Toko -->
+                <!-- 5. Mitra Reseller -->
+                <li>
+                    <a href="#" class="menu-link" data-tab="resellers" onclick="switchTab('resellers', this)">
+                        <i class="bi bi-people-fill"></i>
+                        <span class="links_name">Mitra Reseller</span>
+                    </a>
+                    <span class="tooltip">Mitra Reseller</span>
+                </li>
+
+                <!-- 6. Pengaturan Toko -->
                 <li>
                     <a href="#" class="menu-link" data-tab="settings" onclick="switchTab('settings', this)">
                         <i class="bi bi-gear-wide-connected"></i>
                         <span class="links_name">Pengaturan Toko</span>
                     </a>
                     <span class="tooltip">Pengaturan Toko</span>
-                </li>
-
-                <!-- 6. Database & SQL -->
-                <li>
-                    <a href="#" class="menu-link" data-tab="guide" onclick="switchTab('guide', this)">
-                        <i class="bi bi-code-square"></i>
-                        <span class="links_name">Database & SQL</span>
-                    </a>
-                    <span class="tooltip">Database & SQL</span>
                 </li>
 
                 <!-- Profile Dock di Bagian Bawah -->
@@ -753,20 +753,20 @@
                         <img src="asset/img/icon/line-md--menu-fold-right.svg" alt="Menu" style="width: 20px; height: 20px; filter: invert(100%); display: block;" />
                     </button>
                     <div>
-                        <h6 class="mb-0 fw-bold text-white d-none d-sm-block" id="pageTitleNav">Ringkasan & Analitik</h6>
-                        <span class="small text-white-50 d-none d-md-block" style="font-size: 0.75rem;">Dashboard Manajemen Toko Gemas Galore</span>
+                        <h6 class="mb-0 fw-bold text-white d-none d-sm-block" id="pageTitleNav">Ringkasan Toko</h6>
+                        <span class="small text-white-50 d-none d-md-block" style="font-size: 0.75rem;">Panel Pengelola Toko Gemas Galore</span>
                     </div>
                 </div>
 
                 <div class="d-flex align-items-center gap-2 gap-md-3">
-                    <!-- Status Database -->
+                    <!-- Status Database / Toko -->
                     <span id="dbStatusBadge" class="badge rounded-pill bg-success-subtle text-success border border-success-subtle px-3 py-2 d-none d-md-inline-flex align-items-center">
-                        <i class="bi bi-database-check me-1 fs-6"></i> Supabase Terhubung
+                        <i class="bi bi-circle-fill me-1" style="font-size: 8px;"></i> Toko Online Aktif
                     </span>
 
                     <!-- Tautan Lihat Website -->
                     <a href="index.html" target="_blank" class="btn btn-sm btn-light rounded-pill px-3 fw-semibold">
-                        <i class="bi bi-box-arrow-up-right me-1"></i>Lihat Website
+                        <i class="bi bi-box-arrow-up-right me-1"></i>Buka Website
                     </a>
 
                     <!-- Email Badge -->
@@ -1101,150 +1101,41 @@
                 </section>
 
                 <!-- ============================================== -->
-                <!-- TAB 6: PANDUAN SQL                             -->
+                <!-- TAB 5: MITRA RESELLER                          -->
                 <!-- ============================================== -->
-                <section id="pane-guide" class="tab-pane-content d-none">
+                <section id="pane-resellers" class="tab-pane-content d-none">
                     <div class="content-card">
-                        <div class="d-flex justify-content-between align-items-center mb-3">
+                        <div class="d-flex flex-wrap justify-content-between align-items-center mb-4 gap-3">
                             <div>
-                                <h4 class="fw-bold mb-1" style="color: var(--primary);">Panduan Sinkronisasi Database Supabase</h4>
-                                <p class="text-muted small mb-0">Script SQL di bawah ini sudah idempotent (aman dijalankan berulang kali tanpa error)</p>
+                                <h4 class="fw-bold mb-1" style="color: var(--primary);">Data Calon Mitra Reseller</h4>
+                                <p class="text-muted small mb-0">Daftar pengunjung yang mendaftarkan diri menjadi reseller melalui formulir website</p>
                             </div>
-                            <a href="schema.sql" download class="btn btn-sm btn-outline-dark rounded-pill px-3">
-                                <i class="bi bi-download me-1"></i>Unduh schema.sql
-                            </a>
+                            <div class="d-flex gap-2">
+                                <button type="button" class="btn btn-sm btn-outline-secondary rounded-pill px-3" onclick="loadResellers()">
+                                    <i class="bi bi-arrow-clockwise me-1"></i>Segarkan Data
+                                </button>
+                                <button type="button" class="btn btn-sm btn-brand-primary rounded-pill px-3" onclick="exportResellersCSV()">
+                                    <i class="bi bi-file-earmark-spreadsheet me-1"></i>Ekspor CSV
+                                </button>
+                            </div>
                         </div>
 
-                        <div class="alert alert-info border-0 rounded-3 small mb-3">
-                            <i class="bi bi-info-circle-fill me-2"></i>
-                            Jika tabel analitik belum dibuat di database Supabase Anda, silakan buka <a href="https://supabase.com/dashboard/project/fgaymsvezuqrokylqvgw/sql/new" target="_blank" class="fw-bold">Supabase SQL Editor</a>, tempel kode di bawah, lalu klik <strong>Run</strong>.
-                        </div>
-
-                        <div class="position-relative">
-                            <button class="btn btn-sm btn-dark position-absolute top-0 end-0 m-2" onclick="copySqlCode()">
-                                <i class="bi bi-clipboard me-1"></i>Salin SQL
-                            </button>
-                            <pre class="bg-dark text-light p-3 rounded-3 small" style="max-height: 400px; overflow-y: auto;" id="sqlCodeBlock">-- ==============================================================================
--- RESET TOTAL & INISIALISASI DATABASE GEMAS GALORE (SUPABASE)
--- ==============================================================================
-
--- 1. HAPUS TABEL LAMA DENGAN BERSIH (CASCADE)
-DROP TABLE IF EXISTS public.analytics_clicks CASCADE;
-DROP TABLE IF EXISTS public.site_settings CASCADE;
-DROP TABLE IF EXISTS public.resellers CASCADE;
-DROP TABLE IF EXISTS public.messages CASCADE;
-DROP TABLE IF EXISTS public.products CASCADE;
-
--- 2. TABEL PRODUK (products)
-CREATE TABLE public.products (
-    id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
-    title TEXT NOT NULL,
-    category TEXT NOT NULL CHECK (category IN ('hijab', 'merchandise', 'souvenir')),
-    price TEXT NOT NULL,
-    image_url TEXT NOT NULL,
-    badge TEXT DEFAULT 'Koleksi',
-    description TEXT,
-    material TEXT,
-    is_active BOOLEAN DEFAULT true,
-    created_at TIMESTAMP WITH TIME ZONE DEFAULT timezone('utc'::text, now()) NOT NULL
-);
-
--- 3. TABEL PESAN MASUK (messages)
-CREATE TABLE public.messages (
-    id BIGINT GENERATED BY DEFAULT AS IDENTITY PRIMARY KEY,
-    name TEXT NOT NULL,
-    email TEXT NOT NULL,
-    phone TEXT,
-    message TEXT NOT NULL,
-    created_at TIMESTAMP WITH TIME ZONE DEFAULT timezone('utc'::text, now()) NOT NULL
-);
-
--- 4. TABEL RESELLER (resellers)
-CREATE TABLE public.resellers (
-    id BIGINT GENERATED BY DEFAULT AS IDENTITY PRIMARY KEY,
-    name TEXT NOT NULL,
-    phone TEXT NOT NULL,
-    city TEXT,
-    status TEXT DEFAULT 'pending' CHECK (status IN ('pending', 'approved', 'rejected')),
-    created_at TIMESTAMP WITH TIME ZONE DEFAULT timezone('utc'::text, now()) NOT NULL
-);
-
--- 5. TABEL ANALITIK PELACAKAN KLIK (analytics_clicks)
-CREATE TABLE public.analytics_clicks (
-    id BIGINT GENERATED BY DEFAULT AS IDENTITY PRIMARY KEY,
-    event_type TEXT NOT NULL,
-    target_name TEXT NOT NULL,
-    category TEXT DEFAULT 'general',
-    created_at TIMESTAMP WITH TIME ZONE DEFAULT timezone('utc'::text, now()) NOT NULL
-);
-
--- 6. TABEL PENGATURAN TOKO (site_settings)
-CREATE TABLE public.site_settings (
-    key TEXT PRIMARY KEY,
-    value TEXT NOT NULL,
-    updated_at TIMESTAMP WITH TIME ZONE DEFAULT timezone('utc'::text, now()) NOT NULL
-);
-
--- 7. AKTIFKAN ROW LEVEL SECURITY (RLS)
-ALTER TABLE public.products ENABLE ROW LEVEL SECURITY;
-ALTER TABLE public.messages ENABLE ROW LEVEL SECURITY;
-ALTER TABLE public.resellers ENABLE ROW LEVEL SECURITY;
-ALTER TABLE public.analytics_clicks ENABLE ROW LEVEL SECURITY;
-ALTER TABLE public.site_settings ENABLE ROW LEVEL SECURITY;
-
--- 8. KEBIJAKAN AKSES (POLICIES)
-CREATE POLICY "Public read products" ON public.products FOR SELECT USING (true);
-CREATE POLICY "Allow all modifications on products" ON public.products FOR ALL USING (true) WITH CHECK (true);
-
-CREATE POLICY "Public can send messages" ON public.messages FOR INSERT WITH CHECK (true);
-CREATE POLICY "Allow read messages" ON public.messages FOR SELECT USING (true);
-CREATE POLICY "Allow delete messages" ON public.messages FOR DELETE USING (true);
-
-CREATE POLICY "Public can register reseller" ON public.resellers FOR INSERT WITH CHECK (true);
-CREATE POLICY "Allow manage resellers" ON public.resellers FOR ALL USING (true) WITH CHECK (true);
-
-CREATE POLICY "Public can record clicks" ON public.analytics_clicks FOR INSERT WITH CHECK (true);
-CREATE POLICY "Allow read analytics" ON public.analytics_clicks FOR SELECT USING (true);
-CREATE POLICY "Allow delete analytics" ON public.analytics_clicks FOR DELETE USING (true);
-
-CREATE POLICY "Public can view settings" ON public.site_settings FOR SELECT USING (true);
-CREATE POLICY "Allow manage settings" ON public.site_settings FOR ALL USING (true) WITH CHECK (true);
-
--- 9. DATA AWAL PENGATURAN TOKO (site_settings)
-INSERT INTO public.site_settings (key, value) VALUES 
-    ('whatsapp_number', '6289656759653'),
-    ('shopee_url', 'https://id.shp.ee/FdqYZK8'),
-    ('tokopedia_url', 'https://tokopedia.com/gemasgalore'),
-    ('tiktok_url', 'https://tiktok.com/@gemasgalore'),
-    ('instagram_url', 'https://instagram.com/gemasgalore');
-
--- 10. SEED DATA KATALOG PRODUK GEMAS GALORE
-INSERT INTO public.products (title, category, price, image_url, badge, description, material) VALUES 
-('Kerudung Paris Eksklusif', 'hijab', 'Rp 18.000', 'asset/img/produk/produk1.jpg', 'Bestseller', 'Kerudung Paris premium dengan logo akrilik khas Gemas Galore.', 'Paris Premium Super Fine + Pin Akrilik Eksklusif'),
-('Gantungan Tas Akrilik', 'merchandise', 'Rp 12.000', 'asset/img/bgantungantas.png', 'Merchandise', 'Gantungan tas estetik dengan desain unik dan eye-catching.', 'Akrilik Tebal 3mm Double Side + Gantungan O-Ring Premium'),
-('Card Holder Minimalis', 'souvenir', 'Rp 15.000', 'asset/img/bcardholder.png', 'Souvenir', 'Card holder ramping dan praktis dibawa bepergian.', 'Kulit Sintetis Lembut / Kanvas Tebal Jahitan Presisi'),
-('Premium Gift Packaging', 'souvenir', 'Rp 25.000', 'asset/img/produk/produk2.jpg', 'Gift Set', 'Hardbox custom premium dirancang eksklusif dengan pita satin.', 'Hardbox Doff Premium + Pita Satin + Custom Greeting Card'),
-('Kerudung Paris Segi Empat', 'hijab', 'Rp 18.000', 'asset/img/bjilbab.png', 'New Colors', 'Kerudung segi empat berbahan Paris Voile ringan dan breathable.', 'Paris Voile Berkualitas Ukuran 115 x 115 cm'),
-('Starter Reseller Kit', 'merchandise', 'Rp 15.000', 'asset/img/produk/produk3.jpg', 'Paket Mitra', 'Paket permulaan bisnis bagi Anda yang ingin menjadi reseller Gemas Galore.', 'Sampel Produk + Katalog Digital + Bimbingan Penjualan');
-
--- 11. SEED DATA ANALITIK AWAL
-INSERT INTO public.analytics_clicks (event_type, target_name, category) VALUES
-    ('product_click', 'Kerudung Paris Eksklusif', 'hijab'),
-    ('product_click', 'Kerudung Paris Eksklusif', 'hijab'),
-    ('product_click', 'Kerudung Paris Eksklusif', 'hijab'),
-    ('product_click', 'Gantungan Tas Akrilik', 'merchandise'),
-    ('product_click', 'Gantungan Tas Akrilik', 'merchandise'),
-    ('product_click', 'Card Holder Minimalis', 'souvenir'),
-    ('product_click', 'Premium Gift Packaging', 'souvenir'),
-    ('product_click', 'Kerudung Paris Segi Empat', 'hijab'),
-    ('marketplace_click', 'Shopee', 'marketplace'),
-    ('marketplace_click', 'Shopee', 'marketplace'),
-    ('marketplace_click', 'Shopee', 'marketplace'),
-    ('marketplace_click', 'WhatsApp Order', 'whatsapp'),
-    ('marketplace_click', 'WhatsApp Order', 'whatsapp'),
-    ('marketplace_click', 'Tokopedia', 'marketplace'),
-    ('marketplace_click', 'TikTok Shop', 'marketplace');
-                            </pre>
+                        <div class="table-responsive">
+                            <table class="table table-hover align-middle">
+                                <thead class="table-light small text-uppercase">
+                                    <tr>
+                                        <th>Waktu Daftar</th>
+                                        <th>Nama Lengkap</th>
+                                        <th>Nomor WhatsApp</th>
+                                        <th>Kota Domisili</th>
+                                        <th>Status Kemitraan</th>
+                                        <th class="text-end">Aksi Hubungi</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="resellersTableBody">
+                                    <tr><td colspan="6" class="text-center py-4 text-muted">Belum ada data pendaftar reseller baru.</td></tr>
+                                </tbody>
+                            </table>
                         </div>
                     </div>
                 </section>
@@ -1333,6 +1224,7 @@ INSERT INTO public.analytics_clicks (event_type, target_name, category) VALUES
         // State Global
         let currentProducts = [];
         let currentMessages = [];
+        let currentResellers = [];
         let currentAnalytics = null;
         let currentSettings = null;
         let productModalInstance = null;
@@ -1425,11 +1317,11 @@ INSERT INTO public.analytics_clicks (event_type, target_name, category) VALUES
         // 2. Tab Navigation (100% Reliable & Bug-free)
         const tabTitles = {
             analytics: 'Ringkasan & Analitik',
-            products: 'Katalog Produk',
+            products: 'Katalog Produk Toko',
             marketplaces: 'Klik Marketplace',
-            messages: 'Pesan Masuk (Leads)',
-            settings: 'Pengaturan Toko',
-            guide: 'Database & SQL Guide'
+            messages: 'Pesan Pelanggan',
+            resellers: 'Mitra Reseller',
+            settings: 'Pengaturan Toko'
         };
 
         function switchTab(tabName, linkEl) {
@@ -1532,6 +1424,7 @@ INSERT INTO public.analytics_clicks (event_type, target_name, category) VALUES
                 loadSettings(),
                 loadProducts(),
                 loadMessages(),
+                loadResellers(),
                 loadAnalytics()
             ]);
         }
@@ -2051,15 +1944,35 @@ INSERT INTO public.analytics_clicks (event_type, target_name, category) VALUES
                             <div class="small p-2 rounded bg-light border text-break" style="max-width: 380px;">${m.message}</div>
                         </td>
                         <td class="text-end">
-                            ${cleanPhone ? `
-                                <a href="${waReplyUrl}" target="_blank" class="btn btn-sm btn-success rounded-pill px-3">
-                                    <i class="bi bi-whatsapp me-1"></i>Balas WA
-                                </a>
-                            ` : '<span class="text-muted small">-</span>'}
+                            <div class="btn-group btn-group-sm">
+                                ${cleanPhone ? `
+                                    <a href="${waReplyUrl}" target="_blank" class="btn btn-success" title="Balas via WhatsApp">
+                                        <i class="bi bi-whatsapp me-1"></i>Balas WA
+                                    </a>
+                                ` : ''}
+                                <button type="button" class="btn btn-outline-danger" onclick="deleteMessage('${m.id}')" title="Hapus Pesan">
+                                    <i class="bi bi-trash"></i>
+                                </button>
+                            </div>
                         </td>
                     </tr>
                 `;
             }).join('');
+        }
+
+        async function deleteMessage(id) {
+            if (!confirm('Apakah Anda yakin ingin menghapus pesan ini?')) return;
+            if (supabaseClient) {
+                try {
+                    await supabaseClient.from('messages').delete().eq('id', id);
+                } catch (e) {
+                    console.warn(e);
+                }
+            }
+            let local = JSON.parse(localStorage.getItem('offline_messages') || '[]');
+            local = local.filter(x => x.id != id);
+            localStorage.setItem('offline_messages', JSON.stringify(local));
+            await loadMessages();
         }
 
         function exportMessagesCSV() {
@@ -2144,11 +2057,103 @@ INSERT INTO public.analytics_clicks (event_type, target_name, category) VALUES
             }
         }
 
-        function copySqlCode() {
-            const code = document.getElementById('sqlCodeBlock').textContent;
-            navigator.clipboard.writeText(code).then(() => {
-                alert('Script SQL berhasil disalin ke clipboard!');
+        // 9. Kelola Pendaftar Reseller (Mitra)
+        async function loadResellers() {
+            const tableBody = document.getElementById('resellersTableBody');
+            if (!tableBody) return;
+            tableBody.innerHTML = '<tr><td colspan="6" class="text-center py-4"><span class="spinner-border spinner-border-sm me-2"></span>Memuat pendaftar reseller...</td></tr>';
+
+            if (typeof getResellers === 'function') {
+                currentResellers = await getResellers();
+            } else {
+                currentResellers = JSON.parse(localStorage.getItem('gemas_resellers') || '[]');
+            }
+
+            if (!currentResellers || currentResellers.length === 0) {
+                tableBody.innerHTML = '<tr><td colspan="6" class="text-center py-4 text-muted">Belum ada data pendaftar reseller baru dari website.</td></tr>';
+                return;
+            }
+
+            tableBody.innerHTML = currentResellers.map(r => {
+                const date = r.created_at ? new Date(r.created_at).toLocaleString('id-ID', { dateStyle: 'medium', timeStyle: 'short' }) : '-';
+                const cleanPhone = r.phone ? r.phone.replace(/[^0-9]/g, '') : '';
+                const waUrl = cleanPhone ? `https://wa.me/${cleanPhone}?text=Halo%20Kak%20${encodeURIComponent(r.name)},%20kami%20dari%20Gemas%20Galore%20mengenai%20pendaftaran%20kemitraan%20reseller.` : '#';
+
+                return `
+                    <tr>
+                        <td class="small text-muted text-nowrap">${date}</td>
+                        <td>
+                            <div class="fw-bold">${r.name}</div>
+                        </td>
+                        <td>
+                            <span class="small fw-semibold text-secondary"><i class="bi bi-telephone me-1"></i>${r.phone || '-'}</span>
+                        </td>
+                        <td>
+                            <span class="badge bg-light text-dark border"><i class="bi bi-geo-alt me-1 text-danger"></i>${r.city || 'Belum diisi'}</span>
+                        </td>
+                        <td>
+                            <select class="form-select form-select-sm" style="width: 120px;" onchange="changeResellerStatus('${r.id}', this.value)">
+                                <option value="pending" ${r.status === 'pending' ? 'selected' : ''}>Pending</option>
+                                <option value="approved" ${r.status === 'approved' ? 'selected' : ''}>Disetujui</option>
+                                <option value="rejected" ${r.status === 'rejected' ? 'selected' : ''}>Ditolak</option>
+                            </select>
+                        </td>
+                        <td class="text-end">
+                            <div class="btn-group btn-group-sm">
+                                ${cleanPhone ? `
+                                    <a href="${waUrl}" target="_blank" class="btn btn-success" title="Hubungi Calon Mitra">
+                                        <i class="bi bi-whatsapp me-1"></i>Hubungi
+                                    </a>
+                                ` : ''}
+                                <button type="button" class="btn btn-outline-danger" onclick="removeReseller('${r.id}')" title="Hapus">
+                                    <i class="bi bi-trash"></i>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                `;
+            }).join('');
+        }
+
+        async function changeResellerStatus(id, newStatus) {
+            if (typeof updateResellerStatus === 'function') {
+                await updateResellerStatus(id, newStatus);
+            }
+        }
+
+        async function removeReseller(id) {
+            if (!confirm('Hapus pendaftar reseller ini?')) return;
+            if (typeof deleteReseller === 'function') {
+                await deleteReseller(id);
+                await loadResellers();
+            }
+        }
+
+        function exportResellersCSV() {
+            if (!currentResellers || currentResellers.length === 0) {
+                alert('Belum ada data reseller untuk diekspor.');
+                return;
+            }
+            const rows = [
+                ['Waktu Daftar', 'Nama Lengkap', 'No WhatsApp', 'Kota', 'Status']
+            ];
+            currentResellers.forEach(r => {
+                rows.push([
+                    `"${r.created_at || '-'}"`,
+                    `"${r.name || '-'}"`,
+                    `"${r.phone || '-'}"`,
+                    `"${r.city || '-'}"`,
+                    `"${r.status || 'pending'}"`
+                ]);
             });
+            const csvContent = "data:text/csv;charset=utf-8," + rows.map(r => r.join(',')).join('\n');
+            const encodedUri = encodeURI(csvContent);
+            const link = document.createElement("a");
+            link.setAttribute("href", encodedUri);
+            link.setAttribute("download", `gemas_galore_resellers_${Date.now()}.csv`);
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
         }
     </script>
 </body>

@@ -360,3 +360,53 @@ async function updateSiteSetting(key, value) {
   }
   return true;
 }
+
+// ========================================================
+// 5. DATABASE HELPER: MITRA RESELLER
+// ========================================================
+
+async function getResellers() {
+  if (supabaseClient) {
+    try {
+      const { data, error } = await supabaseClient
+        .from("resellers")
+        .select("*")
+        .order("created_at", { ascending: false });
+      if (!error && data) return data;
+    } catch (e) {
+      console.warn("Error fetching resellers:", e);
+    }
+  }
+  const local = localStorage.getItem("gemas_resellers");
+  return local ? JSON.parse(local) : [];
+}
+
+async function updateResellerStatus(id, newStatus) {
+  if (supabaseClient) {
+    try {
+      await supabaseClient.from("resellers").update({ status: newStatus }).eq("id", id);
+    } catch (e) {
+      console.warn("Error updating reseller:", e);
+    }
+  }
+  const list = await getResellers();
+  const target = list.find(r => r.id == id);
+  if (target) target.status = newStatus;
+  localStorage.setItem("gemas_resellers", JSON.stringify(list));
+  return true;
+}
+
+async function deleteReseller(id) {
+  if (supabaseClient) {
+    try {
+      await supabaseClient.from("resellers").delete().eq("id", id);
+    } catch (e) {
+      console.warn("Error deleting reseller:", e);
+    }
+  }
+  let list = await getResellers();
+  list = list.filter(r => r.id != id);
+  localStorage.setItem("gemas_resellers", JSON.stringify(list));
+  return true;
+}
+
