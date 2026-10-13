@@ -317,15 +317,7 @@ document.addEventListener('DOMContentLoaded', async function () {
     const productList = document.getElementById('productList');
     if (!productList) return;
 
-    const categoryLabels = {
-      hijab: 'Kerudung Paris',
-      merchandise: 'Merchandise',
-      souvenir: 'Souvenir & Gift'
-    };
-
     productList.innerHTML = products.map((p, idx) => {
-      const catKey = (p.category || 'general').toLowerCase();
-      const catLabel = categoryLabels[catKey] || 'Koleksi Eksklusif';
       const badgeText = p.badge || 'Koleksi';
       const materialText = p.material || 'Bahan Premium Berkualitas';
 
@@ -335,26 +327,14 @@ document.addEventListener('DOMContentLoaded', async function () {
           <div class="product-img-wrap">
             <img src="${p.image_url}" class="card-img-top" alt="${p.title}"
                  onerror="this.src='asset/img/logo1.png'">
-            <div class="product-img-Wrap-overlay"></div>
             <span class="product-badge">
               <i class="bi bi-stars"></i>${badgeText}
-            </span>
-            <span class="product-category-tag">
-              <i class="bi bi-tag-fill"></i>${catLabel}
             </span>
           </div>
           <div class="product-card-body">
             <h5 class="product-title">${p.title}</h5>
-            <div class="product-material-pill" title="${materialText}">
-              <i class="bi bi-gem"></i>
-              <span>${materialText}</span>
-            </div>
-            <p class="product-desc">${p.description || ''}</p>
             <div class="product-card-footer">
-              <div class="product-price-wrap">
-                <span class="product-price-label">Harga Koleksi</span>
-                <span class="product-price">${p.price}</span>
-              </div>
+              <span class="product-price">${p.price}</span>
               <button type="button" class="btn btn-sm btn-quick-view"
                 data-id="${p.id || ''}"
                 data-category="${p.category || 'general'}"
@@ -364,7 +344,7 @@ document.addEventListener('DOMContentLoaded', async function () {
                 data-badge="${badgeText}"
                 data-desc="${p.description || ''}"
                 data-material="${materialText}">
-                <i class="bi bi-eye-fill"></i>Detail Produk
+                <i class="bi bi-eye-fill"></i>Detail
               </button>
             </div>
           </div>
@@ -413,7 +393,23 @@ document.addEventListener('DOMContentLoaded', async function () {
     const modalDesc = document.getElementById('quickViewDesc');
     const modalMaterial = document.getElementById('quickViewMaterial');
     const modalWaBtn = document.getElementById('quickViewWaBtn');
-    const modalShopeeBtn = document.querySelector('#productQuickViewModal a[href*="shp.ee"]');
+    const modalShopeeBtn = document.getElementById('quickViewShopeeBtn');
+    const modalTokpedBtn = document.getElementById('quickViewTokpedBtn');
+    const modalTiktokBtn = document.getElementById('quickViewTiktokBtn');
+    const modalIgBtn = document.getElementById('quickViewIgBtn');
+
+    // Klik gambar atau judul produk juga membuka modal detail
+    document.querySelectorAll('.product-card').forEach(card => {
+      const btn = card.querySelector('.btn-quick-view');
+      const imgWrap = card.querySelector('.product-img-wrap');
+      const titleEl = card.querySelector('.product-title');
+      if (btn && imgWrap) {
+        imgWrap.onclick = () => btn.click();
+      }
+      if (btn && titleEl) {
+        titleEl.onclick = () => btn.click();
+      }
+    });
 
     quickViewBtns.forEach(btn => {
       btn.onclick = function (e) {
@@ -433,7 +429,7 @@ document.addEventListener('DOMContentLoaded', async function () {
 
         if (modalImg) modalImg.src = img;
         if (modalTitle) modalTitle.textContent = title;
-        if (modalBadge) modalBadge.textContent = badge;
+        if (modalBadge) modalBadge.innerHTML = `<i class="bi bi-stars"></i>${badge}`;
         if (modalPrice) modalPrice.textContent = price;
         if (modalDesc) modalDesc.textContent = desc;
         if (modalMaterial) modalMaterial.textContent = material;
@@ -443,7 +439,6 @@ document.addEventListener('DOMContentLoaded', async function () {
           const waMsg = `Halo Gemas Galore, saya tertarik memesan produk *${encodeURIComponent(title)}* (${encodeURIComponent(price)}). Boleh info detail dan ketersediaannya?`;
           modalWaBtn.href = `https://wa.me/${waNumber}?text=${waMsg}`;
           
-          // Re-bind click event untuk WA Order produk
           modalWaBtn.onclick = function () {
             if (typeof trackClick === 'function') {
               trackClick('product_whatsapp', title, 'whatsapp');
@@ -454,21 +449,27 @@ document.addEventListener('DOMContentLoaded', async function () {
           };
         }
 
-        if (modalShopeeBtn) {
-          if (currentSettings.shopee_url) modalShopeeBtn.href = currentSettings.shopee_url;
-          modalShopeeBtn.onclick = function () {
+        const bindStoreIcon = (el, urlKey, platformName) => {
+          if (!el) return;
+          if (currentSettings[urlKey]) el.href = currentSettings[urlKey];
+          el.onclick = function () {
             if (typeof trackClick === 'function') {
-              trackClick('marketplace_click', `Shopee (Detail: ${title})`, 'modal_quickview');
+              trackClick('marketplace_click', `${platformName} (Detail: ${title})`, 'modal_quickview');
             }
             if (typeof window.showGemasToast === 'function') {
-              window.showGemasToast('info', 'Membuka halaman Shopee Gemas Galore...');
+              window.showGemasToast('info', `Membuka ${platformName} Gemas Galore...`);
             }
           };
-        }
+        };
+
+        bindStoreIcon(modalShopeeBtn, 'shopee_url', 'Shopee');
+        bindStoreIcon(modalTokpedBtn, 'tokopedia_url', 'Tokopedia');
+        bindStoreIcon(modalTiktokBtn, 'tiktok_url', 'TikTok Shop');
+        bindStoreIcon(modalIgBtn, 'instagram_url', 'Instagram');
 
         const modalElement = document.getElementById('productQuickViewModal');
         if (modalElement) {
-          const productModal = new bootstrap.Modal(modalElement);
+          const productModal = bootstrap.Modal.getOrCreateInstance(modalElement);
           productModal.show();
         }
       };
