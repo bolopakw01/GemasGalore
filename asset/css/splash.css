@@ -1,4 +1,11 @@
 /* ===== Splash Screen Styles ===== */
+body.splash-active,
+html:has(body.splash-active) {
+    overflow: hidden !important;
+    height: 100vh;
+    overscroll-behavior: none;
+}
+
 .splash-screen {
     position: fixed;
     top: 0;
@@ -15,6 +22,8 @@
     opacity: 1;
     transition: opacity 0.8s cubic-bezier(0.65, 0, 0.35, 1);
     will-change: opacity, transform;
+    overscroll-behavior: none;
+    touch-action: none;
 }
 
 .splash-content {

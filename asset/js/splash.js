@@ -3,6 +3,24 @@ document.addEventListener("DOMContentLoaded", function () {
   const splashScreen = document.querySelector(".splash-screen");
   const loadingText = document.querySelector(".loading-text");
 
+  if (!splashScreen) {
+    document.body.classList.remove("splash-active");
+    return;
+  }
+
+  // Pastikan scroll terkunci saat splash tampil
+  document.body.classList.add("splash-active");
+
+  function unlockScrollAndHideSplash(delayBeforeRemove = 500) {
+    splashScreen.classList.add("hidden");
+    document.body.classList.remove("splash-active");
+
+    setTimeout(() => {
+      splashScreen.classList.add("remove");
+      setTimeout(() => splashScreen.remove(), 800);
+    }, delayBeforeRemove);
+  }
+
   // Simulate loading progress
   let progress = 0;
   const progressInterval = setInterval(() => {
@@ -10,19 +28,13 @@ document.addEventListener("DOMContentLoaded", function () {
     if (progress >= 100) {
       progress = 100;
       clearInterval(progressInterval);
-      loadingText.textContent = "Siap!";
+      if (loadingText) loadingText.textContent = "Siap!";
 
-      // Hide splash screen after completion
+      // Hide splash screen & unlock scroll after completion
       setTimeout(() => {
-        splashScreen.classList.add("hidden");
-
-        // Remove from DOM after animation
-        setTimeout(() => {
-          splashScreen.classList.add("remove");
-          setTimeout(() => splashScreen.remove(), 800);
-        }, 500);
+        unlockScrollAndHideSplash(500);
       }, 500);
-    } else {
+    } else if (loadingText) {
       loadingText.textContent = `Memuat... ${Math.min(
         100,
         Math.round(progress)
@@ -30,13 +42,9 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   }, 200);
 
-  // Optional: Hide splash screen when clicked (for testing)
+  // Optional: Hide splash screen when clicked
   splashScreen.addEventListener("click", function () {
     clearInterval(progressInterval);
-    splashScreen.classList.add("hidden");
-    setTimeout(() => {
-      splashScreen.classList.add("remove");
-      setTimeout(() => splashScreen.remove(), 800);
-    }, 100);
+    unlockScrollAndHideSplash(100);
   });
 });
