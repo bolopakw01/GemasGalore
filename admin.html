@@ -537,6 +537,11 @@
             color: var(--accent);
         }
 
+        .admin-breadcrumb-nav .breadcrumb-root.active-root {
+            color: #ffffff;
+            font-weight: 600;
+        }
+
         .admin-breadcrumb-nav .breadcrumb-item.active {
             color: #ffffff;
             font-weight: 600;
@@ -1154,13 +1159,13 @@
             </div>
 
             <ul class="nav-list">
-                <!-- 1. Ringkasan & Analitik -->
+                <!-- 1. Dashboard (Analitik) -->
                 <li>
                     <a href="#" class="menu-link active" data-tab="analytics" onclick="switchTab('analytics', this)">
                         <i class="bi bi-pie-chart-fill"></i>
-                        <span class="links_name">Ringkasan & Analitik</span>
+                        <span class="links_name">Dashboard</span>
                     </a>
-                    <span class="tooltip">Ringkasan & Analitik</span>
+                    <span class="tooltip">Dashboard</span>
                 </li>
 
                 <!-- Section Divider -->
@@ -1246,13 +1251,13 @@
                     <!-- Breadcrumb Sederhana -->
                     <nav aria-label="breadcrumb" class="admin-breadcrumb-nav">
                         <ol class="breadcrumb mb-0 align-items-center" id="adminBreadcrumb">
-                            <li class="breadcrumb-item">
-                                <a href="#" onclick="switchTab('analytics'); return false;" class="breadcrumb-root" title="Ke Beranda Dashboard">
+                            <li class="breadcrumb-item" id="breadcrumbRootItem">
+                                <a href="#" onclick="switchTab('analytics'); return false;" class="breadcrumb-root active-root" id="breadcrumbRootLink" title="Ke Beranda Dashboard">
                                     Dashboard
                                 </a>
                             </li>
-                            <li class="breadcrumb-item active" aria-current="page">
-                                <span id="pageTitleNav">Ringkasan & Analitik</span>
+                            <li class="breadcrumb-item active d-none" id="breadcrumbCurrentItem" aria-current="page">
+                                <span id="pageTitleNav"></span>
                             </li>
                         </ol>
                     </nav>
@@ -1887,7 +1892,7 @@
 
         // 2. Tab Navigation & Breadcrumb Menu Manager
         const tabNavMeta = {
-            analytics: { title: 'Ringkasan & Analitik', icon: 'bi-pie-chart-fill' },
+            analytics: { title: 'Dashboard', icon: 'bi-pie-chart-fill' },
             products: { title: 'Katalog Produk', icon: 'bi-box-seam-fill' },
             marketplaces: { title: 'Klik Marketplace', icon: 'bi-shop' },
             messages: { title: 'Pesan Pelanggan', icon: 'bi-chat-left-text-fill' },
@@ -1905,23 +1910,20 @@
                 if (targetLink) targetLink.classList.add('active');
             }
 
-            // Sinkronisasi Breadcrumb & Dropdown Menu
+            // Sinkronisasi Breadcrumb: "Dashboard" saat di analitik, atau "Dashboard / Halaman" saat di menu lain
             const meta = tabNavMeta[tabName] || { title: tabName, icon: 'bi-grid' };
-
+            const currentItem = document.getElementById('breadcrumbCurrentItem');
+            const rootLink = document.getElementById('breadcrumbRootLink');
             const titleEl = document.getElementById('pageTitleNav');
-            if (titleEl) titleEl.textContent = meta.title;
 
-            const iconEl = document.getElementById('breadcrumbCurrentIcon');
-            if (iconEl) iconEl.className = `bi ${meta.icon} text-warning me-1`;
-
-            // Tandai item aktif di dropdown breadcrumb
-            document.querySelectorAll('.breadcrumb-nav-item').forEach(item => {
-                if (item.getAttribute('data-tab') === tabName) {
-                    item.classList.add('active');
-                } else {
-                    item.classList.remove('active');
-                }
-            });
+            if (tabName === 'analytics') {
+                if (currentItem) currentItem.classList.add('d-none');
+                if (rootLink) rootLink.classList.add('active-root');
+            } else {
+                if (titleEl) titleEl.textContent = meta.title;
+                if (currentItem) currentItem.classList.remove('d-none');
+                if (rootLink) rootLink.classList.remove('active-root');
+            }
 
             document.querySelectorAll('.tab-pane-content').forEach(pane => pane.classList.add('d-none'));
 
