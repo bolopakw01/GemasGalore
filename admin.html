@@ -677,38 +677,178 @@
         }
 
         /* ========================================================
-           3. UI CARDS & TABLES
+           3. UI CARDS & TABLES (STATISTIK RINGKASAN)
            ======================================================== */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(5, minmax(0, 1fr));
+            gap: 1rem;
+            margin-bottom: 1.75rem;
+        }
+
+        @media (max-width: 1279.98px) {
+            .stats-grid {
+                grid-template-columns: repeat(6, minmax(0, 1fr));
+            }
+            .stats-grid .card-stat:nth-child(1),
+            .stats-grid .card-stat:nth-child(2),
+            .stats-grid .card-stat:nth-child(3) {
+                grid-column: span 2;
+            }
+            .stats-grid .card-stat:nth-child(4),
+            .stats-grid .card-stat:nth-child(5) {
+                grid-column: span 3;
+            }
+        }
+
+        @media (max-width: 767.98px) {
+            .stats-grid {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+                gap: 0.75rem;
+            }
+            .stats-grid .card-stat:nth-child(1),
+            .stats-grid .card-stat:nth-child(2),
+            .stats-grid .card-stat:nth-child(3),
+            .stats-grid .card-stat:nth-child(4) {
+                grid-column: span 1;
+            }
+            .stats-grid .card-stat:nth-child(5) {
+                grid-column: 1 / -1;
+            }
+        }
+
+        @media (max-width: 379.98px) {
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+            .stats-grid .card-stat {
+                grid-column: 1 / -1 !important;
+            }
+        }
+
         .card-stat {
+            position: relative;
+            overflow: hidden;
             background: #ffffff;
-            border: 1px solid rgba(73, 25, 55, 0.08);
-            border-radius: 1.1rem;
-            padding: 1.5rem;
-            box-shadow: 0 4px 18px rgba(73, 25, 55, 0.03);
-            transition: all 0.25s ease;
+            border: 1px solid rgba(73, 25, 55, 0.09);
+            border-radius: 1.15rem;
+            padding: 1.25rem 1.3rem 1.1rem;
+            box-shadow: 0 4px 18px rgba(73, 25, 55, 0.04);
+            transition: all 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
             height: 100%;
         }
 
+        .card-stat::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3.5px;
+            background: var(--stat-accent, linear-gradient(90deg, #491937 0%, #ffab40 100%));
+            opacity: 0.9;
+        }
+
+        .card-stat.is-clickable {
+            cursor: pointer;
+        }
+
         .card-stat:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 24px rgba(73, 25, 55, 0.09);
-            border-color: rgba(255, 171, 64, 0.45);
+            transform: translateY(-4px);
+            box-shadow: 0 12px 26px rgba(73, 25, 55, 0.1);
+            border-color: rgba(255, 171, 64, 0.55);
+        }
+
+        .stat-top {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 0.75rem;
+        }
+
+        .stat-label {
+            display: block;
+            font-size: 0.78rem;
+            font-weight: 600;
+            color: #6e5a67;
+            letter-spacing: 0.2px;
+            margin-bottom: 0.35rem;
+            line-height: 1.3;
         }
 
         .card-stat h2 {
             font-family: 'Yeseva One', cursive;
             color: var(--primary);
-            font-size: 2.1rem;
+            font-size: 2rem;
+            line-height: 1.1;
+            margin: 0;
+            letter-spacing: -0.5px;
         }
 
         .stat-icon-wrapper {
-            width: 52px;
-            height: 52px;
+            width: 46px;
+            height: 46px;
+            min-width: 46px;
             border-radius: 0.85rem;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.5rem;
+            font-size: 1.3rem;
+            box-shadow: inset 0 0 0 1px rgba(73, 25, 55, 0.06);
+            transition: transform 0.25s ease;
+        }
+
+        .card-stat:hover .stat-icon-wrapper {
+            transform: scale(1.07) rotate(-3deg);
+        }
+
+        .stat-footer {
+            margin-top: 0.95rem;
+            padding-top: 0.7rem;
+            border-top: 1px dashed rgba(73, 25, 55, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .stat-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.35rem;
+            font-size: 0.74rem;
+            font-weight: 600;
+            padding: 0.28rem 0.65rem;
+            border-radius: 50rem;
+            background-color: #faf5f0;
+            color: var(--primary);
+            border: 1px solid rgba(73, 25, 55, 0.08);
+            white-space: nowrap;
+            max-width: 100%;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        @media (max-width: 575.98px) {
+            .card-stat {
+                padding: 1rem 1.05rem 0.9rem;
+            }
+            .card-stat h2 {
+                font-size: 1.65rem;
+            }
+            .stat-icon-wrapper {
+                width: 40px;
+                height: 40px;
+                min-width: 40px;
+                font-size: 1.1rem;
+                border-radius: 0.7rem;
+            }
+            .stat-footer {
+                margin-top: 0.75rem;
+                padding-top: 0.55rem;
+            }
         }
 
         .btn-brand-primary {
@@ -1069,69 +1209,94 @@
             <main class="admin-main">
 
                 <!-- STATS COUNTER BAR -->
-                <div class="row g-3 mb-4">
-                    <div class="col-sm-6 col-xl">
-                        <div class="card-stat">
-                            <div class="d-flex align-items-center justify-content-between mb-2">
-                                <span class="text-muted small fw-semibold">Kunjungan Web</span>
-                                <div class="stat-icon-wrapper" style="background-color: rgba(13, 110, 253, 0.12); color: #0d6efd;">
-                                    <i class="bi bi-eye-fill"></i>
-                                </div>
+                <div class="stats-grid">
+                    <!-- 1. Kunjungan Web -->
+                    <div class="card-stat is-clickable" style="--stat-accent: linear-gradient(90deg, #491937 0%, #8b2659 100%);" onclick="switchTab('analytics')" title="Lihat Ringkasan Analitik">
+                        <div class="stat-top">
+                            <div>
+                                <span class="stat-label">Kunjungan Web</span>
+                                <h2 id="statPageViews">0</h2>
                             </div>
-                            <h2 class="fw-bold mb-1" id="statPageViews">0</h2>
-                            <span class="small fw-semibold text-primary"><i class="bi bi-activity me-1"></i>Pengunjung Real</span>
+                            <div class="stat-icon-wrapper" style="background: linear-gradient(135deg, rgba(73, 25, 55, 0.12), rgba(255, 171, 64, 0.18)); color: var(--primary);">
+                                <i class="bi bi-eye-fill"></i>
+                            </div>
+                        </div>
+                        <div class="stat-footer">
+                            <span class="stat-badge">
+                                <i class="bi bi-people-fill" style="color: #8b2659;"></i>Pengunjung Real
+                            </span>
                         </div>
                     </div>
 
-                    <div class="col-sm-6 col-xl">
-                        <div class="card-stat">
-                            <div class="d-flex align-items-center justify-content-between mb-2">
-                                <span class="text-muted small fw-semibold">Total Klik Produk</span>
-                                <div class="stat-icon-wrapper" style="background-color: rgba(73, 25, 55, 0.1); color: var(--primary);">
-                                    <i class="bi bi-cursor-fill"></i>
-                                </div>
+                    <!-- 2. Total Klik Produk -->
+                    <div class="card-stat is-clickable" style="--stat-accent: linear-gradient(90deg, #5d2046 0%, #ffab40 100%);" onclick="switchTab('analytics')" title="Lihat Klasemen Minat Produk">
+                        <div class="stat-top">
+                            <div>
+                                <span class="stat-label">Total Klik Produk</span>
+                                <h2 id="statProductClicks">0</h2>
                             </div>
-                            <h2 class="fw-bold mb-1" id="statProductClicks">0</h2>
-                            <span class="small fw-semibold" style="color: var(--primary);"><i class="bi bi-bag-heart me-1"></i>Minat Produk</span>
+                            <div class="stat-icon-wrapper" style="background-color: rgba(73, 25, 55, 0.1); color: var(--primary);">
+                                <i class="bi bi-cursor-fill"></i>
+                            </div>
+                        </div>
+                        <div class="stat-footer">
+                            <span class="stat-badge">
+                                <i class="bi bi-bag-heart-fill" style="color: var(--primary);"></i>Minat Produk
+                            </span>
                         </div>
                     </div>
 
-                    <div class="col-sm-6 col-xl">
-                        <div class="card-stat">
-                            <div class="d-flex align-items-center justify-content-between mb-2">
-                                <span class="text-muted small fw-semibold">Klik Marketplace</span>
-                                <div class="stat-icon-wrapper" style="background-color: rgba(255, 171, 64, 0.2); color: #b45309;">
-                                    <i class="bi bi-bag-check-fill"></i>
-                                </div>
+                    <!-- 3. Klik Marketplace -->
+                    <div class="card-stat is-clickable" style="--stat-accent: linear-gradient(90deg, #f59e0b 0%, #ffab40 100%);" onclick="switchTab('settings')" title="Lihat Link Toko & Marketplace">
+                        <div class="stat-top">
+                            <div>
+                                <span class="stat-label">Klik Marketplace</span>
+                                <h2 id="statMarketplaceClicks">0</h2>
                             </div>
-                            <h2 class="fw-bold mb-1" id="statMarketplaceClicks">0</h2>
-                            <span class="small fw-semibold" style="color: #b45309;"><i class="bi bi-graph-up-arrow me-1"></i>Shopee, Tokped, TikTok</span>
+                            <div class="stat-icon-wrapper" style="background-color: rgba(255, 171, 64, 0.22); color: #b45309;">
+                                <i class="bi bi-bag-check-fill"></i>
+                            </div>
+                        </div>
+                        <div class="stat-footer">
+                            <span class="stat-badge" style="background-color: #fff8eb; color: #9a3412; border-color: rgba(245, 158, 11, 0.22);">
+                                <i class="bi bi-graph-up-arrow" style="color: #d97706;"></i>Shopee, Tokped, TikTok
+                            </span>
                         </div>
                     </div>
 
-                    <div class="col-sm-6 col-xl">
-                        <div class="card-stat">
-                            <div class="d-flex align-items-center justify-content-between mb-2">
-                                <span class="text-muted small fw-semibold">Koleksi Produk</span>
-                                <div class="stat-icon-wrapper" style="background-color: var(--brand-cream); color: var(--primary);">
-                                    <i class="bi bi-grid-3x3-gap-fill"></i>
-                                </div>
+                    <!-- 4. Koleksi Produk -->
+                    <div class="card-stat is-clickable" style="--stat-accent: linear-gradient(90deg, #491937 0%, #d49b6a 100%);" onclick="switchTab('products')" title="Kelola Katalog Produk">
+                        <div class="stat-top">
+                            <div>
+                                <span class="stat-label">Koleksi Produk</span>
+                                <h2 id="statTotalProducts">0</h2>
                             </div>
-                            <h2 class="fw-bold mb-1" id="statTotalProducts">0</h2>
-                            <span class="small fw-semibold" style="color: var(--primary);"><i class="bi bi-check-circle me-1"></i>Tersedia di Katalog</span>
+                            <div class="stat-icon-wrapper" style="background-color: var(--brand-cream); color: var(--primary);">
+                                <i class="bi bi-grid-3x3-gap-fill"></i>
+                            </div>
+                        </div>
+                        <div class="stat-footer">
+                            <span class="stat-badge">
+                                <i class="bi bi-check-circle-fill" style="color: var(--primary);"></i>Tersedia di Katalog
+                            </span>
                         </div>
                     </div>
 
-                    <div class="col-sm-6 col-xl">
-                        <div class="card-stat">
-                            <div class="d-flex align-items-center justify-content-between mb-2">
-                                <span class="text-muted small fw-semibold">Pesan Masuk</span>
-                                <div class="stat-icon-wrapper" style="background-color: rgba(37, 211, 102, 0.15); color: #15803d;">
-                                    <i class="bi bi-chat-quote-fill"></i>
-                                </div>
+                    <!-- 5. Pesan Masuk -->
+                    <div class="card-stat is-clickable" style="--stat-accent: linear-gradient(90deg, #15803d 0%, #22c55e 100%);" onclick="switchTab('messages')" title="Lihat Pesan Masuk & Form Kontak">
+                        <div class="stat-top">
+                            <div>
+                                <span class="stat-label">Pesan Masuk</span>
+                                <h2 id="statTotalMessages">0</h2>
                             </div>
-                            <h2 class="fw-bold mb-1" id="statTotalMessages">0</h2>
-                            <span class="text-success small fw-semibold"><i class="bi bi-whatsapp me-1"></i>Form Kontak & Tanya</span>
+                            <div class="stat-icon-wrapper" style="background-color: rgba(37, 211, 102, 0.15); color: #15803d;">
+                                <i class="bi bi-chat-quote-fill"></i>
+                            </div>
+                        </div>
+                        <div class="stat-footer">
+                            <span class="stat-badge" style="background-color: #f0fdf4; color: #166534; border-color: rgba(22, 163, 74, 0.2);">
+                                <i class="bi bi-whatsapp" style="color: #16a34a;"></i>Form Kontak & Tanya
+                            </span>
                         </div>
                     </div>
                 </div>
