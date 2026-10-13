@@ -21,15 +21,16 @@
 }
 
 .popup-content {
-    background-color: white;
+    background: linear-gradient(180deg, #ffffff 0%, #f8f1e9 100%);
     padding: 30px;
-    border-radius: 12px;
+    border-radius: 1.25rem;
+    border: 1px solid rgba(73, 25, 55, 0.15);
     width: 90%;
-    max-width: 500px;
+    max-width: 480px;
     position: relative;
     transform: translateY(20px);
     transition: transform 0.3s ease;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 20px 45px rgba(73, 25, 55, 0.25);
 }
 
 .store-popup.active .popup-content {
@@ -38,7 +39,7 @@
 
 .popup-content h4 {
     color: #491937;
-    margin-bottom: 25px;
+    margin-bottom: 22px;
     font-family: 'Yeseva One', cursive;
     text-align: center;
 }
@@ -46,7 +47,7 @@
 .store-buttons {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 15px;
+    gap: 14px;
 }
 
 .store-btn {
@@ -54,51 +55,50 @@
     align-items: center;
     justify-content: center;
     padding: 12px 15px;
-    border-radius: 8px;
-    color: white;
+    border-radius: 0.75rem;
+    background-color: #491937;
+    border: 1.5px solid #491937;
+    color: #ffffff !important;
     text-decoration: none;
-    font-weight: 500;
-    transition: all 0.3s ease;
+    font-weight: 600;
+    transition: all 0.25s ease;
 }
 
 .store-btn i {
     margin-right: 8px;
-    font-size: 1.2rem;
+    font-size: 1.15rem;
+    color: inherit !important;
 }
 
 .store-btn:hover {
+    background-color: #ffffff;
+    color: #491937 !important;
+    border-color: #491937;
     transform: translateY(-3px);
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-}
-
-.shopee {
-    background-color: #EE4D2D;
-}
-
-.tokopedia {
-    background-color: #42b549;
-}
-
-.tiktok {
-    background-color: #000000;
-}
-
-.instagram {
-    background: linear-gradient(45deg, #405DE6, #5851DB, #833AB4, #C13584, #E1306C, #FD1D1D);
+    box-shadow: 0 6px 15px rgba(73, 25, 55, 0.18);
 }
 
 .close-popup {
     position: absolute;
     top: 15px;
     right: 15px;
-    background: none;
+    background: rgba(73, 25, 55, 0.08);
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     border: none;
-    font-size: 1.5rem;
+    font-size: 1.35rem;
+    line-height: 1;
     cursor: pointer;
     color: #491937;
-    transition: transform 0.3s ease;
+    transition: all 0.25s ease;
 }
 
 .close-popup:hover {
+    background: #491937;
+    color: #ffffff;
     transform: rotate(90deg);
 }
