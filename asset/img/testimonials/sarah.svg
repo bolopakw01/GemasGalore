@@ -1,9 +1,4 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 80" width="80" height="80">
-  <circle cx="40" cy="40" r="38" fill="#f8f1e9" stroke="#491937" stroke-width="2"/>
-  <!-- Hijab Silhouette -->
-  <path d="M16 72 C18 54 28 50 40 50 C52 50 62 54 64 72 Z" fill="#491937"/>
-  <ellipse cx="40" cy="34" rx="18" ry="22" fill="#491937"/>
-  <ellipse cx="40" cy="34" rx="11" ry="14" fill="#ffd8be"/>
-  <text x="40" y="38" font-family="'Yeseva One', serif" font-size="12" fill="#491937" text-anchor="middle" font-weight="bold">S</text>
+  <circle cx="40" cy="40" r="38" fill="#491937" stroke="#f8f1e9" stroke-width="2"/>
+  <text x="40" y="51" font-family="'Yeseva One', Georgia, serif" font-size="34" fill="#ffffff" text-anchor="middle" font-weight="bold">S</text>
 </svg>
-
