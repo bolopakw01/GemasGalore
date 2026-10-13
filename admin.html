@@ -105,6 +105,15 @@
             100% { background-position: -100% 0%; }
         }
 
+        .sidebar .logo-details .logo-brand-link {
+            display: inline-flex;
+            align-items: center;
+            text-decoration: none;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease, transform 0.2s ease;
+        }
+
         .sidebar .logo-details .logo-img {
             height: 38px;
             width: auto;
@@ -122,15 +131,24 @@
             opacity: 0;
             pointer-events: none;
             white-space: nowrap;
-            transition: opacity 0.3s ease;
+            transition: opacity 0.3s ease, color 0.2s ease;
             font-family: 'Yeseva One', cursive;
             letter-spacing: 0.5px;
         }
 
+        .sidebar.open .logo-details .logo-brand-link,
         .sidebar.open .logo-details .logo_name,
         .sidebar.open .logo-details .logo-img {
             opacity: 1;
             pointer-events: auto;
+        }
+
+        .sidebar.open .logo-details .logo-brand-link:hover {
+            transform: translateY(-1px);
+        }
+
+        .sidebar.open .logo-details .logo-brand-link:hover .logo_name {
+            color: var(--accent);
         }
 
         /* Tombol Toggle Sidebar (#btn) SVG */
@@ -1219,8 +1237,10 @@
         <!-- SIDEBAR (PERSIS SEPERTI CONTOH [LOPA PARTS] SIDEBAR) -->
         <div class="sidebar open" id="sidebar">
             <div class="logo-details">
-                <img src="asset/img/logo1.png" alt="Gemas Galore" class="logo-img">
-                <div class="logo_name">Gemas Galore</div>
+                <a href="/" target="_blank" class="logo-brand-link" title="Buka Website Utama Gemas Galore">
+                    <img src="asset/img/logo1.png" alt="Gemas Galore" class="logo-img">
+                    <div class="logo_name">Gemas Galore</div>
+                </a>
                 <img id="btn" src="asset/img/icon/line-md--menu-fold-left.svg" alt="menu" title="Toggle Menu" />
             </div>
 
@@ -1379,11 +1399,6 @@
                         <i class="bi bi-circle-fill me-1" style="font-size: 8px;"></i> Toko Online Aktif
                     </span>
 
-                    <!-- Tautan Lihat Website -->
-                    <a href="index.html" target="_blank" class="btn btn-sm btn-store-link rounded-pill px-3 fw-semibold shadow-sm" title="Buka Toko Online">
-                        <i class="bi bi-box-arrow-up-right me-1"></i><span class="d-none d-sm-inline">Buka Website</span>
-                    </a>
-
                     <!-- Profil & Nama Admin (Dropdown Pengaturan & Logout) -->
                     <div id="userProfileNav" class="dropdown d-none align-items-center">
                         <button class="profile-trigger-btn dropdown-toggle" type="button" id="profileDropdownBtn" data-bs-toggle="dropdown" aria-expanded="false" title="Menu Profil & Pengaturan">
@@ -1408,12 +1423,6 @@
                                 <a class="dropdown-item" href="#" onclick="switchTab('settings'); return false;">
                                     <i class="bi bi-gear-wide-connected text-warning fs-6"></i>
                                     <span>Pengaturan Toko</span>
-                                </a>
-                            </li>
-                            <li class="d-sm-none">
-                                <a class="dropdown-item" href="index.html" target="_blank">
-                                    <i class="bi bi-box-arrow-up-right text-info fs-6"></i>
-                                    <span>Buka Website</span>
                                 </a>
                             </li>
                             <li><hr class="dropdown-divider border-secondary border-opacity-25 my-1"></li>
