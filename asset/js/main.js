@@ -317,46 +317,61 @@ document.addEventListener('DOMContentLoaded', async function () {
     const productList = document.getElementById('productList');
     if (!productList) return;
 
-    productList.innerHTML = products.map((p, idx) => `
+    const categoryLabels = {
+      hijab: 'Kerudung Paris',
+      merchandise: 'Merchandise',
+      souvenir: 'Souvenir & Gift'
+    };
+
+    productList.innerHTML = products.map((p, idx) => {
+      const catKey = (p.category || 'general').toLowerCase();
+      const catLabel = categoryLabels[catKey] || 'Koleksi Eksklusif';
+      const badgeText = p.badge || 'Koleksi';
+      const materialText = p.material || 'Bahan Premium Berkualitas';
+
+      return `
       <div class="col-md-6 col-lg-4 product-item" data-category="${p.category}" data-aos="fade-up" data-aos-delay="${((idx % 3) + 1) * 100}">
-        <div class="card product-card h-100 border-0 shadow-sm">
-          <div class="position-relative overflow-hidden">
-            <img src="${p.image_url}" class="card-img-top w-100" alt="${p.title}"
-                 style="height: 280px; object-fit: cover; transition: transform 0.5s ease;"
+        <div class="card product-card h-100 border-0">
+          <div class="product-img-wrap">
+            <img src="${p.image_url}" class="card-img-top" alt="${p.title}"
                  onerror="this.src='asset/img/logo1.png'">
-            <span class="position-absolute top-0 end-0 px-3 py-1 m-2 rounded fw-bold small text-white"
-                  style="background-color: #491937;">${p.badge || 'Koleksi'}</span>
-            <div class="position-absolute bottom-0 start-0 end-0 p-3 text-center"
-                 style="background: linear-gradient(to top, rgba(73,25,55,0.85) 0%, transparent 100%);">
-              <h5 class="text-white mb-0">${p.title}</h5>
-            </div>
+            <div class="product-img-Wrap-overlay"></div>
+            <span class="product-badge">
+              <i class="bi bi-stars"></i>${badgeText}
+            </span>
+            <span class="product-category-tag">
+              <i class="bi bi-tag-fill"></i>${catLabel}
+            </span>
           </div>
-          <div class="card-body d-flex flex-column">
-            <div class="d-flex justify-content-between align-items-start mb-2">
-              <h5 class="card-title mb-0" style="color: #491937;">${p.title}</h5>
-              <span class="badge" style="background-color: rgba(73,25,55,0.1); color: #491937;">${p.badge || 'Koleksi'}</span>
+          <div class="product-card-body">
+            <h5 class="product-title">${p.title}</h5>
+            <div class="product-material-pill" title="${materialText}">
+              <i class="bi bi-gem"></i>
+              <span>${materialText}</span>
             </div>
-            <p class="card-text text-muted small flex-grow-1">${p.description || ''}</p>
-            <div class="d-flex justify-content-between align-items-center mt-3 pt-2 border-top">
-              <span class="fw-bold fs-5" style="color: #491937;">${p.price}</span>
-              <div class="d-flex gap-2">
-                <button type="button" class="btn btn-sm btn-brand-primary btn-quick-view"
-                  data-id="${p.id || ''}"
-                  data-category="${p.category || 'general'}"
-                  data-title="${p.title}"
-                  data-price="${p.price}"
-                  data-img="${p.image_url}"
-                  data-badge="${p.badge || 'Koleksi'}"
-                  data-desc="${p.description || ''}"
-                  data-material="${p.material || 'Bahan Premium Berkualitas'}">
-                  <i class="bi bi-eye me-1"></i>Detail
-                </button>
+            <p class="product-desc">${p.description || ''}</p>
+            <div class="product-card-footer">
+              <div class="product-price-wrap">
+                <span class="product-price-label">Harga Koleksi</span>
+                <span class="product-price">${p.price}</span>
               </div>
+              <button type="button" class="btn btn-sm btn-quick-view"
+                data-id="${p.id || ''}"
+                data-category="${p.category || 'general'}"
+                data-title="${p.title}"
+                data-price="${p.price}"
+                data-img="${p.image_url}"
+                data-badge="${badgeText}"
+                data-desc="${p.description || ''}"
+                data-material="${materialText}">
+                <i class="bi bi-eye-fill"></i>Detail Produk
+              </button>
             </div>
           </div>
         </div>
       </div>
-    `).join('');
+    `;
+    }).join('');
 
     // Pasang event listener setelah render
     setupQuickViewEvents();
