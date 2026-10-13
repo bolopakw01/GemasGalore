@@ -630,6 +630,137 @@
             padding: 8px 12px 3px;
         }
 
+        /* ========================================================
+           PROFILE DROPDOWN MENU TOPBAR
+           ======================================================== */
+        .profile-trigger-btn {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 171, 64, 0.38);
+            border-radius: 50rem;
+            padding: 4px 12px 4px 5px;
+            color: #ffffff !important;
+            display: inline-flex;
+            align-items: center;
+            gap: 9px;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.14);
+        }
+
+        .profile-trigger-btn:hover,
+        .profile-trigger-btn:focus,
+        .profile-trigger-btn[aria-expanded="true"] {
+            background: rgba(255, 171, 64, 0.22);
+            border-color: var(--accent);
+            box-shadow: 0 4px 14px rgba(255, 171, 64, 0.3);
+            transform: translateY(-1px);
+        }
+
+        .profile-trigger-btn::after {
+            display: none !important;
+        }
+
+        .profile-trigger-avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #ffab40 0%, #f59e0b 100%);
+            color: #491937;
+            font-weight: 700;
+            font-size: 0.9rem;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+            flex-shrink: 0;
+        }
+
+        .profile-trigger-info {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            line-height: 1.15;
+            text-align: left;
+        }
+
+        .profile-trigger-name {
+            font-size: 0.82rem;
+            font-weight: 600;
+            color: #ffffff;
+            max-width: 130px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .profile-trigger-role {
+            font-size: 0.66rem;
+            color: rgba(255, 171, 64, 0.92);
+            font-weight: 500;
+        }
+
+        .profile-trigger-chevron {
+            font-size: 0.72rem;
+            color: rgba(255, 171, 64, 0.9);
+            transition: transform 0.25s ease;
+        }
+
+        .profile-trigger-btn[aria-expanded="true"] .profile-trigger-chevron {
+            transform: rotate(180deg);
+        }
+
+        .profile-dropdown-menu {
+            background: linear-gradient(180deg, #3d122f 0%, #290a1f 100%) !important;
+            border: 1px solid rgba(255, 171, 64, 0.38) !important;
+            box-shadow: 0 14px 36px rgba(0, 0, 0, 0.45) !important;
+            border-radius: 16px !important;
+            min-width: 245px;
+            padding: 10px;
+            margin-top: 10px !important;
+        }
+
+        .profile-dropdown-header {
+            display: flex;
+            align-items: center;
+            gap: 11px;
+            padding: 8px 10px 10px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            margin-bottom: 6px;
+        }
+
+        .profile-dropdown-header .profile-trigger-avatar {
+            width: 38px;
+            height: 38px;
+            font-size: 1rem;
+        }
+
+        .profile-dropdown-menu .dropdown-item {
+            color: #f8f1e9;
+            border-radius: 9px;
+            padding: 9px 12px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: all 0.2s ease;
+        }
+
+        .profile-dropdown-menu .dropdown-item:hover {
+            background: rgba(255, 171, 64, 0.18);
+            color: #ffffff;
+            transform: translateX(3px);
+        }
+
+        .profile-dropdown-menu .dropdown-item.logout-item {
+            color: #fca5a5;
+        }
+
+        .profile-dropdown-menu .dropdown-item.logout-item:hover {
+            background: rgba(239, 68, 68, 0.2);
+            color: #fecaca;
+        }
+
         .admin-main {
             padding: 2rem;
             flex-grow: 1;
@@ -1253,16 +1384,46 @@
                         <i class="bi bi-box-arrow-up-right me-1"></i><span class="d-none d-sm-inline">Buka Website</span>
                     </a>
 
-                    <!-- Email Badge & Tombol Keluar -->
-                    <div id="userProfileNav" class="d-none align-items-center gap-2">
-                        <div class="bg-white bg-opacity-10 text-white rounded-pill px-3 py-1 border border-white border-opacity-25 d-none d-sm-flex align-items-center gap-2">
-                            <i class="bi bi-person-circle fs-6 text-warning"></i>
-                            <span id="userEmailNav" class="small fw-semibold text-truncate" style="max-width: 150px;">bolopakw01@gmail.com</span>
-                        </div>
-                        <button type="button" onclick="handleLogout()" class="btn btn-sm btn-outline-light rounded-pill px-2 px-sm-3 py-1 d-inline-flex align-items-center gap-1" title="Keluar Sesi Admin" style="border-color: rgba(255,171,64,0.45);">
-                            <i class="bi bi-box-arrow-right text-warning"></i>
-                            <span class="small fw-semibold d-none d-md-inline">Keluar</span>
+                    <!-- Profil & Nama Admin (Dropdown Pengaturan & Logout) -->
+                    <div id="userProfileNav" class="dropdown d-none align-items-center">
+                        <button class="profile-trigger-btn dropdown-toggle" type="button" id="profileDropdownBtn" data-bs-toggle="dropdown" aria-expanded="false" title="Menu Profil & Pengaturan">
+                            <span class="profile-trigger-avatar" id="headerAvatarChar">B</span>
+                            <span class="profile-trigger-info d-none d-sm-flex">
+                                <span class="profile-trigger-name" id="userNameHeader">Bolopa K.W.</span>
+                                <span class="profile-trigger-role">Admin Toko</span>
+                            </span>
+                            <i class="bi bi-chevron-down profile-trigger-chevron ms-1"></i>
                         </button>
+                        <ul class="dropdown-menu dropdown-menu-end dropdown-menu-dark profile-dropdown-menu" aria-labelledby="profileDropdownBtn">
+                            <li>
+                                <div class="profile-dropdown-header">
+                                    <span class="profile-trigger-avatar" id="dropdownAvatarChar">B</span>
+                                    <div class="overflow-hidden">
+                                        <div class="fw-bold text-white text-truncate" style="font-size: 0.88rem;" id="dropdownUserName">Bolopa K.W.</div>
+                                        <div class="text-white-50 text-truncate" style="font-size: 0.74rem;" id="userEmailNav">bolopakw01@gmail.com</div>
+                                    </div>
+                                </div>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="#" onclick="switchTab('settings'); return false;">
+                                    <i class="bi bi-gear-wide-connected text-warning fs-6"></i>
+                                    <span>Pengaturan Toko</span>
+                                </a>
+                            </li>
+                            <li class="d-sm-none">
+                                <a class="dropdown-item" href="index.html" target="_blank">
+                                    <i class="bi bi-box-arrow-up-right text-info fs-6"></i>
+                                    <span>Buka Website</span>
+                                </a>
+                            </li>
+                            <li><hr class="dropdown-divider border-secondary border-opacity-25 my-1"></li>
+                            <li>
+                                <a class="dropdown-item logout-item" href="#" onclick="handleLogout(); return false;">
+                                    <i class="bi bi-box-arrow-right text-danger fs-6"></i>
+                                    <span>Keluar (Logout)</span>
+                                </a>
+                            </li>
+                        </ul>
                     </div>
                 </div>
             </header>
@@ -2043,16 +2204,31 @@
         function showDashboard(email) {
             document.getElementById('loginView').classList.add('d-none');
             document.getElementById('dashboardView').classList.remove('d-none');
-            document.getElementById('userProfileNav').classList.remove('d-none');
-            document.getElementById('userProfileNav').classList.add('d-flex');
-            document.getElementById('userEmailNav').textContent = email;
+            const profileNav = document.getElementById('userProfileNav');
+            if (profileNav) {
+                profileNav.classList.remove('d-none');
+                profileNav.classList.add('d-inline-flex');
+            }
 
-            const initial = (email || 'G').charAt(0).toUpperCase();
-            const avatarChar = document.getElementById('userAvatarChar');
-            if (avatarChar) avatarChar.textContent = initial;
+            const cleanEmail = (email || 'admin@gemasgalore.com').trim();
+            const rawPrefix = cleanEmail.split('@')[0] || 'Admin';
+            const displayName = cleanEmail.toLowerCase() === 'bolopakw01@gmail.com'
+                ? 'Bolopa K.W.'
+                : rawPrefix.replace(/[._-]+/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
+            const initial = displayName.charAt(0).toUpperCase();
 
-            const nameLabel = document.getElementById('userNameLabel');
-            if (nameLabel) nameLabel.textContent = email.split('@')[0];
+            const emailEl = document.getElementById('userEmailNav');
+            if (emailEl) emailEl.textContent = cleanEmail;
+
+            ['userAvatarChar', 'headerAvatarChar', 'dropdownAvatarChar'].forEach(id => {
+                const el = document.getElementById(id);
+                if (el) el.textContent = initial;
+            });
+
+            ['userNameLabel', 'userNameHeader', 'dropdownUserName'].forEach(id => {
+                const el = document.getElementById(id);
+                if (el) el.textContent = displayName;
+            });
 
             loadAllData();
         }
