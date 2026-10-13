@@ -1865,7 +1865,7 @@
                             </div>
                             <div class="col-md-5">
                                 <label class="form-label fw-semibold small" for="accRoleLabel">Jabatan / Peran</label>
-                                <input type="text" id="accRoleLabel" class="form-control" placeholder="Admin Toko" required>
+                                <input type="text" id="accRoleLabel" class="form-control bg-light" value="Admin Toko" readonly title="Peran akun bersifat tetap dan tidak dapat diubah">
                             </div>
 
                             <div class="col-12">
@@ -2210,7 +2210,7 @@
             window.location.reload();
         }
 
-        function applyAdminProfileUI(email, customName, customRole) {
+        function applyAdminProfileUI(email, customName) {
             const cleanEmail = (email || sessionStorage.getItem('gemas_session_email') || 'bolopakw01@gmail.com').trim();
             const rawPrefix = cleanEmail.split('@')[0] || 'Admin';
             const defaultName = cleanEmail.toLowerCase() === 'bolopakw01@gmail.com'
@@ -2218,7 +2218,7 @@
                 : rawPrefix.replace(/[._-]+/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
 
             const displayName = (customName || localStorage.getItem('gemas_admin_display_name') || defaultName).trim();
-            const roleLabel = (customRole || localStorage.getItem('gemas_admin_role') || 'Admin Toko').trim();
+            const roleLabel = 'Admin Toko';
             const initial = displayName.charAt(0).toUpperCase();
 
             ['userEmailNav', 'modalAccEmailPreview'].forEach(id => {
@@ -2253,20 +2253,17 @@
             }
 
             let metaName = '';
-            let metaRole = '';
             if (supabaseClient) {
                 try {
                     const { data: { user } } = await supabaseClient.auth.getUser();
                     if (user && user.user_metadata) {
                         metaName = user.user_metadata.display_name || '';
-                        metaRole = user.user_metadata.role || '';
                         if (metaName) localStorage.setItem('gemas_admin_display_name', metaName);
-                        if (metaRole) localStorage.setItem('gemas_admin_role', metaRole);
                     }
                 } catch (e) {}
             }
 
-            applyAdminProfileUI(email, metaName, metaRole);
+            applyAdminProfileUI(email, metaName);
             loadAllData();
         }
 
@@ -2286,10 +2283,9 @@
         function openAccountSettingsModal() {
             const email = document.getElementById('userEmailNav')?.textContent || sessionStorage.getItem('gemas_session_email') || 'bolopakw01@gmail.com';
             const currentName = document.getElementById('userNameHeader')?.textContent || 'Bolopa K.W.';
-            const currentRole = document.getElementById('userRoleHeader')?.textContent || 'Admin Toko';
 
             document.getElementById('accDisplayName').value = currentName;
-            document.getElementById('accRoleLabel').value = currentRole;
+            document.getElementById('accRoleLabel').value = 'Admin Toko';
             document.getElementById('accEmailInput').value = email;
             document.getElementById('accNewPassword').value = '';
             document.getElementById('accConfirmPassword').value = '';
@@ -2306,7 +2302,6 @@
         async function handleSaveAccountSettings(e) {
             e.preventDefault();
             const displayName = (document.getElementById('accDisplayName').value || '').trim();
-            const roleLabel = (document.getElementById('accRoleLabel').value || '').trim();
             const email = document.getElementById('accEmailInput').value || 'bolopakw01@gmail.com';
             const newPassword = document.getElementById('accNewPassword').value || '';
             const confirmPassword = document.getElementById('accConfirmPassword').value || '';
@@ -2330,8 +2325,7 @@
                 try {
                     const updatePayload = {
                         data: {
-                            display_name: displayName,
-                            role: roleLabel
+                            display_name: displayName
                         }
                     };
                     if (newPassword) {
@@ -2350,8 +2344,7 @@
             }
 
             localStorage.setItem('gemas_admin_display_name', displayName);
-            localStorage.setItem('gemas_admin_role', roleLabel);
-            applyAdminProfileUI(email, displayName, roleLabel);
+            applyAdminProfileUI(email, displayName);
 
             btn.disabled = false;
             btn.innerHTML = '<i class="bi bi-check2-circle me-1"></i>Simpan Perubahan Akun';
