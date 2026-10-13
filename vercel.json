@@ -1,0 +1,9 @@
+{
+  "trailingSlash": false,
+  "rewrites": [
+    {
+      "source": "/lopa",
+      "destination": "/admin.html"
+    }
+  ]
+}
