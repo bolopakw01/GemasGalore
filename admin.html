@@ -495,7 +495,7 @@
         }
 
         /* ========================================================
-           BREADCRUMB TOPBAR SEDERHANA & MINIMALIS
+           BREADCRUMB TOPBAR SIMPEL & ELEGAN (TEMA GEMAS GALORE)
            ======================================================== */
         .admin-breadcrumb-nav {
             max-width: 100%;
@@ -503,12 +503,22 @@
         }
 
         .admin-breadcrumb-nav .breadcrumb {
-            background: transparent;
-            padding: 0;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.09) 0%, rgba(255, 171, 64, 0.05) 100%);
+            border: 1px solid rgba(255, 171, 64, 0.32);
+            border-radius: 50rem;
+            padding: 0.35rem 0.95rem;
             margin: 0;
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             flex-wrap: nowrap;
             align-items: center;
+            backdrop-filter: blur(8px);
+            box-shadow: 0 3px 14px rgba(0, 0, 0, 0.14), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            transition: all 0.25s ease;
+        }
+
+        .admin-breadcrumb-nav .breadcrumb:hover {
+            border-color: rgba(255, 171, 64, 0.52);
+            box-shadow: 0 4px 16px rgba(255, 171, 64, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.14);
         }
 
         .admin-breadcrumb-nav .breadcrumb-item {
@@ -519,22 +529,35 @@
 
         .admin-breadcrumb-nav .breadcrumb-item + .breadcrumb-item::before {
             content: "/";
-            color: rgba(255, 255, 255, 0.4);
+            color: rgba(255, 171, 64, 0.65);
             padding: 0 0.55rem;
-            font-weight: 400;
+            font-weight: 600;
+            font-size: 0.82rem;
         }
 
         .admin-breadcrumb-nav .breadcrumb-root {
-            color: rgba(255, 255, 255, 0.72);
+            color: rgba(253, 234, 213, 0.78);
             text-decoration: none;
             font-weight: 500;
-            transition: color 0.2s ease;
+            transition: all 0.2s ease;
             display: inline-flex;
             align-items: center;
+            gap: 0.4rem;
+            letter-spacing: 0.2px;
+        }
+
+        .admin-breadcrumb-nav .breadcrumb-root i {
+            color: var(--accent);
+            font-size: 0.88rem;
+            transition: transform 0.2s ease;
         }
 
         .admin-breadcrumb-nav .breadcrumb-root:hover {
-            color: var(--accent);
+            color: #ffffff;
+        }
+
+        .admin-breadcrumb-nav .breadcrumb-root:hover i {
+            transform: scale(1.1);
         }
 
         .admin-breadcrumb-nav .breadcrumb-root.active-root {
@@ -545,11 +568,36 @@
         .admin-breadcrumb-nav .breadcrumb-item.active {
             color: #ffffff;
             font-weight: 600;
+            animation: breadcrumbSlideIn 0.22s ease-out;
+        }
+
+        .breadcrumb-active-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.38rem;
+            color: #ffffff;
+            letter-spacing: 0.2px;
+        }
+
+        .breadcrumb-active-pill i {
+            color: var(--accent);
+            font-size: 0.85rem;
+        }
+
+        @keyframes breadcrumbSlideIn {
+            from {
+                opacity: 0;
+                transform: translateX(-5px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
         }
 
         #pageTitleNav {
             display: inline-block;
-            max-width: 160px;
+            max-width: 150px;
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
@@ -1248,16 +1296,20 @@
                         <img src="asset/img/icon/line-md--menu-fold-right.svg" alt="Menu" style="width: 20px; height: 20px; filter: invert(100%); display: block;" />
                     </button>
 
-                    <!-- Breadcrumb Sederhana -->
+                    <!-- Breadcrumb Simpel & Elegan -->
                     <nav aria-label="breadcrumb" class="admin-breadcrumb-nav">
                         <ol class="breadcrumb mb-0 align-items-center" id="adminBreadcrumb">
                             <li class="breadcrumb-item" id="breadcrumbRootItem">
                                 <a href="#" onclick="switchTab('analytics'); return false;" class="breadcrumb-root active-root" id="breadcrumbRootLink" title="Ke Beranda Dashboard">
-                                    Dashboard
+                                    <i class="bi bi-pie-chart-fill"></i>
+                                    <span>Dashboard</span>
                                 </a>
                             </li>
                             <li class="breadcrumb-item active d-none" id="breadcrumbCurrentItem" aria-current="page">
-                                <span id="pageTitleNav"></span>
+                                <span class="breadcrumb-active-pill">
+                                    <i class="bi bi-box-seam-fill" id="breadcrumbCurrentIcon"></i>
+                                    <span id="pageTitleNav"></span>
+                                </span>
                             </li>
                         </ol>
                     </nav>
@@ -1915,12 +1967,14 @@
             const currentItem = document.getElementById('breadcrumbCurrentItem');
             const rootLink = document.getElementById('breadcrumbRootLink');
             const titleEl = document.getElementById('pageTitleNav');
+            const iconEl = document.getElementById('breadcrumbCurrentIcon');
 
             if (tabName === 'analytics') {
                 if (currentItem) currentItem.classList.add('d-none');
                 if (rootLink) rootLink.classList.add('active-root');
             } else {
                 if (titleEl) titleEl.textContent = meta.title;
+                if (iconEl) iconEl.className = `bi ${meta.icon}`;
                 if (currentItem) currentItem.classList.remove('d-none');
                 if (rootLink) rootLink.classList.remove('active-root');
             }
