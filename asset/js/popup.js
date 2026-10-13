@@ -51,6 +51,9 @@ document.addEventListener("DOMContentLoaded", async function () {
       if (typeof trackClick === "function") {
         trackClick("marketplace_click", platform, "store_popup");
       }
+      if (typeof window.showGemasToast === "function") {
+        window.showGemasToast("info", `Mengarahkan ke ${platform} Gemas Galore...`);
+      }
     });
   });
 

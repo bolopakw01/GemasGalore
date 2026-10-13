@@ -1,4 +1,36 @@
 document.addEventListener('DOMContentLoaded', async function () {
+  // ===== SweetAlert2 Toast & Popup Helpers =====
+  const GemasToast = typeof Swal !== 'undefined' ? Swal.mixin({
+    toast: true,
+    position: 'top-end',
+    showConfirmButton: false,
+    timer: 3200,
+    timerProgressBar: true,
+    didOpen: (toast) => {
+      toast.addEventListener('mouseenter', Swal.stopTimer);
+      toast.addEventListener('mouseleave', Swal.resumeTimer);
+    }
+  }) : null;
+
+  window.showGemasToast = function (icon, title) {
+    if (GemasToast) {
+      GemasToast.fire({ icon, title });
+    }
+  };
+
+  window.showGemasPopup = function (icon, title, text) {
+    if (typeof Swal !== 'undefined') {
+      return Swal.fire({
+        icon,
+        title,
+        text,
+        confirmButtonText: 'Mengerti',
+        confirmButtonColor: '#491937'
+      });
+    }
+    return Promise.resolve();
+  };
+
   // ===== Dynamic Copyright Year =====
   const yearEl = document.getElementById('currentYear');
   if (yearEl) {
@@ -35,6 +67,7 @@ document.addEventListener('DOMContentLoaded', async function () {
       if (typeof trackClick === 'function') {
         trackClick('marketplace_click', 'WhatsApp Hero', 'hero_cta');
       }
+      window.showGemasToast('info', 'Menghubungkan ke WhatsApp Gemas Galore...');
     });
   }
 
@@ -85,14 +118,18 @@ document.addEventListener('DOMContentLoaded', async function () {
       const waText = `Halo Gemas Galore!%0A%0ASaya mendaftar sebagai *Mitra Reseller*:%0A*Nama:* ${encodeURIComponent(name)}%0A*No WA:* ${encodeURIComponent(cleanPhone)}%0A*Kota/Domisili:* ${encodeURIComponent(city)}%0A%0AMohon panduan syarat kemitraan dan katalognya ya. Terima kasih!`;
       const waUrl = `https://wa.me/${waNumber}?text=${waText}`;
 
-      alert('Terima kasih! Pendaftaran Anda berhasil disimpan. Kami akan mengarahkan Anda ke WhatsApp untuk konfirmasi instan.');
-      window.open(waUrl, '_blank');
       this.reset();
-
       if (submitBtn) {
         submitBtn.disabled = false;
         submitBtn.innerHTML = '<i class="bi bi-send-check me-2"></i>Kirim Pendaftaran & Buka WhatsApp';
       }
+
+      window.open(waUrl, '_blank');
+      await window.showGemasPopup(
+        'success',
+        'Pendaftaran Berhasil!',
+        'Terima kasih! Data kemitraan reseller Anda telah tersimpan dan kami telah mengarahkan Anda ke WhatsApp untuk konfirmasi instan.'
+      );
     });
   }
 
@@ -180,7 +217,7 @@ document.addEventListener('DOMContentLoaded', async function () {
 
       // 1. Simpan pesan ke Supabase database (jika tersedia)
       if (typeof saveMessage === 'function') {
-        saveMessage({ name, email, phone, message });
+        await saveMessage({ name, email, phone, message });
       }
 
       // Catat konversi form submit ke analytics
@@ -193,9 +230,13 @@ document.addEventListener('DOMContentLoaded', async function () {
       const text = `Halo Gemas Galore!%0A%0A*Nama:* ${encodeURIComponent(name)}%0A*Email:* ${encodeURIComponent(email)}%0A*No HP:* ${encodeURIComponent(phone)}%0A*Pesan:* ${encodeURIComponent(message)}`;
       const waUrl = `https://wa.me/${waNumber}?text=${text}`;
 
-      window.open(waUrl, '_blank');
-      alert('Terima kasih! Pesan Anda telah tersimpan dan disiapkan untuk dikirimkan melalui WhatsApp.');
       this.reset();
+      window.open(waUrl, '_blank');
+      await window.showGemasPopup(
+        'success',
+        'Pesan Terkirim!',
+        'Terima kasih telah menghubungi Gemas Galore! Pesan Anda telah tersimpan dan siap dikirimkan melalui WhatsApp.'
+      );
     });
   }
 
@@ -333,6 +374,9 @@ document.addEventListener('DOMContentLoaded', async function () {
             if (typeof trackClick === 'function') {
               trackClick('product_whatsapp', title, 'whatsapp');
             }
+            if (typeof window.showGemasToast === 'function') {
+              window.showGemasToast('info', 'Mengarahkan pesanan ke WhatsApp...');
+            }
           };
         }
 
@@ -341,6 +385,9 @@ document.addEventListener('DOMContentLoaded', async function () {
           modalShopeeBtn.onclick = function () {
             if (typeof trackClick === 'function') {
               trackClick('marketplace_click', `Shopee (Detail: ${title})`, 'modal_quickview');
+            }
+            if (typeof window.showGemasToast === 'function') {
+              window.showGemasToast('info', 'Membuka halaman Shopee Gemas Galore...');
             }
           };
         }
