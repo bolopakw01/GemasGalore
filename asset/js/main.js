@@ -150,17 +150,64 @@ document.addEventListener('DOMContentLoaded', async function () {
     });
   });
 
-  // ===== Navbar Scroll Effect =====
+  // ===== Navbar Scroll Effect & Active Section Scroll-Spy =====
   const navbar = document.querySelector('.navbar');
-  window.addEventListener('scroll', function () {
-    if (window.scrollY > 80) {
-      navbar.classList.add('scrolled');
-    } else {
-      navbar.classList.remove('scrolled');
-    }
-  });
+  const navLinks = Array.from(document.querySelectorAll('.navbar-nav .nav-link[href^="#"]'));
+  const navSections = navLinks
+    .map(link => {
+      const id = link.getAttribute('href').substring(1);
+      const sectionEl = document.getElementById(id);
+      return sectionEl ? { id, el: sectionEl, link } : null;
+    })
+    .filter(Boolean);
 
-  // ===== Smooth Scrolling =====
+  let isManualScrolling = false;
+  let manualScrollTimer = null;
+
+  function setActiveNavLink(activeId) {
+    navLinks.forEach(link => {
+      if (link.getAttribute('href') === `#${activeId}`) {
+        link.classList.add('active');
+        link.setAttribute('aria-current', 'page');
+      } else {
+        link.classList.remove('active');
+        link.removeAttribute('aria-current');
+      }
+    });
+  }
+
+  function updateNavbarAndScrollSpy() {
+    if (navbar) {
+      if (window.scrollY > 80) {
+        navbar.classList.add('scrolled');
+      } else {
+        navbar.classList.remove('scrolled');
+      }
+    }
+
+    if (isManualScrolling || navSections.length === 0) return;
+
+    const scrollPos = window.scrollY + 140;
+    let currentId = navSections[0].id;
+
+    for (const item of navSections) {
+      if (scrollPos >= item.el.offsetTop) {
+        currentId = item.id;
+      }
+    }
+
+    // Jika sudah scroll mendekati bagian paling bawah halaman, aktifkan section terakhir (Kontak)
+    if (window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 40) {
+      currentId = navSections[navSections.length - 1].id;
+    }
+
+    setActiveNavLink(currentId);
+  }
+
+  window.addEventListener('scroll', updateNavbarAndScrollSpy, { passive: true });
+  updateNavbarAndScrollSpy();
+
+  // ===== Smooth Scrolling & Click Active Sync =====
   document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     anchor.addEventListener('click', function (e) {
       const targetId = this.getAttribute('href');
@@ -169,6 +216,18 @@ document.addEventListener('DOMContentLoaded', async function () {
       const targetElement = document.querySelector(targetId);
       if (targetElement) {
         e.preventDefault();
+
+        const cleanId = targetId.substring(1);
+        if (navSections.some(s => s.id === cleanId)) {
+          setActiveNavLink(cleanId);
+          isManualScrolling = true;
+          if (manualScrollTimer) clearTimeout(manualScrollTimer);
+          manualScrollTimer = setTimeout(() => {
+            isManualScrolling = false;
+            updateNavbarAndScrollSpy();
+          }, 750);
+        }
+
         window.scrollTo({
           top: targetElement.offsetTop - 75,
           behavior: 'smooth'

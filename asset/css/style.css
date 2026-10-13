@@ -76,14 +76,29 @@ h6 {
     gap: 0.5rem;
 }
 
-/* Hover effects with smooth scaling */
+/* Hover & Active effects with smooth scaling */
 .nav-link {
     position: relative;
     padding: 0.5rem 1rem !important;
     display: inline-flex;
     align-items: center;
     gap: 0.5rem;
-    transition: color 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94), transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    border-radius: 50rem;
+    font-weight: 500;
+    transition: all 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.nav-link::after {
+    content: "";
+    position: absolute;
+    bottom: 4px;
+    left: 50%;
+    transform: translateX(-50%) scaleX(0);
+    width: 60%;
+    height: 2.5px;
+    border-radius: 2px;
+    background: linear-gradient(90deg, #491937, #ffab40);
+    transition: transform 0.3s ease;
 }
 
 .nav-link:hover,
@@ -91,12 +106,25 @@ h6 {
 .nav-link:hover .bi,
 .nav-link:focus .bi {
     color: #491937 !important;
-    transform: scale(1.05);
-    transition: color 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94), transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    transform: scale(1.04);
+}
+
+.nav-link.active {
+    background-color: rgba(73, 25, 55, 0.1);
+    color: #491937 !important;
+    font-weight: 600;
+}
+
+.nav-link.active .bi {
+    color: #491937 !important;
+}
+
+.nav-link.active::after {
+    transform: translateX(-50%) scaleX(1);
 }
 
 .nav-link .bi {
-    transition: color 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94), transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    transition: color 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94), transform 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
 .navbar-toggler {
@@ -114,16 +142,45 @@ h6 {
 .navbar.scrolled .nav-link,
 .navbar.scrolled .bi {
     color: white !important;
-    transition: color 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94), transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    transition: all 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
 .navbar.scrolled .nav-link:hover,
 .navbar.scrolled .nav-link:focus,
 .navbar.scrolled .nav-link:hover .bi,
 .navbar.scrolled .nav-link:focus .bi {
-    color: #ffffff !important;
-    transform: scale(1.05);
-    transition: color 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94), transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    color: #ffab40 !important;
+    transform: scale(1.04);
+}
+
+.navbar.scrolled .nav-link.active {
+    background-color: rgba(255, 171, 64, 0.18);
+    color: #ffab40 !important;
+    font-weight: 600;
+}
+
+.navbar.scrolled .nav-link.active .bi {
+    color: #ffab40 !important;
+}
+
+.navbar.scrolled .nav-link.active::after {
+    background: linear-gradient(90deg, #ffab40, #fde68a);
+    transform: translateX(-50%) scaleX(1);
+}
+
+@media (max-width: 991px) {
+    .navbar.scrolled .navbar-collapse .nav-link,
+    .navbar.scrolled .navbar-collapse .nav-link .bi {
+        color: #491937 !important;
+    }
+    .navbar.scrolled .navbar-collapse .nav-link.active,
+    .navbar.scrolled .navbar-collapse .nav-link.active .bi {
+        background-color: rgba(73, 25, 55, 0.12);
+        color: #491937 !important;
+    }
+    .navbar.scrolled .navbar-collapse .nav-link::after {
+        display: none;
+    }
 }
 
 .navbar.scrolled .navbar-toggler {
