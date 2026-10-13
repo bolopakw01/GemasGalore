@@ -64,10 +64,12 @@
     transition: all 0.25s ease;
 }
 
-.store-btn i {
+.store-btn i,
+.store-btn .bi {
     margin-right: 8px;
     font-size: 1.15rem;
-    color: inherit !important;
+    color: #ffffff !important;
+    transition: color 0.25s ease;
 }
 
 .store-btn:hover {
@@ -76,6 +78,11 @@
     border-color: #491937;
     transform: translateY(-3px);
     box-shadow: 0 6px 15px rgba(73, 25, 55, 0.18);
+}
+
+.store-btn:hover i,
+.store-btn:hover .bi {
+    color: #491937 !important;
 }
 
 .close-popup {

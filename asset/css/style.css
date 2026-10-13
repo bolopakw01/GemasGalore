@@ -428,7 +428,11 @@ h6 {
     background: linear-gradient(180deg, #ffffff 0%, #fdf9f4 55%, #ffffff 100%);
 }
 
-/* Button Hover Effect */
+/* Button Hover Effect & White Icons on Primary Buttons */
+.btn[style*="background-color: #491937"] .bi {
+    color: #ffffff !important;
+}
+
 .btn[style*="background-color: #491937"]:hover {
     background-color: #3a142f !important;
     color: white !important;
@@ -1014,8 +1018,9 @@ h6 {
   box-shadow: 0 4px 10px rgba(73, 25, 55, 0.22);
 }
 
-.product-badge i {
-  color: #ffffff;
+.product-badge i,
+.product-badge .bi {
+  color: #ffffff !important;
 }
 
 .product-card-body {
@@ -1070,8 +1075,9 @@ h6 {
   box-shadow: 0 3px 10px rgba(73, 25, 55, 0.14);
 }
 
-.product-card .btn-quick-view i {
-  color: #ffffff;
+.product-card .btn-quick-view i,
+.product-card .btn-quick-view .bi {
+  color: #ffffff !important;
   transition: transform 0.3s ease;
 }
 
@@ -1081,6 +1087,11 @@ h6 {
   border-color: #3a142f;
   transform: translateY(-2px);
   box-shadow: 0 6px 14px rgba(73, 25, 55, 0.24);
+}
+
+.product-card .btn-quick-view:hover i,
+.product-card .btn-quick-view:hover .bi {
+  color: #ffffff !important;
 }
 
 /* Product item animation on filter */
@@ -1271,8 +1282,10 @@ h6 {
   transition: all 0.25s ease;
 }
 
-.quickview-icon-btn i {
-  color: inherit;
+.quickview-icon-btn i,
+.quickview-icon-btn .bi {
+  color: #ffffff !important;
+  transition: color 0.25s ease;
 }
 
 .quickview-icon-btn:hover {
@@ -1281,6 +1294,11 @@ h6 {
   border-color: #491937;
   transform: translateY(-3px);
   box-shadow: 0 6px 14px rgba(73, 25, 55, 0.22);
+}
+
+.quickview-icon-btn:hover i,
+.quickview-icon-btn:hover .bi {
+  color: #491937 !important;
 }
 
 .btn-brand-primary {
