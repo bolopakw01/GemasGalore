@@ -987,27 +987,35 @@
     <div id="loginView" class="container py-5">
         <div class="row justify-content-center pt-4">
             <div class="col-md-6 col-lg-4">
-                <div class="card border-0 shadow-lg rounded-4 p-4 p-md-5 bg-white">
+                <div class="card border-0 shadow-lg rounded-4 p-4 p-md-5 bg-white" style="border-top: 4px solid var(--primary) !important;">
                     <div class="text-center mb-4">
                         <img src="asset/img/logo1.png" alt="Gemas Galore Logo" style="height: 65px;">
                         <h4 class="brand-font mt-3" style="color: var(--primary);">Portal Manajemen</h4>
-                        <p class="text-muted small">Kelola katalog produk dan pantau statistik klik marketplace real-time</p>
+                        <p class="text-muted small mb-0">Silakan masuk menggunakan akun resmi Admin Gemas Galore</p>
+                    </div>
+
+                    <div id="loginErrorAlert" class="alert alert-danger d-none py-2 px-3 small rounded-3 mb-3 d-flex align-items-center gap-2" role="alert">
+                        <i class="bi bi-exclamation-octagon-fill flex-shrink-0"></i>
+                        <span id="loginErrorText">Email atau kata sandi salah.</span>
                     </div>
 
                     <form id="loginForm" onsubmit="handleLogin(event)">
                         <div class="mb-3">
-                            <label class="form-label small fw-semibold">Email Admin</label>
+                            <label class="form-label small fw-semibold" for="loginEmail">Email Admin</label>
                             <div class="input-group">
                                 <span class="input-group-text bg-light"><i class="bi bi-envelope text-muted"></i></span>
-                                <input type="email" id="loginEmail" class="form-control" placeholder="admin@gemasgalore.com" required>
+                                <input type="email" id="loginEmail" class="form-control" placeholder="Masukkan email admin" autocomplete="username" required>
                             </div>
                         </div>
 
                         <div class="mb-4">
-                            <label class="form-label small fw-semibold">Kata Sandi</label>
+                            <label class="form-label small fw-semibold" for="loginPassword">Kata Sandi</label>
                             <div class="input-group">
                                 <span class="input-group-text bg-light"><i class="bi bi-lock text-muted"></i></span>
-                                <input type="password" id="loginPassword" class="form-control" placeholder="••••••••" required>
+                                <input type="password" id="loginPassword" class="form-control" placeholder="••••••••" autocomplete="current-password" required>
+                                <button class="btn btn-outline-secondary border-start-0" type="button" onclick="togglePasswordVisibility()" title="Tampilkan/Sembunyikan Sandi">
+                                    <i class="bi bi-eye" id="togglePassIcon"></i>
+                                </button>
                             </div>
                         </div>
 
@@ -1015,9 +1023,11 @@
                             <i class="bi bi-box-arrow-in-right me-1"></i>Masuk Dashboard
                         </button>
 
-                        <button type="button" class="btn btn-light w-100 py-2 text-muted small fw-semibold border" onclick="enterDemoMode()">
-                            <i class="bi bi-shield-check me-1 text-success"></i>Masuk Mode Pratinjau Cepat (Demo)
-                        </button>
+                        <div class="text-center">
+                            <a href="/" class="text-decoration-none small text-muted">
+                                <i class="bi bi-arrow-left me-1"></i>Kembali ke Halaman Utama
+                            </a>
+                        </div>
                     </form>
                 </div>
             </div>
@@ -1195,12 +1205,16 @@
                         <i class="bi bi-box-arrow-up-right me-1"></i><span class="d-none d-sm-inline">Buka Website</span>
                     </a>
 
-                    <!-- Email Badge -->
+                    <!-- Email Badge & Tombol Keluar -->
                     <div id="userProfileNav" class="d-none align-items-center gap-2">
-                        <div class="bg-white bg-opacity-10 text-white rounded-pill px-3 py-1 border border-white border-opacity-25 d-flex align-items-center gap-2">
-                            <i class="bi bi-person-circle fs-5 text-warning"></i>
-                            <span id="userEmailNav" class="small fw-semibold text-truncate" style="max-width: 140px;">admin@gemasgalore.com</span>
+                        <div class="bg-white bg-opacity-10 text-white rounded-pill px-3 py-1 border border-white border-opacity-25 d-none d-sm-flex align-items-center gap-2">
+                            <i class="bi bi-person-circle fs-6 text-warning"></i>
+                            <span id="userEmailNav" class="small fw-semibold text-truncate" style="max-width: 150px;">bolopakw01@gmail.com</span>
                         </div>
+                        <button type="button" onclick="handleLogout()" class="btn btn-sm btn-outline-light rounded-pill px-2 px-sm-3 py-1 d-inline-flex align-items-center gap-1" title="Keluar Sesi Admin" style="border-color: rgba(255,171,64,0.45);">
+                            <i class="bi bi-box-arrow-right text-warning"></i>
+                            <span class="small fw-semibold d-none d-md-inline">Keluar</span>
+                        </button>
                     </div>
                 </div>
             </header>
@@ -1733,22 +1747,27 @@
                 badge.innerHTML = '<i class="bi bi-exclamation-triangle me-1"></i> Mode Offline / Demo';
             }
 
-            // Cek Session Supabase
+            // Bersihkan bypass demo lama dari localStorage agar tidak melewati login
+            localStorage.removeItem('gemas_admin_auth');
+            localStorage.removeItem('gemas_admin_email');
+
+            // Cek Session Aktif (hanya berlaku selama sesi browser aktif & terautentikasi Supabase)
+            const hasActiveTabSession = sessionStorage.getItem('gemas_active_session') === 'true';
             if (supabaseClient) {
                 try {
                     const { data: { session } } = await supabaseClient.auth.getSession();
-                    if (session) {
+                    if (session && hasActiveTabSession) {
                         showDashboard(session.user.email);
                         return;
+                    } else if (session && !hasActiveTabSession) {
+                        // Paksa login ulang jika sesi tab baru dibuka
+                        await supabaseClient.auth.signOut();
                     }
                 } catch (e) {
                     console.warn(e);
                 }
-            }
-
-            // Cek Local Auth
-            if (localStorage.getItem('gemas_admin_auth') === 'true') {
-                showDashboard(localStorage.getItem('gemas_admin_email') || 'admin@gemasgalore.com');
+            } else if (hasActiveTabSession) {
+                showDashboard(sessionStorage.getItem('gemas_session_email') || 'bolopakw01@gmail.com');
             }
         });
 
@@ -1842,12 +1861,38 @@
             }
         }
 
-        // 3. Autentikasi
+        // 3. Autentikasi & Session Login
+        function togglePasswordVisibility() {
+            const passInput = document.getElementById('loginPassword');
+            const icon = document.getElementById('togglePassIcon');
+            if (!passInput || !icon) return;
+            if (passInput.type === 'password') {
+                passInput.type = 'text';
+                icon.className = 'bi bi-eye-slash';
+            } else {
+                passInput.type = 'password';
+                icon.className = 'bi bi-eye';
+            }
+        }
+
+        function showLoginError(msg) {
+            const alertBox = document.getElementById('loginErrorAlert');
+            const alertText = document.getElementById('loginErrorText');
+            if (alertBox && alertText) {
+                alertText.textContent = msg;
+                alertBox.classList.remove('d-none');
+            } else {
+                alert(msg);
+            }
+        }
+
         async function handleLogin(e) {
             e.preventDefault();
-            const email = document.getElementById('loginEmail').value;
-            const password = document.getElementById('loginPassword').value;
+            const email = (document.getElementById('loginEmail').value || '').trim().toLowerCase();
+            const password = document.getElementById('loginPassword').value || '';
             const btn = document.getElementById('loginBtn');
+            const alertBox = document.getElementById('loginErrorAlert');
+            if (alertBox) alertBox.classList.add('d-none');
 
             btn.disabled = true;
             btn.innerHTML = '<span class="spinner-border spinner-border-sm me-1"></span>Memeriksa autentikasi...';
@@ -1855,29 +1900,34 @@
             if (supabaseClient) {
                 const { data, error } = await supabaseClient.auth.signInWithPassword({ email, password });
                 if (error) {
-                    alert('Login gagal: ' + error.message);
+                    showLoginError('Email atau kata sandi tidak sesuai. Silakan periksa kembali.');
                     btn.disabled = false;
                     btn.innerHTML = '<i class="bi bi-box-arrow-in-right me-1"></i>Masuk Dashboard';
                     return;
                 }
+                sessionStorage.setItem('gemas_active_session', 'true');
+                sessionStorage.setItem('gemas_session_email', data.user.email);
                 showDashboard(data.user.email);
             } else {
-                localStorage.setItem('gemas_admin_auth', 'true');
-                localStorage.setItem('gemas_admin_email', email);
-                showDashboard(email);
+                // Verifikasi lokal jika offline
+                if (email === 'bolopakw01@gmail.com' && password === 'gg123#') {
+                    sessionStorage.setItem('gemas_active_session', 'true');
+                    sessionStorage.setItem('gemas_session_email', email);
+                    showDashboard(email);
+                } else {
+                    showLoginError('Email atau kata sandi tidak sesuai.');
+                    btn.disabled = false;
+                    btn.innerHTML = '<i class="bi bi-box-arrow-in-right me-1"></i>Masuk Dashboard';
+                }
             }
-        }
-
-        function enterDemoMode() {
-            localStorage.setItem('gemas_admin_auth', 'true');
-            localStorage.setItem('gemas_admin_email', 'admin@gemasgalore.com');
-            showDashboard('admin@gemasgalore.com');
         }
 
         async function handleLogout() {
             if (supabaseClient) {
                 try { await supabaseClient.auth.signOut(); } catch (e) {}
             }
+            sessionStorage.removeItem('gemas_active_session');
+            sessionStorage.removeItem('gemas_session_email');
             localStorage.removeItem('gemas_admin_auth');
             localStorage.removeItem('gemas_admin_email');
             window.location.reload();
