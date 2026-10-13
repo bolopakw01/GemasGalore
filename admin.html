@@ -1321,13 +1321,13 @@
                         <i class="bi bi-circle-fill me-1" style="font-size: 8px;"></i> Toko Online Aktif
                     </span>
 
-                    <!-- Profil & Nama Admin (Dropdown Pengaturan & Logout) -->
+                    <!-- Profil & Nama Admin (Dropdown Pengaturan Akun & Logout) -->
                     <div id="userProfileNav" class="dropdown d-none align-items-center">
-                        <button class="profile-trigger-btn dropdown-toggle" type="button" id="profileDropdownBtn" data-bs-toggle="dropdown" aria-expanded="false" title="Menu Profil & Pengaturan">
+                        <button class="profile-trigger-btn dropdown-toggle" type="button" id="profileDropdownBtn" data-bs-toggle="dropdown" aria-expanded="false" title="Menu Profil & Pengaturan Akun">
                             <span class="profile-trigger-avatar" id="headerAvatarChar">B</span>
                             <span class="profile-trigger-info d-none d-sm-flex">
                                 <span class="profile-trigger-name" id="userNameHeader">Bolopa K.W.</span>
-                                <span class="profile-trigger-role">Admin Toko</span>
+                                <span class="profile-trigger-role" id="userRoleHeader">Admin Toko</span>
                             </span>
                             <i class="bi bi-chevron-down profile-trigger-chevron ms-1"></i>
                         </button>
@@ -1342,9 +1342,9 @@
                                 </div>
                             </li>
                             <li>
-                                <a class="dropdown-item" href="#" onclick="switchTab('settings'); return false;">
-                                    <i class="bi bi-gear-wide-connected text-warning fs-6"></i>
-                                    <span>Pengaturan Toko</span>
+                                <a class="dropdown-item" href="#" onclick="openAccountSettingsModal(); return false;">
+                                    <i class="bi bi-person-gear text-warning fs-6"></i>
+                                    <span>Pengaturan Akun</span>
                                 </a>
                             </li>
                             <li><hr class="dropdown-divider border-secondary border-opacity-25 my-1"></li>
@@ -1838,6 +1838,83 @@
         </div>
     </div>
 
+    <!-- MODAL PENGATURAN AKUN ADMIN -->
+    <div class="modal fade" id="accountSettingsModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content border-0 shadow-lg rounded-4">
+                <div class="modal-header border-bottom">
+                    <h5 class="modal-title fw-bold" style="color: var(--primary);">
+                        <i class="bi bi-person-gear me-2"></i>Pengaturan Akun Admin
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body p-4">
+                    <form id="accountSettingsForm" onsubmit="handleSaveAccountSettings(event)">
+                        <div class="d-flex align-items-center gap-3 p-3 rounded-3 mb-4" style="background-color: var(--brand-cream); border: 1px solid rgba(73, 25, 55, 0.12);">
+                            <div class="profile-trigger-avatar" style="width: 48px; height: 48px; font-size: 1.2rem;" id="modalAccAvatar">B</div>
+                            <div class="overflow-hidden">
+                                <div class="fw-bold text-truncate" style="color: var(--primary);" id="modalAccNamePreview">Bolopa K.W.</div>
+                                <div class="small text-muted text-truncate" id="modalAccEmailPreview">bolopakw01@gmail.com</div>
+                            </div>
+                        </div>
+
+                        <div class="row g-3">
+                            <div class="col-md-7">
+                                <label class="form-label fw-semibold small" for="accDisplayName">Nama Tampilan</label>
+                                <input type="text" id="accDisplayName" class="form-control" placeholder="Nama lengkap / panggilan" required>
+                            </div>
+                            <div class="col-md-5">
+                                <label class="form-label fw-semibold small" for="accRoleLabel">Jabatan / Peran</label>
+                                <input type="text" id="accRoleLabel" class="form-control" placeholder="Admin Toko" required>
+                            </div>
+
+                            <div class="col-12">
+                                <label class="form-label fw-semibold small" for="accEmailInput">Email Akun Login</label>
+                                <input type="email" id="accEmailInput" class="form-control bg-light" readonly title="Email utama akun autentikasi">
+                            </div>
+
+                            <div class="col-12 pt-2">
+                                <div class="border-top pt-3">
+                                    <div class="fw-semibold small mb-1" style="color: var(--primary);">
+                                        <i class="bi bi-shield-lock me-1"></i>Ubah Kata Sandi (Opsional)
+                                    </div>
+                                    <p class="text-muted mb-2" style="font-size: 0.76rem;">Kosongkan kolom di bawah jika Anda tidak ingin mengubah kata sandi saat ini.</p>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <label class="form-label fw-semibold small" for="accNewPassword">Kata Sandi Baru</label>
+                                <div class="input-group">
+                                    <input type="password" id="accNewPassword" class="form-control" placeholder="Minimal 6 karakter" autocomplete="new-password">
+                                    <button class="btn btn-outline-secondary" type="button" onclick="toggleAccPassVisibility('accNewPassword', 'accNewPassIcon')">
+                                        <i class="bi bi-eye" id="accNewPassIcon"></i>
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <label class="form-label fw-semibold small" for="accConfirmPassword">Konfirmasi Sandi</label>
+                                <div class="input-group">
+                                    <input type="password" id="accConfirmPassword" class="form-control" placeholder="Ulangi sandi baru" autocomplete="new-password">
+                                    <button class="btn btn-outline-secondary" type="button" onclick="toggleAccPassVisibility('accConfirmPassword', 'accConfirmPassIcon')">
+                                        <i class="bi bi-eye" id="accConfirmPassIcon"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mt-4 pt-3 border-top text-end">
+                            <button type="button" class="btn btn-light me-2" data-bs-dismiss="modal">Batal</button>
+                            <button type="submit" id="saveAccBtn" class="btn btn-brand-primary px-4">
+                                <i class="bi bi-check2-circle me-1"></i>Simpan Perubahan Akun
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -1851,6 +1928,7 @@
         let currentAnalytics = null;
         let currentSettings = null;
         let productModalInstance = null;
+        let accountModalInstance = null;
         let selectedProductCategory = 'all';
 
         // Chart Instances
@@ -1865,6 +1943,7 @@
 
         document.addEventListener('DOMContentLoaded', async function () {
             productModalInstance = new bootstrap.Modal(document.getElementById('productModal'));
+            accountModalInstance = new bootstrap.Modal(document.getElementById('accountSettingsModal'));
 
             // Setup tombol toggle sidebar persis seperti referensi [lopa parts]
             if (closeBtn && sidebar) {
@@ -2131,7 +2210,40 @@
             window.location.reload();
         }
 
-        function showDashboard(email) {
+        function applyAdminProfileUI(email, customName, customRole) {
+            const cleanEmail = (email || sessionStorage.getItem('gemas_session_email') || 'bolopakw01@gmail.com').trim();
+            const rawPrefix = cleanEmail.split('@')[0] || 'Admin';
+            const defaultName = cleanEmail.toLowerCase() === 'bolopakw01@gmail.com'
+                ? 'Bolopa K.W.'
+                : rawPrefix.replace(/[._-]+/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
+
+            const displayName = (customName || localStorage.getItem('gemas_admin_display_name') || defaultName).trim();
+            const roleLabel = (customRole || localStorage.getItem('gemas_admin_role') || 'Admin Toko').trim();
+            const initial = displayName.charAt(0).toUpperCase();
+
+            ['userEmailNav', 'modalAccEmailPreview'].forEach(id => {
+                const el = document.getElementById(id);
+                if (el) el.textContent = cleanEmail;
+            });
+
+            ['userAvatarChar', 'headerAvatarChar', 'dropdownAvatarChar', 'modalAccAvatar'].forEach(id => {
+                const el = document.getElementById(id);
+                if (el) el.textContent = initial;
+            });
+
+            ['userNameLabel', 'userNameHeader', 'dropdownUserName', 'modalAccNamePreview'].forEach(id => {
+                const el = document.getElementById(id);
+                if (el) el.textContent = displayName;
+            });
+
+            const headerRoleEl = document.getElementById('userRoleHeader');
+            if (headerRoleEl) headerRoleEl.textContent = roleLabel;
+
+            const sidebarJobEl = document.querySelector('.sidebar .profile .job');
+            if (sidebarJobEl) sidebarJobEl.textContent = roleLabel;
+        }
+
+        async function showDashboard(email) {
             document.getElementById('loginView').classList.add('d-none');
             document.getElementById('dashboardView').classList.remove('d-none');
             const profileNav = document.getElementById('userProfileNav');
@@ -2140,27 +2252,112 @@
                 profileNav.classList.add('d-inline-flex');
             }
 
-            const cleanEmail = (email || 'admin@gemasgalore.com').trim();
-            const rawPrefix = cleanEmail.split('@')[0] || 'Admin';
-            const displayName = cleanEmail.toLowerCase() === 'bolopakw01@gmail.com'
-                ? 'Bolopa K.W.'
-                : rawPrefix.replace(/[._-]+/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
-            const initial = displayName.charAt(0).toUpperCase();
+            let metaName = '';
+            let metaRole = '';
+            if (supabaseClient) {
+                try {
+                    const { data: { user } } = await supabaseClient.auth.getUser();
+                    if (user && user.user_metadata) {
+                        metaName = user.user_metadata.display_name || '';
+                        metaRole = user.user_metadata.role || '';
+                        if (metaName) localStorage.setItem('gemas_admin_display_name', metaName);
+                        if (metaRole) localStorage.setItem('gemas_admin_role', metaRole);
+                    }
+                } catch (e) {}
+            }
 
-            const emailEl = document.getElementById('userEmailNav');
-            if (emailEl) emailEl.textContent = cleanEmail;
-
-            ['userAvatarChar', 'headerAvatarChar', 'dropdownAvatarChar'].forEach(id => {
-                const el = document.getElementById(id);
-                if (el) el.textContent = initial;
-            });
-
-            ['userNameLabel', 'userNameHeader', 'dropdownUserName'].forEach(id => {
-                const el = document.getElementById(id);
-                if (el) el.textContent = displayName;
-            });
-
+            applyAdminProfileUI(email, metaName, metaRole);
             loadAllData();
+        }
+
+        function toggleAccPassVisibility(inputId, iconId) {
+            const input = document.getElementById(inputId);
+            const icon = document.getElementById(iconId);
+            if (!input || !icon) return;
+            if (input.type === 'password') {
+                input.type = 'text';
+                icon.className = 'bi bi-eye-slash';
+            } else {
+                input.type = 'password';
+                icon.className = 'bi bi-eye';
+            }
+        }
+
+        function openAccountSettingsModal() {
+            const email = document.getElementById('userEmailNav')?.textContent || sessionStorage.getItem('gemas_session_email') || 'bolopakw01@gmail.com';
+            const currentName = document.getElementById('userNameHeader')?.textContent || 'Bolopa K.W.';
+            const currentRole = document.getElementById('userRoleHeader')?.textContent || 'Admin Toko';
+
+            document.getElementById('accDisplayName').value = currentName;
+            document.getElementById('accRoleLabel').value = currentRole;
+            document.getElementById('accEmailInput').value = email;
+            document.getElementById('accNewPassword').value = '';
+            document.getElementById('accConfirmPassword').value = '';
+
+            document.getElementById('modalAccAvatar').textContent = currentName.charAt(0).toUpperCase();
+            document.getElementById('modalAccNamePreview').textContent = currentName;
+            document.getElementById('modalAccEmailPreview').textContent = email;
+
+            if (accountModalInstance) {
+                accountModalInstance.show();
+            }
+        }
+
+        async function handleSaveAccountSettings(e) {
+            e.preventDefault();
+            const displayName = (document.getElementById('accDisplayName').value || '').trim();
+            const roleLabel = (document.getElementById('accRoleLabel').value || '').trim();
+            const email = document.getElementById('accEmailInput').value || 'bolopakw01@gmail.com';
+            const newPassword = document.getElementById('accNewPassword').value || '';
+            const confirmPassword = document.getElementById('accConfirmPassword').value || '';
+
+            if (newPassword) {
+                if (newPassword.length < 6) {
+                    notifyPopup('warning', 'Kata Sandi Terlalu Pendek', 'Kata sandi baru minimal harus terdiri dari 6 karakter.');
+                    return;
+                }
+                if (newPassword !== confirmPassword) {
+                    notifyPopup('error', 'Konfirmasi Sandi Tidak Cocok', 'Kata sandi baru dan konfirmasi kata sandi tidak sama.');
+                    return;
+                }
+            }
+
+            const btn = document.getElementById('saveAccBtn');
+            btn.disabled = true;
+            btn.innerHTML = '<span class="spinner-border spinner-border-sm me-1"></span>Menyimpan...';
+
+            if (supabaseClient) {
+                try {
+                    const updatePayload = {
+                        data: {
+                            display_name: displayName,
+                            role: roleLabel
+                        }
+                    };
+                    if (newPassword) {
+                        updatePayload.password = newPassword;
+                    }
+                    const { error } = await supabaseClient.auth.updateUser(updatePayload);
+                    if (error) {
+                        btn.disabled = false;
+                        btn.innerHTML = '<i class="bi bi-check2-circle me-1"></i>Simpan Perubahan Akun';
+                        notifyPopup('error', 'Gagal Memperbarui Akun', error.message);
+                        return;
+                    }
+                } catch (err) {
+                    console.warn(err);
+                }
+            }
+
+            localStorage.setItem('gemas_admin_display_name', displayName);
+            localStorage.setItem('gemas_admin_role', roleLabel);
+            applyAdminProfileUI(email, displayName, roleLabel);
+
+            btn.disabled = false;
+            btn.innerHTML = '<i class="bi bi-check2-circle me-1"></i>Simpan Perubahan Akun';
+            if (accountModalInstance) accountModalInstance.hide();
+
+            notifyToast('success', newPassword ? 'Profil & kata sandi akun berhasil diperbarui!' : 'Profil akun berhasil diperbarui!');
         }
 
         // 4. Data Loader
